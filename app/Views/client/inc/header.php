@@ -1,3 +1,6 @@
+<?php
+session_start()
+?>
 <!DOCTYPE html>
 <html lang="en">
 <!-- Mirrored from landing.engotheme.com/html/skyline/demo/room_detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 16 Nov 2023 16:10:25 GMT -->
@@ -6,7 +9,9 @@
     <title>Book room</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRunx_0PnofhilPwBR1mv17XSFlPBsgumVHaQ&usqp=CAU" type="image/x-icon">
+    <link rel="shortcut icon"
+          href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRunx_0PnofhilPwBR1mv17XSFlPBsgumVHaQ&usqp=CAU"
+          type="image/x-icon">
 
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900" rel="stylesheet">
@@ -38,25 +43,37 @@
                 <span><i class="fa fa-phone" aria-hidden="true"></i> 1-548-854-8898</span>
             </div>
             <div class="header-top-right">
-                <ul>
-                    <li class="dropdown"><a href="login.html" title="Login" class="dropdown-toggle">LOGIN</a></li>
-                    <li class="dropdown"><a href="register.html" title="Register" class="dropdown-toggle">REGISTER</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">USD <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li class="active"><a href="#">USD</a></li>
-                            <li><a href="#">EUR</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ENG <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li class="active"><a href="#">ENG</a></li>
-                            <li><a href="#">JAPAN</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                <?php if (isset($_SESSION['login']) && $_SESSION['login']): ?>
+                    <img src="<?= BASE_URL . $_SESSION['dataUser']['avatar'] ?>"
+                         alt="" width="40px" height="40px" style="object-fit: cover;border-radius: 999px">
+                    <br>
+                    <div style="display: flex">
+                        <span style="color: whitesmoke"><?= $_SESSION['dataUser']['user'] ?></span>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                               style="color: white;margin-left: 5px;"> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="active"><a href="<?= BASE_URL . 'AccountController/logout' ?>">Đăng xuất</a>
+                                </li>
+                                <li class=""><a href="<?= BASE_URL . 'AccountController/changeInfo' ?>">Thay đổi thông tin</a>
+                                </li>
+                                <?php if ($_SESSION['dataUser']['role'] == 1): ?>
+                                    <li class=""><a href="<?= BASE_URL . 'RoomController/homePage' ?>">Đến
+                                            trang quản trị</a></li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <ul>
+                        <li class="dropdown"><a href="<?= BASE_URL . 'AccountController/loginPage' ?>" title="Login"
+                                                class="dropdown-toggle">LOGIN</a></li>
+                        <li class="dropdown"><a href="<?= BASE_URL . 'AccountController/registerPage' ?>"
+                                                title="Register" class="dropdown-toggle">REGISTER</a>
+                        </li>
+
+                    </ul>
+                <?php endif; ?>
             </div>
         </div>
         <!-- END/HEADER-TOP -->
