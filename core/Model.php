@@ -9,7 +9,7 @@ class Model
     {
         $conn = 'mysql:dbname=da1; host=localhost';
         $user = 'root';
-        $password = 'quangdzno1st';
+        $password = '';
         $this->db = new Database($conn, $user, $password);
     }
 }

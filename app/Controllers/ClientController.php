@@ -43,7 +43,9 @@ class ClientController extends Controller
     {
         $roomModel = $this->load->model("roomModel");
         $imageModel = $this->load->model("imagesModel");
+        $userModel = $this->load->model("UserModel");
         $data['data_room'] = $roomModel->getAllRoomById($id);
+        $data['data_user'] = $userModel->getUserById(1);
         $data['data_img'] = $roomModel->getAllRoomImgById($id);
         $data['list_roomother'] = $roomModel->roomOther($id);
         $data['images'] = $imageModel->getAllImages();
