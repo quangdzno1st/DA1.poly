@@ -26,6 +26,7 @@ class RoomModel extends Model
                 ";
         return $this->db->select($sql);
     }
+
     public function getAllRoomImgById($id)
     {
         $sql = "SELECT
@@ -42,6 +43,7 @@ class RoomModel extends Model
                 ";
         return $this->db->select($sql);
     }
+
     public function roomOther($id)
     {
         $sql = "SELECT
@@ -82,13 +84,15 @@ class RoomModel extends Model
                 ";
         return $this->db->select($sql);
     }
+
     public function getAllRoom()
     {
         $sql = "SELECT * FROM phong p inner join loaiphong l on p.loai_phong_id = l.id_loaiphong ";
         return $this->db->select($sql);
     }
 
-    public function getById($id){
+    public function getById($id)
+    {
         $sql = "SELECT * FROM phong WHERE id_phong = :id";
         $data = [
             "id" => $id,
@@ -113,9 +117,40 @@ class RoomModel extends Model
         return $this->db->insert("phong", $data);
     }
 
-    public function selectLatest() {
+    public function selectLatest()
+    {
         return $this->db->selectLatest("phong", "id_phong");
     }
+
+    public function searchRoom($data=null)
+    {
+        if ($data== null) {
+           return $this->getAllRoom();
+        }
+
+        $sql = "SELECT
+                    * 
+                FROM 
+                    phong 
+                INNER JOIN  
+                    loaiphong on loaiphong.id_loaiphong = phong.loai_phong_id
+                where 
+                    loaiphong.suc_chua = :suc_chua
+                and phong.id_phong not in
+                    (
+                SELECT 
+                    id_phong FROM datphong 
+                WHERE 
+                    (:ngay_dat_phong between ngay_dat_phong and ngay_tra_phong)
+                    or
+                    (:ngay_tra_phong between ngay_dat_phong and ngay_tra_phong)
+                    or
+                    (:ngay_dat_phong <  ngay_dat_phong AND :ngay_tra_phong > ngay_tra_phong) 
+                )
+";
+       return  $this->db->selectById($sql,$data);
+    }
+
 }
 
 ?>

@@ -1,21 +1,21 @@
 
-<form action="<?= BASE_URL.'AdminController/updateRoomType/'. $data['id_loaiphong'] ?>" method="POST">
+<form action="<?= BASE_URL.'AdminController/updateRoomType/'. $data[0]['id_loaiphong'] ?>" method="POST">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Cập nhật loại phòng</h4>
             <label>Tên loại phòng</label>
             <div class="input-group">
-                <input type="text" class="form-control" name="roomType" placeholder="name" value="<?= $data['ten'] ?>">
+                <input type="text" class="form-control" name="roomType" placeholder="name" value="<?= $data[0]['ten'] ?>">
             </div>
             <label>Giá</label>
             <div class="input-group">
-                <input type="number" class="form-control" name="price" placeholder="price" value="<?= $data['gia'] ?>">
+                <input type="number" class="form-control" name="price" placeholder="price" value="<?= $data[0]['gia'] ?>">
             </div>
-            <input type="hidden" name="id_update1" value="<?=  $data['id_loaiphong'] ?>">
+            <input type="hidden" name="id_update1" value="<?=  $data[0]['id_loaiphong'] ?>">
             <label>Sức chứa</label>
             <div class="input-group">
                 <input type="number" class="form-control" name="capacity" placeholder="capacity"
-                       value="<?= $data['suc_chua'] ?>">
+                       value="<?= $data[0]['suc_chua'] ?>">
             </div>
         </div>
         <div class="border-top">

@@ -1,5 +1,3 @@
-<!-- END-HEADER -->
-<!-- SLIDER -->
 <section class="section-slider height-v">
     <div id="index12" class="owl-carousel  owl-theme">
         <div class="item">

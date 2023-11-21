@@ -23,46 +23,41 @@
     </div>
     <div class="check-avail">
         <div class="container">
-            <div class="arrival date-title ">
-                <label>Arrival Date </label>
-                <div id="datepicker" class="input-group date">
-                    <input class="form-control" type="text">
-                    <span class="input-group-addon"><img src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
-                                                         alt="#"></span>
-                </div>
-            </div>
-            <div class="departure date-title ">
-                <label>Departure Date </label>
-                <div id="datepickeri" class="input-group date" data-date-format="dd-mm-yyyy">
-                    <input class="form-control" type="text">
-                    <span class="input-group-addon"><img src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
-                                                         alt="#"></span>
-                </div>
-            </div>
-            <div style="width: 20%;" class="adults date-title ">
-                <label>Loại phòng</label>
-                <form>
-                    <div style="display: flex; justify-content: center" class="carousel-search">
-                        <div class="btn-group">
-                            <a class="btn dropdown-toggle" style="font-size: 20px; margin-top: 30px;color: #ccc;"
-                               data-toggle="dropdown" href="#">Chọn loại phòng</a>
-                            <ul class="dropdown-menu">
-                                <?php foreach ($data['loai'] as $item): extract($item) ?>
-                                    <li>
-                                        <a><strong><?= $ten ?> </strong>(<?= $suc_chua ?>)</a></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
+            <form class="container" method="post" action="<?= BASE_URL.'HomeController/handleSearch' ?>">
+                <div class="arrival date-title ">
+                    <label>Arrival Date </label>
+                    <div id="datepicker" class="input-group date" data-date-format="dd-mm-yyyy">
+                        <input class="form-control" type="text" name="arrivalDate" >
+                        <span class="input-group-addon"><img src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
+                                                             alt="#"></span>
                     </div>
-                </form>
-            </div>
-
-            <div class="find_btn date-title">
-                <div class="text-find">
-                    Check
-                    <br>Availability
                 </div>
-            </div>
+                <div class="departure date-title ">
+                    <label>Departure Date </label>
+                    <div id="datepickeri" class="input-group date" data-date-format="dd-mm-yyyy">
+                        <input class="form-control" type="text" name="departureDate">
+                        <span class="input-group-addon"><img src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
+                                                             alt="#"></span>
+                    </div>
+                </div>
+                <div style="width: 20%;" class="adults date-title ">
+                    <label>Loại phòng</label>
+                    <select name="suc_chua" style="width: 60%; border: none;font-size: 30px; color: #b3b3b3">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+
+                <div class="find_btn date-title" style="text-align: center">
+                    <button type="submit" class="text-find" style="border: none; background: transparent">
+                        Check
+                        <br>Availability
+                    </button>
+                </div>
+            </form>
+
         </div>
     </div>
 </section>

@@ -29,8 +29,8 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                         <div class="room-item-1">
-                                <h2><a href="#"><?= $ten ?></a></h2>
-                            <a href="<?= BASE_URL.'clientController/roomDetail/'.$id_phong ?>" >
+                            <h2><a href="#"><?= $ten ?></a></h2>
+                            <a href="<?= BASE_URL . 'clientController/roomDetail/' . $id_phong ?>">
                                 <?php foreach ($data['images'] as $image): ?>
 
                                     <?php if ($image['id_phong'] == $id_phong): ?>
@@ -43,15 +43,19 @@
                                 <?php endforeach; ?>
                             </a>
 
-                                <div class="content">
-                                    <p><?= $mo_ta ?></p>
-                                    <ul>
-                                        <li>Tối đa: <?= $suc_chua ?> Người</li>
-                                        <li>Quang cảnh: Biển</li>
-                                        <li>Kích thước: 35 m2 / 376 ft2</li>
-                                        <li>Giường: Giường King-size hoặc giường đôi</li>
-                                    </ul>
-                                </div>
+                            <div class="content">
+                                <p><?= $mo_ta ?></p>
+                                <ul>
+                                    <li>Tối đa: <?= $suc_chua ?> Người</li>
+                                    <li>Quang cảnh: Biển</li>
+                                    <?php if (isset($data['ngay_dat_phong']) and isset($data['ngay_tra_phong'])): ?>
+                                            <li>Ngày đặt phòng : <?= date('d-m-Y', strtotime($data['ngay_dat_phong'])) ?></li>
+                                            <li>Ngày trả phòng phòng : <?= date('d-m-Y', strtotime($data['ngay_tra_phong'])) ?></li>
+                                    <?php endif; ?>
+                                    <li>Kích thước: 35 m2 / 376 ft2</li>
+                                    <li>Giường: Giường King-size hoặc giường đôi</li>
+                                </ul>
+                            </div>
                             <div class="bottom">
                                 <span class="price">Bắt đầu từ <span class="amout">$<?= $gia ?></span> /ngày</span>
                                 <a href="<?= BASE_URL ?>clientController/roomDetail/<?= $id_phong ?>" class="btn">XEM

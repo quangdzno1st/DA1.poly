@@ -98,8 +98,10 @@ class AccountController extends Controller
     }
 
     public function handleLogin() {
+        Session::init();
 
         $accountModel = $this->load->model('accountModel');
+        $homeController = $this->load->controller('homeController');
         $data = [
             "user" =>$_POST['name'],
             "pass" => md5($_POST['password'])
@@ -108,10 +110,9 @@ class AccountController extends Controller
         $result = $accountModel->handleRequestLogin($data);
 
         if ($result) {
-            header("Location: " . BASE_URL."HomeController/homePage");
-            Session::init();
             Session::set('login', true);
             Session::set('dataUser', $result[0]);
+            header("Location: " . BASE_URL."HomeController/homePage");
         }
         $data['message'] = "Information username or password incorrect!!";
         $this->loginPage($data);

@@ -1,11 +1,11 @@
-<form action="<?= BASE_URL . 'RoomController/updateRoom/' .$data['room']['id_phong'] ?>" method="POST" enctype="multipart/form-data">
+<form action="<?= BASE_URL . 'RoomController/updateRoom/' .$data['room'][0]['id_phong'] ?>" method="POST" enctype="multipart/form-data">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Thêm mới phòng</h4>
             <label>Tên phòng</label>
             <div class="input-group">
                 <input type="text" class="form-control" name="nameRoom" placeholder="name"
-                       value="<?= $data["room"]["ten_phong"] ?>">
+                       value="<?= $data["room"][0]["ten_phong"] ?>">
             </div>
             <label>File Upload</label>
 
@@ -48,7 +48,7 @@
             >Mô tả</label
             >
             <div>
-                <textarea class="form-control" name="desc"><?= $data["room"]["mo_ta"] ?></textarea>
+                <textarea class="form-control" name="desc"><?= $data["room"][0]["mo_ta"] ?></textarea>
             </div>
             <label>Loại phòng</label>
             <select name="roomType"
@@ -56,7 +56,7 @@
                     style="width: 100%; height: 36px"
             >
                 <?php foreach ($data["roomType"] as $item): ?>
-                    <option <?php echo $item['id_loaiphong'] == $data["room"]["id_phong"] ?>
+                    <option <?php echo $item['id_loaiphong'] == $data["room"][0]["id_phong"] ?>
                             value="<?= $item['id_loaiphong'] ?>"><?= $item['ten'] ?></option>
                 <?php endforeach; ?>
 
