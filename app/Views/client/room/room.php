@@ -13,17 +13,6 @@
     <div class="container">
         <div class="room-wrap-1">
             <div class="row">
-                <!--                --><?php
-
-                //                echo "<pre>";
-                //                print_r($data);
-                //                echo "</pre>";
-                //                ?>
-
-                <!--                --><?php //echo "<pre>";
-                //                print_r($data);
-                //                echo "</pre>";
-                //                ?>
                 <?php foreach ($data['room'] as $item): extract($item) ?>
 
 
