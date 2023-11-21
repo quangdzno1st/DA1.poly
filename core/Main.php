@@ -64,7 +64,7 @@ class Main
         if (isset($this->url[3])) {
             $this->methodName = $this->url[1];
             if (isset($this->url[3])) {
-                $this->controller->{$this->methodName}($this->url[2],$this->url[3]);
+                $this->controller->{$this->methodName}($this->url[2], $this->url[3]);
             }
             if (method_exists($this->controllerName, $this->methodName)) {
 
@@ -74,30 +74,23 @@ class Main
                 header('Location: ' . BASE_URL . $this->controllerName . '/notFound');
             }
 
+
         } else {
             if (isset($this->url[1])) {
-
                 $this->methodName = $this->url[1];
                 if (method_exists($this->controllerName, $this->methodName)) {
-                    $this->controller->{$this->methodName}($this->url[2]);
+                    $this->controller->{$this->methodName}();
                 } else {
-                    header('Location: ' . BASE_URL . $this->controllerName . '/notFound');
-                }
-            } else {
-                if (isset($this->url[1])) {
-                    $this->methodName = $this->url[1];
-                    if (method_exists($this->controllerName, $this->methodName)) {
-                        $this->controller->{$this->methodName}();
-                    } else {
-                        $this->methodName = 'index';
-                        header('Location: ' . BASE_URL . $this->controllerName . '/' . $this->methodName);
-                    }
-                } else {
+                    $this->methodName = 'index';
                     header('Location: ' . BASE_URL . $this->controllerName . '/' . $this->methodName);
                 }
+            } else {
+                header('Location: ' . BASE_URL . $this->controllerName . '/' . $this->methodName);
             }
+        }
 
     }
+
 }
 
 ?>

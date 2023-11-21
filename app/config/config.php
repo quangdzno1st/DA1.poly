@@ -1,5 +1,5 @@
 <?php
 
-define('BASE_URL','http://localhost/mvcoop/project_mvc/')
+define('BASE_URL','http://localhost/duan1/');
 
 ?>

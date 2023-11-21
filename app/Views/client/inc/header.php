@@ -40,6 +40,12 @@
                 <span><i class="fa fa-phone" aria-hidden="true"></i> 1-548-854-8898</span>
             </div>
             <div class="header-top-right">
+<!--                --><?php
+//                echo "<pre>";
+//                print_r($_SESSION);
+//                echo "</pre>";
+//
+//                ?>
                 <?php if (isset($_SESSION['login']) && $_SESSION['login']): ?>
                     <img src="<?= BASE_URL . $_SESSION['dataUser']['avatar'] ?>"
                          alt="" width="40px" height="40px" style="object-fit: cover;border-radius: 999px">
