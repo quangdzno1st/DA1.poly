@@ -5,7 +5,8 @@ class Model
 {
     protected $db = [];
 
-    public function __construct()
+    public
+    function __construct()
     {
         $conn = 'mysql:dbname=da1; host=localhost';
         $user = 'root';

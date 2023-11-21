@@ -26,10 +26,13 @@ class Database extends PDO
     {
         $statement = $this->prepare($sql);
         foreach ($data as $key => $value) {
-            $statement->bindParam("$key", $value);
+//            echo ":".$key;
+//            echo " =".$value;
+//            echo "<br/>";
+            $statement->bindValue(":$key", $value);
         }
         $statement->execute();
-        return $statement->fetch();
+        return $statement->fetchAll();
     }
 
     public function insert($tableName, $data)

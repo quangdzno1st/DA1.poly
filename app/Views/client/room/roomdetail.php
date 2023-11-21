@@ -2,10 +2,7 @@
 foreach ($data['data_room'] as $item) {
     extract($item);
 }
-//
-//echo "<pre>";
-//print_r($data);
-//echo "</pre>";
+
 ?>
 
 <section class="banner-tems text-center">
@@ -49,46 +46,32 @@ foreach ($data['data_room'] as $item) {
                             </p>
                         </div>
                         <div class="product-detail_form">
-                            <!--                            <div class="sidebar">-->
-                            <!--                                <!-- WIDGET CHECK AVAILABILITY -->-->
-                            <!--                                <div class="widget widget_check_availability">-->
-                            <!--                                    <div class="check_availability">-->
-                            <!--                                        <div class="check_availability-field">-->
-                            <!--                                            <label>Arrive</label>-->
-                            <!--                                            <div class="input-group date" data-date-format="dd-mm-yyyy" id="datepicker1">-->
-                            <!--                                                <input class="form-control wrap-box" type="text" placeholder="Arrival Date">-->
-                            <!--                                                <span class="input-group-addon"><i class="fa fa-calendar"  aria-hidden="true"></i></span>-->
-                            <!--                                            </div>-->
-                            <!--                                        </div>-->
-                            <!--                                        <div class="check_availability-field">-->
-                            <!--                                            <label>Depature</label>-->
-                            <!--                                            <div id="datepicker2" class="input-group date" data-date-format="dd-mm-yyyy">-->
-                            <!--                                                <input class="form-control wrap-box" type="text" placeholder="Departure Date">-->
-                            <!--                                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>-->
-                            <!--                                            </div>-->
-                            <!--                                        </div>-->
-                            <!--                                        <div class="check_availability-field">-->
-                            <!--                                            <label>Adult</label>-->
-                            <!--                                            <select class="awe-select">-->
-                            <!--                                                <option>1</option>-->
-                            <!--                                                <option>2</option>-->
-                            <!--                                                <option>3</option>-->
-                            <!--                                                <option>4</option>-->
-                            <!--                                            </select>-->
-                            <!--                                        </div>-->
-                            <!--                                        <div class="check_availability-field">-->
-                            <!--                                            <label>Chirld</label>-->
-                            <!--                                            <select class="awe-select">-->
-                            <!--                                                <option>1</option>-->
-                            <!--                                                <option>2</option>-->
-                            <!--                                                <option>3</option>-->
-                            <!--                                                <option>4</option>-->
-                            <!--                                            </select>-->
-                            <!--                                        </div>-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--
-                                                       </div>-->
+
+                            <div class="sidebar">
+                                <!-- WIDGET CHECK AVAILABILITY -->
+                                <div class="widget widget_check_availability">
+                                    <div class="check_availability">
+                                        <div class="check_availability-field">
+                                            <label>Arrive</label>
+                                            <div class="input-group date" data-date-format="dd-mm-yyyy" id="datepicker1">
+                                                <input class="form-control wrap-box" type="text" placeholder="Arrival Date" value="<?= $_SESSION['arrivalDate'] ?? "" ?>" >
+                                                <span class="input-group-addon"><i class="fa fa-calendar"  aria-hidden="true"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="check_availability-field">
+                                            <label>Depature</label>
+                                            <div id="datepicker2" class="input-group date" data-date-format="dd-mm-yyyy">
+                                                <input class="form-control wrap-box" type="text" placeholder="Departure Date" value="<?= $_SESSION['departureDate'] ?? "" ?>" >
+                                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- END / WIDGET CHECK AVAILABILITY -->
+                            </div>
+
+
                             <button class="btn btn-room btn-product">Book Now</button>
                             <form action="<?= BASE_URL ?>CartController/addCart" method="post">
                                 <input type="hidden" name="id_khachhang"

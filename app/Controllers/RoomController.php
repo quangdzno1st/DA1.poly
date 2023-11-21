@@ -103,6 +103,10 @@ class RoomController extends Controller
         ];
 
 
+//        echo "<pre>";
+//        print_r($data['room']);
+//        die();
+
         $this->load->view($data, 'admin/inc/header');
         $this->load->view($data, 'admin/inc/sidebar');
         $this->load->view($data, 'admin/room/roomUpdate');
