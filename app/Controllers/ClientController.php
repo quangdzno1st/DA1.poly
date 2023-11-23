@@ -26,32 +26,45 @@ class ClientController extends Controller
         $this->load->view('', 'client/inc/footer');
     }
 
-    public function room()
+
+    public function room($data = null)
     {
         $imageModel = $this->load->model("imagesModel");
+        $roomModel = $this->load->model("roomModel");
+
+        $data['room'] = $roomModel->searchRoom($data);
         $data['images'] = $imageModel->getAllImages();
 
-        $roomModel = $this->load->model("RoomModel");
-        $data['room'] = $roomModel->getAllRoom();
+
         $this->load->view('', 'client/inc/header');
         $this->load->view($data, 'client/room/room');
         $this->load->view('', 'client/inc/footer');
     }
 
-    public function roomDetail($id)
+    public function roomTypeDetail($id)
     {
+        Session::init();
+
         $roomModel = $this->load->model("roomModel");
-        $imageModel = $this->load->model("imagesModel");
-        $userModel = $this->load->model("UserModel");
-        $data['data_room'] = $roomModel->getAllRoomById($id);
-        $data['data_user'] = $userModel->getUserById(1);
-        $data['data_img'] = $roomModel->getAllRoomImgById($id);
-        $data['list_roomother'] = $roomModel->roomOther($id);
-        $data['images'] = $imageModel->getAllImages();
+
+        $nowDate = date('Y-m-d');
+        $date = new DateTime();
+        $date->modify("+1 day");
+
+        $data = [
+            'ngay_dat_phong' => $nowDate,
+            'ngay_tra_phong' => $date->format('Y-m-d'),
+            'suc_chua' => null,
+            'id_loaiphong' => $id,
+        ];
+
+        $result = $roomModel->searchRoom($data);
+
 
         $this->load->view('', 'client/inc/header');
-        $this->load->view($data, 'client/room/roomdetail');
+        $this->load->view($result, 'client/room/roomdetail');
         $this->load->view('', 'client/inc/footer');
+
     }
 
     public function reservation()

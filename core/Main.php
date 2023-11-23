@@ -73,6 +73,7 @@ class Main
             } else {
                 header('Location: ' . BASE_URL . $this->controllerName . '/notFound');
             }
+
         } else {
             if (isset($this->url[1])) {
                 $this->methodName = $this->url[1];
@@ -86,6 +87,7 @@ class Main
                 header('Location: ' . BASE_URL . $this->controllerName . '/' . $this->methodName);
             }
         }
+
     }
 }
 

@@ -113,17 +113,17 @@ class CartModel extends Model
         $sql = "DELETE FROM images WHERE id_phong = $id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-   }
-   public function getImageByRoomId($id){
+    }
+    public function getImageByRoomId($id){
 
         $sql = "SELECT * FROM images WHERE id_phong = $id";
-       return $this->db->select($sql);
-   }
+        return $this->db->select($sql);
+    }
 
-   public function deleteById($id){
-       $idDelete = "id = $id";
-       return $this->db->delete("images", $idDelete);
-   }
+    public function deleteById($id){
+        $idDelete = "id = $id";
+        return $this->db->delete("images", $idDelete);
+    }
 }
 
 ?>

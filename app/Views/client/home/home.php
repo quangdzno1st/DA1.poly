@@ -1,6 +1,3 @@
-<!-- END-HEADER -->
-<!-- SLIDER -->
-
 <section class="section-slider height-v">
     <div id="index12" class="owl-carousel  owl-theme">
         <div class="item">
@@ -24,30 +21,34 @@
     </div>
     <div class="check-avail">
         <div class="container">
-            <form class="container" method="post" action="<?= BASE_URL.'HomeController/handleSearch' ?>">
+            <form class="container" method="post" action="<?= BASE_URL . 'HomeController/handleSearch' ?>">
                 <div class="arrival date-title ">
                     <label>Arrival Date </label>
                     <div id="datepicker" class="input-group date" data-date-format="dd-mm-yyyy">
-                        <input class="form-control" type="text" name="arrivalDate" >
-                        <span class="input-group-addon"><img src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
-                                                             alt="#"></span>
+                        <input class="form-control" type="text" name="arrivalDate">
+                        <span class="input-group-addon"><img
+                                    src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
+                                    alt="#"></span>
                     </div>
                 </div>
                 <div class="departure date-title ">
                     <label>Departure Date </label>
                     <div id="datepickeri" class="input-group date" data-date-format="dd-mm-yyyy">
                         <input class="form-control" type="text" name="departureDate">
-                        <span class="input-group-addon"><img src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
-                                                             alt="#"></span>
+                        <span class="input-group-addon"><img
+                                    src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
+                                    alt="#"></span>
                     </div>
                 </div>
                 <div style="width: 20%;" class="adults date-title ">
-                    <label>Loại phòng</label>
+                    <label>Sức chứa</label>
                     <select name="suc_chua" style="width: 60%; border: none;font-size: 30px; color: #b3b3b3">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
                     </select>
                 </div>
 
@@ -70,31 +71,38 @@
         <div class="outline"></div>
         <p class="rooms-p">Khi bạn tổ chức một bữa tiệc hoặc đoàn tụ gia đình, những lễ kỷ niệm đặc biệt sẽ giúp bạn
             củng cố mối quan hệ với</p>
+
+
         <div class="wrap-rooms">
             <div class="row">
                 <div id="rooms" class="owl-carousel owl-theme">
                     <div class="item ">
-                        <?php foreach ($data['all_phong'] as $item): extract($item) ?>
+                        <?php foreach ($data as $item): extract($item) ?>
+                            <?php
+                            $noithat_array = explode(",", $noithat);
+                            $images_array = explode(",", $images);
+                            $images = array_unique($images_array);
+                            $noithat = array_unique($noithat_array);
+
+                            ?>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
                                 <div class="wrap-box">
                                     <div class="box-img">
-                                        <a href="<?= BASE_URL ?>clientController/roomDetail/<?= $id_phong ?>">
-                                            <?php foreach ($data['images'] as $image): ?>
-
-                                                <?php if ($image['id_phong'] == $id_phong): ?>
-                                                    <img style="height: 255px; width: 370px"
-                                                         src="<?= BASE_URL ?><?=  $image['path'] ?>"
-                                                         class="img-responsive" alt="PLuxury Room" title="Luxury Room">
-                                                <?php break; ?>
-
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
+                                        <a href="<?= BASE_URL ?>clientController/roomTypeDetail/<?= $id_loaiphong ?>">
+                                            <img src="<?= BASE_URL . $images[0] ?>" class="img-responsive">
                                         </a>
                                     </div>
                                     <div class="rooms-content">
-                                        <h4 class="sky-h4"><?= $ten_phong ?></h4>
-                                        <p class="price">$<?= $gia ?> / Một đêm</p>
+                                        <h4 class="sky-h4"><?= $ten ?></h4>
+                                        <p class="price">$<?= number_format($gia) ?> / Một đêm</p>
+                                        <ul>
+                                            <li style="font-size: 18px;text-align: left">Số Người Tối Đa: <?= $suc_chua ?> </li>
+                                            <?php foreach ($noithat as $item): ?>
+                                                <li style="font-size: 18px;text-align: left"><?= $item ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
                                     </div>
+
                                 </div>
                             </div>
                         <?php endforeach; ?>

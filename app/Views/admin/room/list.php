@@ -16,10 +16,6 @@
                 <th scope="col">STT</th>
                 <th scope="col">Số phòng</th>
                 <th scope="col">Loại phòng</th>
-                <th scope="col">Sức chứa</th>
-                <th scope="col">Ảnh</th>
-                <th scope="col">Mô tả</th>
-                <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
@@ -37,7 +33,6 @@
                     <td><?= ++$index ?></td>
                     <td><?= $ten_phong ?></td>
                     <td><?= $ten ?></td>
-                    <td><?= $suc_chua ?></td>
                     <td style="display: flex;gap: 5px">
                         <?php foreach ($data["images"] as $item): ?>
                             <?php
@@ -47,8 +42,6 @@
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </td>
-                    <td><?= $mo_ta ?></td>
-                    <td><?= $trang_thai ?></td>
                     <td>
                         <a onclick="return confirm('Are you sure?')"
                            href="<?= BASE_URL . 'RoomController/deleteRoom/' . $id_phong ?>"  type=" button" class="btn

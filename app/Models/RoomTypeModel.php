@@ -10,14 +10,40 @@ class RoomTypeModel extends Model
 
     public function getAllLoai()
     {
-        $sql = "SELECT * FROM loaiphong";
+        $sql = "SELECT 
+                    loaiphong.id_loaiphong,
+                    loaiphong.ten,
+                    loaiphong.suc_chua,
+                    loaiphong.gia,
+                     GROUP_CONCAT(noithat.ten_noithat) as noithat,
+                    GROUP_CONCAT(images.path) as images  
+                FROM 
+                    loaiphong 
+                INNER JOIN 
+                    noithat_loaiiphong on noithat_loaiiphong.id_loaiphong = loaiphong.id_loaiphong
+                INNER JOIN 
+                    noithat on noithat.id = noithat_loaiiphong.id_noithat
+                INNER JOIN  
+                    images ON images.id_loaiphong = loaiphong.id_loaiphong
+                GROUP BY 
+                    loaiphong.id_loaiphong
+                    ";
         return $this->db->select($sql);
     }
 
     public function getById($id){
-        $sql = "SELECT * FROM loaiphong WHERE id_loaiphong = :id";
+        $sql = "SELECT 
+                    loaiphong.id_loaiphong,
+                    loaiphong.ten,
+                    loaiphong.suc_chua,
+                    loaiphong.gia
+                FROM 
+                    loaiphong 
+                 WHERE 
+                   loaiphong.id_loaiphong = :id_loaiphong
+                    ";
         $data = [
-            "id" => $id,
+            "id_loaiphong" => $id,
         ];
         return $this->db->selectById($sql, $data);
     }
@@ -38,6 +64,7 @@ class RoomTypeModel extends Model
     {
         return $this->db->insert("loaiphong", $data);
     }
+
 }
 
 ?>

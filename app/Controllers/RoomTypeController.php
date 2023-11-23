@@ -9,24 +9,27 @@ class RoomTypeController extends Controller
         $data = [];
         parent::__construct();
     }
-    public function index(){
+
+    public function index()
+    {
         $this->homePage();
     }
 
 
-    public function homePage($data="")
+    public function homePage($data = "")
     {
 
-       $modelCategory = $this->load->model("roomTypeModel");
-        $data = $modelCategory->getAllLoai();
+        $roomTypeModel = $this->load->model("roomTypeModel");
+        $data = $roomTypeModel->getAllLoai();
 
-        $this->load->view($data,'admin/inc/header');
-        $this->load->view($data,'admin/inc/sidebar');
-        $this->load->view($data,'admin/roomType/list');
-        $this->load->view($data,'admin/inc/footer');
+        $this->load->view($data, 'admin/inc/header');
+        $this->load->view($data, 'admin/inc/sidebar');
+        $this->load->view($data, 'admin/roomType/list');
+        $this->load->view($data, 'admin/inc/footer');
     }
 
-    public function deleteRoomType($id){
+    public function deleteRoomType($id)
+    {
         $modelCategory = $this->load->model("roomTypeModel");
         $modelCategory->delete($id);
         $data = $modelCategory->getAllLoai();
@@ -35,7 +38,7 @@ class RoomTypeController extends Controller
 
     public function addRoomType()
     {
-        $data='';
+        $data = '';
         $this->load->view($data, 'admin/inc/header');
         $this->load->view($data, 'admin/inc/sidebar');
         $this->load->view($data, 'admin/roomType/roomType');
@@ -53,28 +56,38 @@ class RoomTypeController extends Controller
         $model = $this->load->model("roomTypeModel");
         $model->insert($data);
         $data = $model->getAllLoai();
-       $this->homePage($data);
+        $this->homePage($data);
     }
 
-    public function viewUpdateRoomType($id) {
+    public function viewUpdateRoomType($id)
+    {
 
-        $model = $this->load->model("roomTypeModel");
-        $data = $model -> getById($id);
+        $roomTypeModel = $this->load->model("roomTypeModel");
+        $noiThatModel = $this->load->model("NoiThatModel");
+        $imagesModel = $this->load->model("imagesModel");
+        $data = [
+            'roomTypeData' =>  $roomTypeModel->getById($id),
+            'imagesData' =>  $imagesModel->getImageByRoomId($id),
+            'noiThatData' => $noiThatModel->getAllNoiThatById($id)
+        ];
+
 
         $this->load->view($data, 'admin/inc/header');
         $this->load->view($data, 'admin/inc/sidebar');
         $this->load->view($data, 'admin/roomType/roomTypeUpdate');
         $this->load->view($data, 'admin/inc/footer');
     }
-    public function updateRoomType($id) {
+
+    public function updateRoomType($id)
+    {
         $data = [
             "ten" => $_POST["roomType"],
             "gia" => $_POST["price"],
             "suc_chua" => $_POST["capacity"]
         ];
         $model = $this->load->model("roomTypeModel");
-        $model -> update($data,$id);
-        $data = $model -> getAllLoai();
+        $model->update($data, $id);
+        $data = $model->getAllLoai();
         $this->homePage($data);
     }
 
@@ -82,10 +95,10 @@ class RoomTypeController extends Controller
     public function notFound()
     {
         $data = '';
-        $this->load->view($data,'inc/header');
-        $this->load->view($data,'inc/sidebar');
-        $this->load->view($data,'404');
-        $this->load->view($data,'inc/footer');
+        $this->load->view($data, 'inc/header');
+        $this->load->view($data, 'inc/sidebar');
+        $this->load->view($data, '404');
+        $this->load->view($data, 'inc/footer');
     }
 }
 

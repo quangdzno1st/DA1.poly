@@ -124,7 +124,7 @@ class RoomController extends Controller
         $roomModel = $this->load->model("roomModel");
         $imagesModel = $this->load->model("imagesModel");
 
-        $roomModel->update( $data,$id);
+        $roomModel->update($data, $id);
 
         if ($_FILES["images"]["size"]["0"] > 0) {
 
@@ -142,7 +142,6 @@ class RoomController extends Controller
                 $imagesModel->insertImage($dataImage);
             }
         }
-
 
 
         $this->homePage();
