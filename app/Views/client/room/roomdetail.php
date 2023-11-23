@@ -1,6 +1,14 @@
 <?php
-foreach ($data['data_room'] as $item) {
+
+foreach ($data as $item) {
     extract($item);
+    $noithat_array = explode(",", $noithat);
+    $images_array = explode(",", $images);
+    $images = array_unique($images_array);
+    $noithat = array_unique($noithat_array);
+
+//    echo "<pre>";
+//    print_r($_SESSION);
 }
 
 ?>
@@ -8,7 +16,7 @@ foreach ($data['data_room'] as $item) {
 <section class="banner-tems text-center">
     <div class="container">
         <div class="banner-content">
-            <h2><?= $ten_phong ?></h2>
+            <h2><?= $ten ?></h2>
         </div>
     </div>
 </section>
@@ -22,16 +30,14 @@ foreach ($data['data_room'] as $item) {
                     <!-- ẢNH LỚN -->
                     <div class="wrapper">
                         <div class="gallery3">
-                            <?php foreach ($data['data_img'] as $value): extract($value) ?>
+                            <?php foreach ($images as $value): ?>
                                 <div class="gallery__img-block  ">
 
-                                    <img width="800px" height="400px" src="<?= BASE_URL ?><?= $path ?>"
+                                    <img width="800px" height="400px" src="<?= BASE_URL ?><?= $value ?>"
                                          alt="images/Product/img-1.jpg" class="">
                                 </div>
                             <?php endforeach; ?>
-                            <!--                            <div class="gallery__controls">-->
-                            <!---->
-                            <!--                            </div>-->
+
                         </div>
                     </div>
                 </div>
@@ -42,47 +48,56 @@ foreach ($data['data_room'] as $item) {
                             <img src="<?= BASE_URL ?>public/client/images/Product/icon.png" alt="#" class="icon-logo">
                             <h6>STARTING ROOM FROM</h6>
                             <p class="price">
-                                <span class="amout">$330</span> /days
+                                <span class="amout"><?= number_format($data[0]['gia']) ?></span> /days
                             </p>
                         </div>
-                        <div class="product-detail_form">
+                        <form method="post" action="">
+                            <div class="product-detail_form">
 
-                            <div class="sidebar">
-                                <!-- WIDGET CHECK AVAILABILITY -->
-                                <div class="widget widget_check_availability">
-                                    <div class="check_availability">
-                                        <div class="check_availability-field">
-                                            <label>Arrive</label>
-                                            <div class="input-group date" data-date-format="dd-mm-yyyy" id="datepicker1">
-                                                <input class="form-control wrap-box" type="text" placeholder="Arrival Date" value="<?= $_SESSION['arrivalDate'] ?? "" ?>" >
-                                                <span class="input-group-addon"><i class="fa fa-calendar"  aria-hidden="true"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="check_availability-field">
-                                            <label>Depature</label>
-                                            <div id="datepicker2" class="input-group date" data-date-format="dd-mm-yyyy">
-                                                <input class="form-control wrap-box" type="text" placeholder="Departure Date" value="<?= $_SESSION['departureDate'] ?? "" ?>" >
-                                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                            </div>
-                                        </div>
+                                <div class="sidebar">
+                                    <!-- WIDGET CHECK AVAILABILITY -->
+                                    <div class="widget widget_check_availability">
+                                        <div class="check_availability">
 
+
+                                            <div class="check_availability-field">
+                                                <label>Số lượng phòng cần đặt : </label>
+                                                <input class="form-control" type="number" value="1" min="1">
+
+                                                <label>Arrive</label>
+                                                <div class="input-group date" data-date-format="dd-mm-yyyy"
+                                                     id="datepicker1">
+                                                    <input class="form-control wrap-box" type="text"
+                                                           placeholder="Arrival Date"
+                                                           value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_dat_phong'] : $_SESSION['dateDefault']['ngay_dat_phong'] ?>">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"
+                                                                                       aria-hidden="true"></i></span>
+                                                    <input type="hidden" name="ngay_dat_phong" value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_dat_phong'] : $_SESSION['dateDefault']['ngay_dat_phong'] ?>">
+                                                </div>
+                                            </div>
+                                            <div class="check_availability-field">
+                                                <label>Depature</label>
+                                                <div id="datepicker2" class="input-group date"
+                                                     data-date-format="dd-mm-yyyy">
+                                                    <input class="form-control wrap-box" type="text"
+                                                           placeholder="Departure Date"
+                                                           value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_tra_phong'] : $_SESSION['dateDefault']['ngay_tra_phong'] ?>">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"
+                                                                                       aria-hidden="true"></i></span>
+                                                    <input type="hidden" name="ngay_tra_phong" value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_tra_phong'] : $_SESSION['dateDefault']['ngay_tra_phong'] ?>">
+
+                                                </div>
+                                            </div>
+                                            <label class="check_availability" style="margin-top: 10px;">Số lượng còn lại : <?= $data[0]['so_luong'] ?></label>
+
+                                        </div>
                                     </div>
+                                    <!-- END / WIDGET CHECK AVAILABILITY -->
                                 </div>
-                                <!-- END / WIDGET CHECK AVAILABILITY -->
+                                <button class="btn btn-room btn-product" name="bookNow">Book Now</button>
                             </div>
+                        </form>
 
-
-                            <button class="btn btn-room btn-product">Book Now</button>
-                            <form action="<?= BASE_URL ?>CartController/addCart" method="post">
-                                <input type="hidden" name="id_khachhang"
-                                       value="<?= $data['data_user']['id_khachhang'] ?>">
-                                <input type="hidden" name="id_phong"
-                                       value="<?= $id_phong ?>">
-                                <input type="hidden" name="qty"
-                                       value="1">
-                                <input type="submit" name="addCart" class="btn btn-room btn-product" value="Add to cart"></input>
-                            </form>
-                        </div>
                     </div>
                     <!-- KẾT THÚC / FORM ĐẶT PHÒNG -->
                 </div>
@@ -105,12 +120,12 @@ foreach ($data['data_room'] as $item) {
                         <!-- TỔNG QUAN -->
                         <div class="tab-pane fade" id="overview">
                             <div class="product-detail_overview">
-                                <p><?= $mo_ta ?></p>
+
                                 <div class="row">
                                     <div class="col-xs-6 col-md-4">
-                                        <h6><?= $loaiphong ?></h6>
+                                        <h6><?= $data['roomData'][0]['ten'] ?></h6>
                                         <ul>
-                                            <li>Số Người Tối Đa: <?= $suc_chua ?> Người</li>
+
                                             <li>Diện Tích: 35 m2 / 376 ft2</li>
                                             <li>Quang Cảnh: Biển</li>
                                             <li>Giường: Loại King hoặc giường đôi</li>
@@ -345,39 +360,39 @@ foreach ($data['data_room'] as $item) {
         </div>
     </div>
 
-    <div class="product-detail">
-        <h2 class="product-detail_title">Các Chỗ Ở Khác</h2>
-        <div class="product-detail_content">
-            <div class="row">
-                <?php foreach ($data['list_roomother'] as $list): extract($list) ?>
-                    <div class="col-sm-6 col-md-3 col-lg-3">
-                        <div class="product-detail_item">
-                            <?php foreach ($data['images'] as $image): ?>
-                                <?php if ($image['id_phong'] == $id_phong): ?>
-                                    <img style="height: 255px; width: 370px"
-                                         src="<?= BASE_URL ?><?= $image['path'] ?>"
-                                         class="img-responsive" alt="PLuxury Room" title="Luxury Room">
-                                    <?php break; ?>
-
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                            <div class="text">
-                                <h2><a href="#"><?= $ten_phong ?></a></h2>
-                                <ul>
-                                    <li><i class="fa fa-child" aria-hidden="true"></i> Tối Đa: <?= $suc_chua ?> Người
-                                    </li>
-                                    <li><i class="fa fa-bed" aria-hidden="true"></i> Giường: Loại King hoặc đôi</li>
-                                    <li><i class="fa fa-eye" aria-hidden="true"></i> Quang Cảnh: Biển</li>
-                                </ul>
-                                <a href="<?= BASE_URL ?>clientController/roomdetail/<?= $id_phong ?>"
-                                   class="btn btn-room">XEM CHI TIẾT</a>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
+<!--    <div class="product-detail">-->
+<!--        <h2 class="product-detail_title">Các Chỗ Ở Khác</h2>-->
+<!--        <div class="product-detail_content">-->
+<!--            <div class="row">-->
+<!--                --><?php //foreach ($data['list_roomother'] as $list): extract($list) ?>
+<!--                    <div class="col-sm-6 col-md-3 col-lg-3">-->
+<!--                        <div class="product-detail_item">-->
+<!--                            --><?php //foreach ($data['images'] as $image): ?>
+<!--                                --><?php //if ($image['id_phong'] == $id_phong): ?>
+<!--                                    <img style="height: 255px; width: 370px"-->
+<!--                                         src="--><?php //= BASE_URL ?><!----><?php //= $image['path'] ?><!--"-->
+<!--                                         class="img-responsive" alt="PLuxury Room" title="Luxury Room">-->
+<!--                                    --><?php //break; ?>
+<!---->
+<!--                                --><?php //endif; ?>
+<!--                            --><?php //endforeach; ?>
+<!--                            <div class="text">-->
+<!--                                <h2><a href="#">--><?php //= $ten_phong ?><!--</a></h2>-->
+<!--                                <ul>-->
+<!--                                    <li><i class="fa fa-child" aria-hidden="true"></i> Tối Đa: --><?php //= $suc_chua ?><!-- Người-->
+<!--                                    </li>-->
+<!--                                    <li><i class="fa fa-bed" aria-hidden="true"></i> Giường: Loại King hoặc đôi</li>-->
+<!--                                    <li><i class="fa fa-eye" aria-hidden="true"></i> Quang Cảnh: Biển</li>-->
+<!--                                </ul>-->
+<!--                                <a href="--><?php //= BASE_URL ?><!--clientController/roomdetail/--><?php //= $id_phong ?><!--"-->
+<!--                                   class="btn btn-room">XEM CHI TIẾT</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                --><?php //endforeach; ?>
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <!-- END / ANOTHER ACCOMMODATION -->
     </div>

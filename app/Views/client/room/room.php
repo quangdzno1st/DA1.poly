@@ -1,4 +1,4 @@
-<!-- BANNER -->
+
 <section class="banner-tems text-center">
     <div class="container">
         <div class="banner-content">
@@ -13,46 +13,48 @@
     <div class="container">
         <div class="room-wrap-1">
             <div class="row">
-                <?php foreach ($data['room'] as $item): extract($item) ?>
+                <?php if ($data != null): ?>
+                <?php foreach ($data['roomData'] as $item): extract($item) ?>
 
+                    <?php
+                    $noithat_array = explode(",", $noithat);
+                    $images_array = explode(",", $images);
+                    $images = array_unique($images_array);
+                    $noithat = array_unique($noithat_array);
 
+                    ?>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                         <div class="room-item-1">
                             <h2><a href="#"><?= $ten ?></a></h2>
-                            <a href="<?= BASE_URL . 'clientController/roomDetail/' . $id_phong ?>">
-                                <?php foreach ($data['images'] as $image): ?>
+                            <a href="<?= BASE_URL . 'clientController/roomTypeDetail/' . $id_loaiphong ?>">
 
-                                    <?php if ($image['id_phong'] == $id_phong): ?>
-                                        <img style="height: 300px; width: 100%;object-fit: cover"
-                                             src="<?= BASE_URL ?><?= $image['path'] ?>"
-                                             class="img-responsive" alt="PLuxury Room" title="Luxury Room">
-                                        <?php break; ?>
-
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
+                                <img style="height: 300px; width: 100%;object-fit: cover"
+                                     src="<?= BASE_URL ?><?= $images[0] ?>"
+                                     class="img-responsive" alt="PLuxury Room" title="Luxury Room">
                             </a>
-
                             <div class="content">
-                                <p><?= $mo_ta ?></p>
                                 <ul>
                                     <li>Tối đa: <?= $suc_chua ?> Người</li>
                                     <li>Quang cảnh: Biển</li>
-                                    <?php if (isset($data['ngay_dat_phong']) and isset($data['ngay_tra_phong'])): ?>
-                                            <li>Ngày đặt phòng : <?= date('d-m-Y', strtotime($data['ngay_dat_phong'])) ?></li>
-                                            <li>Ngày trả phòng phòng : <?= date('d-m-Y', strtotime($data['ngay_tra_phong'])) ?></li>
-                                    <?php endif; ?>
+                                    <li>Ngày đặt phòng : <?= date('d-m-Y', strtotime($data['ngay_dat_phong'])) ?></li>
+                                    <li>Ngày trả phòng phòng
+                                        : <?= date('d-m-Y', strtotime($data['ngay_tra_phong'])) ?></li>
                                     <li>Kích thước: 35 m2 / 376 ft2</li>
                                     <li>Giường: Giường King-size hoặc giường đôi</li>
                                 </ul>
                             </div>
                             <div class="bottom">
-                                <span class="price">Bắt đầu từ <span class="amout">$<?= $gia ?></span> /ngày</span>
-                                <a href="<?= BASE_URL ?>clientController/roomDetail/<?= $id_phong ?>" class="btn">XEM
+                                <span class="price">Giá<span class="amout">$<?= number_format($gia) ?></span> /ngày</span>
+                                <a href="<?= BASE_URL ?>clientController/roomTypeDetail/<?= $id_loaiphong ?>" class="btn">XEM
                                     CHI TIẾT</a>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
+                <?php else: ?>
+                        <h2>Tiếc quá không có phòng nào phù hợp rồi!!</h2>
+                <img src="<?= BASE_URL.'public/assets/images/loadding.gif' ?>" width="600px">
+                <?php endif; ?>
             </div>
         </div>
     </div>

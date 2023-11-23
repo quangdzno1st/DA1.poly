@@ -122,21 +122,41 @@ class RoomModel extends Model
         return $this->db->selectLatest("phong", "id_phong");
     }
 
-    public function searchRoom($data=null)
+    public function searchRoom($data)
     {
-        if ($data== null) {
-           return $this->getAllRoom();
-        }
 
-        $sql = "SELECT
-                    * 
+
+        $sql = "SELECT  
+                    loaiphong.ten,
+                    loaiphong.suc_chua,
+                    loaiphong.gia,
+                    loaiphong.id_loaiphong,
+                     GROUP_CONCAT(noithat.ten_noithat) as noithat,
+                     count( DISTINCT phong.id_phong) as so_luong,
+                    GROUP_CONCAT(images.path) as images  
                 FROM 
                     phong 
                 INNER JOIN  
                     loaiphong on loaiphong.id_loaiphong = phong.loai_phong_id
-                where 
-                    loaiphong.suc_chua = :suc_chua
-                and phong.id_phong not in
+                INNER join 
+                        noithat_loaiiphong on noithat_loaiiphong.id_loaiphong = loaiphong.id_loaiphong
+                INNER join 
+                        noithat on noithat.id = noithat_loaiiphong.id_noithat 
+                INNER join 
+                        images on images.id_loaiphong = loaiphong.id_loaiphong
+                where ";
+
+        if ($data['suc_chua'] != null) {
+            $sql .= " loaiphong.suc_chua = :suc_chua
+                and  ";
+        }
+
+        if ($data['id_loaiphong'] != null) {
+            $sql .= " loaiphong.id_loaiphong = :id_loaiphong 
+                   and ";
+        }
+
+        $sql .= "phong.id_phong not in
                     (
                 SELECT 
                     id_phong FROM datphong 
@@ -147,8 +167,12 @@ class RoomModel extends Model
                     or
                     (:ngay_dat_phong <  ngay_dat_phong AND :ngay_tra_phong > ngay_tra_phong) 
                 )
+                group by 
+                    loaiphong.id_loaiphong, loaiphong.ten;
+                       
+                          
 ";
-       return  $this->db->selectById($sql,$data);
+        return $this->db->selectById($sql, $data);
     }
 
 }

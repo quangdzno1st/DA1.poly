@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
     <!-- Favicon icon -->
     <link
             rel="icon"
@@ -16,16 +16,19 @@
     />
     <title>Matrix Template - The Ultimate Multipurpose admin template</title>
     <!-- Custom CSS -->
-    <link href="<?= BASE_URL ?>public/assets/libs/flot/css/float-chart.css" rel="stylesheet" />
+    <link href="<?= BASE_URL ?>public/assets/libs/flot/css/float-chart.css" rel="stylesheet"/>
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>public/assets/extra-libs/multicheck/multicheck.css">
 
-    <link href="<?= BASE_URL ?>public/dist/css/style.min.css" rel="stylesheet" />
+    <link href="<?= BASE_URL ?>public/dist/css/style.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>public/assets/libs/select2/dist/css/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>public/assets/libs/jquery-minicolors/jquery.minicolors.css">
-    <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>public/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="<?= BASE_URL ?>public/assets/libs/jquery-minicolors/jquery.minicolors.css">
+    <link rel="stylesheet" type="text/css"
+          href="<?= BASE_URL ?>public/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>public/assets/libs/quill/dist/quill.snow.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>public/assets/css.css">
+    <link href="<?= BASE_URL ?>public/dist/css/style.min.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
