@@ -61,7 +61,7 @@ class Main
             header('Location: ' . BASE_URL . $this->controllerName);
         }
 
-        if (isset($this->url[3])) {
+        if (isset($this->url[2])) {
             $this->methodName = $this->url[1];
             if (isset($this->url[3])) {
                 $this->controller->{$this->methodName}($this->url[2], $this->url[3]);
@@ -73,8 +73,6 @@ class Main
             } else {
                 header('Location: ' . BASE_URL . $this->controllerName . '/notFound');
             }
-
-
         } else {
             if (isset($this->url[1])) {
                 $this->methodName = $this->url[1];
@@ -88,9 +86,7 @@ class Main
                 header('Location: ' . BASE_URL . $this->controllerName . '/' . $this->methodName);
             }
         }
-
     }
-
 }
 
 ?>

@@ -1,3 +1,8 @@
+<?php
+if(!isset($_SESSION)){
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <!-- Mirrored from landing.engotheme.com/html/skyline/demo/room_detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 16 Nov 2023 16:10:25 GMT -->

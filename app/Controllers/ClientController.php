@@ -26,16 +26,13 @@ class ClientController extends Controller
         $this->load->view('', 'client/inc/footer');
     }
 
-
-    public function room($data = null)
+    public function room()
     {
         $imageModel = $this->load->model("imagesModel");
-        $roomModel = $this->load->model("roomModel");
-
-        $data['room'] = $roomModel->searchRoom($data);
         $data['images'] = $imageModel->getAllImages();
 
-
+        $roomModel = $this->load->model("RoomModel");
+        $data['room'] = $roomModel->getAllRoom();
         $this->load->view('', 'client/inc/header');
         $this->load->view($data, 'client/room/room');
         $this->load->view('', 'client/inc/footer');
@@ -43,7 +40,6 @@ class ClientController extends Controller
 
     public function roomDetail($id)
     {
-        Session::init();
         $roomModel = $this->load->model("roomModel");
         $imageModel = $this->load->model("imagesModel");
         $userModel = $this->load->model("UserModel");
@@ -56,7 +52,6 @@ class ClientController extends Controller
         $this->load->view('', 'client/inc/header');
         $this->load->view($data, 'client/room/roomdetail');
         $this->load->view('', 'client/inc/footer');
-
     }
 
     public function reservation()
