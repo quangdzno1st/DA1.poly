@@ -1,4 +1,8 @@
+<?php
 
+//echo "<pre>";
+//print_r($_SESSION)
+//?>
 <section class="banner-tems text-center">
     <div class="container">
         <div class="banner-content">
@@ -13,7 +17,7 @@
     <div class="container">
         <div class="room-wrap-1">
             <div class="row">
-                <?php if ($data != null): ?>
+                <?php if (!empty($data['roomData']) and $data != null): ?>
                 <?php foreach ($data['roomData'] as $item): extract($item) ?>
 
                     <?php
@@ -27,7 +31,6 @@
                         <div class="room-item-1">
                             <h2><a href="#"><?= $ten ?></a></h2>
                             <a href="<?= BASE_URL . 'clientController/roomTypeDetail/' . $id_loaiphong ?>">
-
                                 <img style="height: 300px; width: 100%;object-fit: cover"
                                      src="<?= BASE_URL ?><?= $images[0] ?>"
                                      class="img-responsive" alt="PLuxury Room" title="Luxury Room">

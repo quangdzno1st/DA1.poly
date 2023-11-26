@@ -209,7 +209,7 @@ class AccountController extends Controller
         $this->viewSendMail($data);
     }
 
-    function viewResetPassword($id_reset, $data = '')
+    function viewResetPassword($id_reset, $data)
     {
         $data1['id_reset'] = $id_reset;
         $data1['msg'] = $data;

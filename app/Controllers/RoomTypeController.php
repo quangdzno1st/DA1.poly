@@ -1,7 +1,7 @@
 <?php
 
 
-class RoomTypeController extends Controller
+class       RoomTypeController extends Controller
 {
 
     public function __construct()

@@ -5,7 +5,11 @@ foreach ($data['search'] as $item) {
     $images_array = explode(",", $images);
     $images = array_unique($images_array);
     $noithat = array_unique($noithat_array);
+
 }
+//        echo "<pre>";
+//        print_r($_SESSION);
+//        die();
 ?>
 
 <section class="banner-tems text-center">
@@ -45,7 +49,7 @@ foreach ($data['search'] as $item) {
                                 <span class="amout"><?= number_format($gia) ?></span> /days
                             </p>
                         </div>
-                        <form method="post" action="<?= BASE_URL ?>cartController/checkOut">
+                        <form method="post" action="">
                             <div class="product-detail_form">
 
                                 <div class="sidebar">
@@ -56,8 +60,10 @@ foreach ($data['search'] as $item) {
 
                                             <div class="check_availability-field">
                                                 <label>Số lượng phòng cần đặt : </label>
+
                                                 <input class="form-control" name="so_luong_order" type="number"
                                                        value="1" min="1" max="<?= $so_luong ?>">
+
 
                                                 <label>Arrive</label>
                                                 <div class="input-group date" data-date-format="dd-mm-yyyy"
@@ -67,33 +73,34 @@ foreach ($data['search'] as $item) {
                                                            value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_dat_phong'] : $_SESSION['dateDefault']['ngay_dat_phong'] ?>">
                                                     <span class="input-group-addon"><i class="fa fa-calendar"
                                                                                        aria-hidden="true"></i></span>
-                                                    <input type="hidden" name="ngay_dat_phong"
-                                                           value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_dat_phong'] : $_SESSION['dateDefault']['ngay_dat_phong'] ?>">
+                                                    <input type="hidden" name="ngay_dat_phong" value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_dat_phong'] : $_SESSION['dateDefault']['ngay_dat_phong'] ?>">
                                                 </div>
                                             </div>
                                             <div class="check_availability-field">
                                                 <label>Depature</label>
                                                 <div id="datepicker2" class="input-group date"
                                                      data-date-format="dd-mm-yyyy">
+
                                                     <input type="hidden" name="id_loaiphong"
                                                            value="<?= $id_loaiphong ?>">
+
                                                     <input class="form-control wrap-box" type="text"
                                                            placeholder="Departure Date"
                                                            value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_tra_phong'] : $_SESSION['dateDefault']['ngay_tra_phong'] ?>">
                                                     <span class="input-group-addon"><i class="fa fa-calendar"
                                                                                        aria-hidden="true"></i></span>
-                                                    <input type="hidden" name="ngay_tra_phong"
-                                                           value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_tra_phong'] : $_SESSION['dateDefault']['ngay_tra_phong'] ?>">
+                                                    <input type="hidden" name="ngay_tra_phong" value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_tra_phong'] : $_SESSION['dateDefault']['ngay_tra_phong'] ?>">
 
                                                 </div>
                                             </div>
+
                                             <label class="check_availability" style="margin-top: 10px;">Số lượng còn lại
                                                 : <?= $so_luong ?></label>
-                                        </div>
+                         </div>
                                     </div>
                                     <!-- END / WIDGET CHECK AVAILABILITY -->
                                 </div>
-                                <button type="submit" class="btn btn-room btn-product" name="bookNow">Book Now</button>
+                                <button class="btn btn-room btn-product" name="bookNow">Book Now</button>
                             </div>
                         </form>
 
