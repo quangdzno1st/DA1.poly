@@ -40,9 +40,8 @@ if(!isset($_SESSION)){
         <!--HEADER-TOP-->
         <div class="header-top no-border">
             <div class="header-top-left">
-                <span><i class="ion-android-cloud-outline"></i>18 °C</span>
-                <span><i class="ion-ios-location-outline"></i> 225 Beach Street, Australian</span>
-                <span><i class="fa fa-phone" aria-hidden="true"></i> 1-548-854-8898</span>
+                <span><i class="ion-ios-location-outline"></i>Hà Nội, Việt Nam</span>
+                <span><i class="fa fa-phone" aria-hidden="true"></i>0123456789</span>
             </div>
             <div class="header-top-right">
 <!--                --><?php
@@ -75,9 +74,9 @@ if(!isset($_SESSION)){
                 <?php else: ?>
                     <ul>
                         <li class="dropdown"><a href="<?= BASE_URL . 'AccountController/loginPage' ?>" title="Login"
-                                                class="dropdown-toggle">LOGIN</a></li>
+                                                class="dropdown-toggle">Đăng Nhập</a></li>
                         <li class="dropdown"><a href="<?= BASE_URL . 'AccountController/registerPage' ?>"
-                                                title="Register" class="dropdown-toggle">REGISTER</a>
+                                                title="Register" class="dropdown-toggle">Đăng kí</a>
                         </li>
 
                     </ul>
@@ -103,88 +102,23 @@ if(!isset($_SESSION)){
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown ">
-                            <a href="<?= BASE_URL ?>homeController/index" title="Home">Home</a>
+                            <a href="<?= BASE_URL ?>homeController/index" title="Home">Trang chủ</a>
                         </li>
                         <li class="dropdown ">
-                            <a href="room_1.html" title="Room & Rate" class="dropdown-toggle" data-toggle="dropdown">Room
-                                & Rate<b class="caret"></b></a>
-                            <ul class="dropdown-menu icon-fa-caret-up submenu-hover">
-                                <li><a href="room_1.html" title="">Room 1</a></li>
-                                <li><a href="room_2.html" title="">Room 2</a></li>
-                                <li><a href="room_3.html" title="">Room 3</a></li>
-                                <li><a href="room_4.html" title="">Room 4</a></li>
-                                <li><a href="room_5.html" title="">Room 5</a></li>
-                                <li><a href="room_6.html" title="">Room 6</a></li>
-                                <li><a href="room_detail.html" title="">Room Detail</a></li>
-                            </ul>
+                            <a href="<?= BASE_URL ?>homeController/commingSoon" title="Room & Rate">Phòng và giá</a>
                         </li>
                         <li class="dropdown ">
-                            <a href="#" title="  Page" class="dropdown-toggle" data-toggle="dropdown">Page<b
-                                        class="caret"></b></a>
-                            <ul class="dropdown-menu icon-fa-caret-up submenu-hover">
-                                <li><a href="guestbook.html" title="">Guest Book</a></li>
-                                <li class="submenu-hover1">
-                                    <a href="event_page_1.html" class="dropdown-toggle" data-toggle="dropdown">Events <b
-                                                class="caret"></b></a>
-                                    <ul class="dropdown-menu dropdown-margin">
-                                        <li><a href="event_page_1.html">Events </a></li>
-                                        <li><a href="event_page_2.html">Events Fullwidth</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="attractions.html" title="">Attractions</a></li>
-                                <li class="submenu-hover1">
-                                    <a href="blog.html" class="dropdown-toggle" data-toggle="dropdown">Blog <b
-                                                class="caret"></b></a>
-                                    <ul class="dropdown-menu dropdown-margin">
-                                        <li><a href="blog.html">Blog </a></li>
-                                        <li><a href="blog_detail.html">Blog Detail</a></li>
-                                    </ul>
-                                </li>
-                                <li class="submenu-hover1">
-                                    <a href="reservation_1.html" class="dropdown-toggle" data-toggle="dropdown">Restaurant
-                                        <b class="caret"></b></a>
-                                    <ul class="dropdown-menu dropdown-margin">
-                                        <li><a href="reservation_1.html">Restaurant 1</a></li>
-                                        <li><a href="reservation_2.html">Restaurant 2</a></li>
-                                        <li><a href="reservation_3.html">Restaurant 3</a></li>
-                                        <li><a href="reservation_4.html">Restaurant 4</a></li>
-                                    </ul>
-                                </li>
-                                <li class="submenu-hover1">
-                                    <a href="tems_condition_1.html" class="dropdown-toggle" data-toggle="dropdown">Tems
-                                        Condition <b class="caret"></b></a>
-                                    <ul class="dropdown-menu dropdown-margin">
-                                        <li><a href="tems_condition_1.html">Tems Condition 1</a></li>
-                                        <li><a href="tems_condition_2.html">Tems Condition 2</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="404_page.html" title="">404 Page</a></li>
-                                <li><a href="comming_soon.html" title="">Comming Soon</a></li>
-                                <li><a href="check_out.html" title="">Check Out</a></li>
-                            </ul>
+                            <a href="<?= BASE_URL ?>homeController/commingSoon">Trang</a>
                         </li>
                         <li class="dropdown ">
-                            <a href="restaurant_1.html" title="Reservation" class="dropdown-toggle"
-                               data-toggle="dropdown">RESERVATION<b class="caret"></b></a>
-                            <ul class="dropdown-menu icon-fa-caret-up submenu-hover">
-                                <li><a href="restaurant_1.html" title="">Reservation 1</a></li>
-                                <li><a href="restaurant_2.html" title="">Reservation 2</a></li>
-                                <li><a href="restaurant_3.html" title="">Reservation 3</a></li>
-                                <li><a href="restaurant_4.html" title="">Reservation 4</a></li>
-                                <li><a href="restaurant_5-2.html" title="">Reservation 5</a></li>
-                            </ul>
+                            <a href="<?= BASE_URL ?>homeController/commingSoon" title="Reservation" class="dropdown-toggle"
+                               data-toggle="dropdown">Đặt chỗ</a>
                         </li>
                         <li class="dropdown ">
-                            <a href="gallery_1.html" title="Gallery" class="dropdown-toggle" data-toggle="dropdown">Gallery
-                                <b class="caret"></b></a>
-                            <ul class="dropdown-menu icon-fa-caret-up submenu-hover">
-                                <li><a href="gallery_1.html" title="">Gallery 1</a></li>
-                                <li><a href="gallery_2.html" title="">Gallery 2</a></li>
-                                <li><a href="gallery_3.html" title="">Gallery 3</a></li>
-                            </ul>
+                            <a href="<?= BASE_URL ?>homeController/gallery" title="Gallery">Phòng Trưng Bày</a>
                         </li>
-                        <li><a href="about.html" title="About">About</a></li>
-                        <li><a href="contact.html" title="Contact">Contact</a></li>
+                        <li><a href="<?= BASE_URL ?>homeController/about" title="About">Về </a></li>
+                        <li><a href="<?= BASE_URL ?>homeController/contact" title="Contact">Liên hệ</a></li>
                     </ul>
                 </div>
             </div>

@@ -11,101 +11,73 @@ class CartModel extends Model
     public function getAllUser()
     {
         $sql = "SELECT * FROM khachhang";
-
         return $this->db->select($sql);
     }
 
-    public function getAllCart()
+    public function getIdphongBook()
     {
-        $sql = "SELECT 
-                    cart.id_cart,
-                    cart.id_phong,
-                    cart.id_khachhang,
-                    cart.so_luong,
-                    loaiphong.ten,
-                    loaiphong.suc_chua,
-                    loaiphong.gia,
-                    phong.ten_phong,
-                    phong.loai_phong_id,
-                    phong.mo_ta,
-                    phong.trang_thai,
-                    MIN(images.path) AS path
-                FROM 
-                    cart
-                JOIN 
-                    phong ON cart.id_phong = phong.id_phong
-                JOIN
-                    loaiphong ON phong.loai_phong_id = loaiphong.id_loaiphong
-                JOIN 
-                    khachhang ON cart.id_khachhang = khachhang.id_khachhang
-                JOIN 
-                    images ON phong.id_phong = images.id_phong
-                GROUP BY
-                    cart.id_cart,
-                    cart.id_phong,
-                    cart.id_khachhang,
-                    cart.so_luong,
-                    phong.ten_phong,
-                    phong.loai_phong_id,
-                    phong.mo_ta,
-                    phong.trang_thai;
-
-                ";
-
+        $sql = "SELECT id_phong FROM datphong";
         return $this->db->select($sql);
     }
 
-    public function getCartById($id_cart){
-        $sql = "SELECT 
-                    cart.id_cart,
-                    cart.id_phong,
-                    cart.id_khachhang,
-                    cart.so_luong,
-                    loaiphong.ten,
-                    loaiphong.suc_chua,
-                    loaiphong.gia,
-                    phong.ten_phong,
-                    phong.loai_phong_id,
-                    phong.mo_ta,
-                    phong.trang_thai,
-                    MIN(images.path) AS path
-                FROM 
-                    cart
-                JOIN 
-                    phong ON cart.id_phong = phong.id_phong
-                JOIN
-                    loaiphong ON phong.loai_phong_id = loaiphong.id_loaiphong
-                JOIN 
-                    khachhang ON cart.id_khachhang = khachhang.id_khachhang
-                JOIN 
-                    images ON phong.id_phong = images.id_phong
-                GROUP BY
-                    cart.id_cart,
-                    cart.id_phong,
-                    cart.id_khachhang,
-                    cart.so_luong,
-                    phong.ten_phong,
-                    phong.loai_phong_id,
-                    phong.mo_ta,
-                    phong.trang_thai;
-                where id_cart = :id_cart
+    public function getAllBook()
+    {
+        $sql = "SELECT * FROM datphong";
+        return $this->db->select($sql);
+    }
+
+    public function getAllBookById($id_datphong)
+    {
+        $sql = "SELECT datphong.*, 
+                    LENGTH(datphong.id_phong) - LENGTH(REPLACE(datphong.id_phong, ',', '')) + 1 AS count_id_phong,
+                    phong.*,
+                    loaiphong.*,
+                    khachhang.*,
+                    GROUP_CONCAT(noithat.ten_noithat) as noithat
+                FROM datphong
+                JOIN phong ON datphong.id_phong = phong.id_phong
+                JOIN loaiphong ON loaiphong.id_loaiphong = phong.loai_phong_id
+                INNER join 
+                        noithat_loaiiphong on noithat_loaiiphong.id_loaiphong = loaiphong.id_loaiphong
+                INNER join 
+                        noithat on noithat.id = noithat_loaiiphong.id_noithat 
+                JOIN khachhang ON khachhang.id_khachhang = datphong.id_khachhang
+                WHERE datphong.id_datphong = $id_datphong";
+        return $this->db->select($sql);
+    }
+
+    public function getLoaiphongBook($id_khachhang)
+    {
+        $sql = "SELECT datphong.*, 
+                    LENGTH(datphong.id_phong) - LENGTH(REPLACE(datphong.id_phong, ',', '')) + 1 AS count_id_phong,
+                    phong.*,
+                    loaiphong.*,
+                    khachhang.*
+                FROM datphong
+                JOIN phong ON datphong.id_phong = phong.id_phong
+                JOIN loaiphong ON loaiphong.id_loaiphong = phong.loai_phong_id
+                JOIN khachhang ON khachhang.id_khachhang = datphong.id_khachhang
+                WHERE datphong.id_khachhang = $id_khachhang;
                 ";
-        $data = [
-            "id_cart" => $id_cart
-        ];
-
-        return $this->db->selectById($sql,$data);
+        return $this->db->select($sql);
     }
 
-    public function insertCart($data)
+    public function insertVnpay($data)
     {
-        return $this->db->insert("cart", $data);
+        return $this->db->insert("vnpay", $data);
     }
 
-    public function delete($id)
+    public function insertBook($data)
     {
-        $idDelete = "id_cart = $id";
-        return $this->db->delete("cart", $idDelete);
+        return $this->db->insert("datphong", $data);
+    }
+
+    public function deletePhong($id)
+    {
+        $sql = "DELETE FROM phong WHERE id_phong in = ($id)";
+        echo $sql;
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
     }
 
     public function deleteALL($id)
@@ -114,13 +86,15 @@ class CartModel extends Model
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
     }
-    public function getImageByRoomId($id){
 
+    public function getImageByRoomId($id)
+    {
         $sql = "SELECT * FROM images WHERE id_phong = $id";
         return $this->db->select($sql);
     }
 
-    public function deleteById($id){
+    public function deleteById($id)
+    {
         $idDelete = "id = $id";
         return $this->db->delete("images", $idDelete);
     }
