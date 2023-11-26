@@ -86,13 +86,13 @@ if (!empty($data)) {
                                         ?>
                                     </p>
                                     <p><span><?= $so_ngay_chenh_lech ?> ngày - <?= $so_luong_order ?> phòng</span>
-                                        <b>$<?= number_format($gia) ?></b></p>
+                                        <b><?= number_format($gia) ?> VNĐ</b></p>
                                 </div>
                             </div>
 
                         </div>
                         <div class="checkout-cartinfo">
-                            <p><span>Tổng đơn hàng:</span><strong>$<?= number_format($tong_tien) ?></strong></p>
+                            <p><span>Tổng đơn hàng:</span><strong><?= number_format($tong_tien) ?> VNĐ</strong></p>
                             <input type="hidden" name="tong_tien" value="<?= $tong_tien ?>">
                             <input type="hidden" name="id_loaiphong" value="<?= $id_loaiphong ?>">
                             <input type="hidden" name="id_phong" value="<?= $id_phong ?>">
