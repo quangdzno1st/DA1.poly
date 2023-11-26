@@ -163,16 +163,27 @@ foreach ($data['search'] as $item) {
                                             color: #e74c3c;
                                             margin-bottom: 30px; /* Tăng khoảng cách dưới tiêu đề */
                                         }
-
                                         .comment {
-                                            border-top: 1px solid #ddd;
-                                            padding-top: 15px;
-                                            margin-top: 15px;
+                                            border: 1px solid #ddd;
+                                            border-radius: 8px;
+                                            padding: 15px;
+                                            margin-bottom: 20px;
+                                            background-color: #f9f9f9;
                                         }
 
-                                        .comment p {
-                                            margin-bottom: 10px; /* Tăng khoảng cách giữa các dòng trong bình luận */
+                                        p {
+                                            margin: 2px 0;
                                         }
+
+                                        strong {
+                                            color: #3498db;
+                                        }
+
+                                        .timestamp {
+                                            font-size: 0.8em;
+                                            color: #888;
+                                        }
+
 
                                         .review {
                                             margin-top: 30px; /* Tăng khoảng cách giữa phần đánh giá và bình luận */
@@ -216,8 +227,12 @@ foreach ($data['search'] as $item) {
                                         <h1>Nhận xét về phòng và các dịch vụ của khách sạn !</h1>
                                         <?php foreach ($data['cmt'] as $value): extract($value) ?>
                                         <div class="comment">
-                                            <p><strong><?= $user ?></strong></p>
-                                            <p><?= $noi_dung ?></p>
+                                            <div style="display:flex; ">
+                                                <p><strong><?= $user ?></strong></p>
+
+                                            </div>
+                                            <p> <?= $noi_dung ?></p>
+                                            <p> <?= $thoi_gian ?></p>
                                         </div>
                                         <?php endforeach; ?>
                                         <?php if (!empty($data['check_buy'])): ?>
