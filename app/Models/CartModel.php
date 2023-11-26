@@ -19,6 +19,11 @@ class CartModel extends Model
         $sql = "SELECT id_phong FROM datphong";
         return $this->db->select($sql);
     }
+    public function checkIdKH($id_khachhang)
+    {
+        $sql = "SELECT id_datphong,id_khachhang FROM datphong where id_khachhang = $id_khachhang";
+        return $this->db->select($sql);
+    }
 
     public function getAllBook()
     {

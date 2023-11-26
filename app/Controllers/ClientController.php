@@ -44,6 +44,25 @@ class ClientController extends Controller
     {
         Session::init();
         $roomModel = $this->load->model("roomModel");
+        $cartModel = $this->load->model("cartModel");
+        if (isset($_POST['binhluan'])) {
+            $id_loaiphong = $_POST['id_loaiphong'];
+            $id_khachhang = $_POST['id_khachhang'];
+            $review = $_POST['review'];
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $currentDateTime = date('Y-m-d H:i:s');
+            $data = [
+                'id_loaiphong' => $id_loaiphong,
+                'id_khachhang' => $id_khachhang,
+                'noi_dung' => htmlspecialchars($review),
+                'thoi_gian' => $currentDateTime
+            ];
+            $result = $roomModel->insertCmt($data);
+            if ($result) {
+                header("Location: " . BASE_URL . 'clientController/roomTypeDetail/' . $id_loaiphong);
+            }
+        }
+
         if (!empty($id)) {
             $nowDate = date('Y-m-d');
             $date = new DateTime();
@@ -54,7 +73,12 @@ class ClientController extends Controller
                 'suc_chua' => null,
                 'id_loaiphong' => $id,
             ];
-            $result = $roomModel->searchRoom($data);
+            $result['search'] = $roomModel->searchRoom($data);
+            $result['cmt'] = $roomModel->getAllCmt($id);
+            $id_checkKH = isset($_SESSION['dataUser']['id_khachhang']) ? $_SESSION['dataUser']['id_khachhang'] : '';
+            if (!empty($id_checkKH)) {
+                $result['check_buy'] = $cartModel->checkIdKH($id_checkKH);
+            }
             if ($result) {
                 $this->load->view('', 'client/inc/header');
                 $this->load->view($result, 'client/room/roomdetail');
@@ -69,6 +93,8 @@ class ClientController extends Controller
             $this->load->view('', 'client/inc/404');
             $this->load->view('', 'client/inc/footer');
         }
+
+
     }
 
     public function reservation()
