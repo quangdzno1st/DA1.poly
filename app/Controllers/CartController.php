@@ -12,100 +12,58 @@ class CartController extends Controller
 
     public function index()
     {
-        $this->homeCart();
+        $this->checkOut();
     }
-
-
-    public function homeCart()
-    {
-        Session::init();
-        $cartModel = $this->load->model('CartModel');
-        $data['cart'] = $cartModel->getAllCart();
-        if (!empty($data['cart'])) {
-            $qty = 0;
-            $sub_total = 0;
-            foreach ($data['cart'] as $item) {
-                $qty += $item['so_luong'];
-                $sub_total += $item['gia'];
-            }
-            $_SESSION['cart'] = [
-                'qty_total' => $qty,
-                'sub_total' => $sub_total
-            ];
-        }
-        $data['total'] = $_SESSION;
-        $this->load->view($data, 'client/cart/cart');
-    }
-
-    public function addCart()
-    {
-        $cartModel = $this->load->model('CartModel');
-        $id_khachhang = $_POST['id_khachhang'];
-        $id_phong = $_POST['id_phong'];
-        $qty = $_POST['qty'];
-        $data = [
-            'id_khachhang' => $id_khachhang,
-            'id_phong' => $id_phong,
-            'so_luong' => $qty
-        ];
-        $result = $cartModel->insertCart($data);
-        if ($result) {
-            header("Location: " . BASE_URL . 'CartController');
-        } else {
-            echo "Error";
-        }
-
-    }
-
-
-    public function deleteCart($idcart)
-    {
-        $cartModel = $this->load->model('CartModel');
-        $result = $cartModel->delete($idcart);
-        if ($result) {
-            header("Location: " . BASE_URL . 'CartController');
-        } else {
-            echo "Error";
-        }
-    }
-
-//    public function updateMoney()
-//    {
-//        Session::init();
-//        $cartModel = $this->load->model('CartModel');
-//
-//        if (isset($_POST['id_cart'])) {
-//            $id_cart_array = $_POST['id_cart'];
-//            $gia = $_POST['gia'];
-//            $checked = isset($_POST['checked']) ? $_POST['checked'] : false;
-//            $tong_gia = 0;
-//            $data['cart'] = $cartModel->getCartById(9);
-//            echo "<pre>";
-//            print_r($data['cart']);
-//            die();
-//            echo "</pre>";
-//            foreach ($id_cart_array as $id_cart) {
-//                $data['cart'] = $cartModel->getCartById($id_cart);
-//                foreach ($data['cart'] as $item) {
-//                    $tong_gia += ($checked) ? $gia : -$gia;
-//                }
-//            }
-//
-//            $_SESSION['cart_res'] = [
-//                'tong_gia' => $tong_gia
-//            ];
-//        }
-//        echo json_encode($_SESSION);
-//    }
-
 
     public function checkOut()
     {
         Session::init();
-        if (isset($_SESSION['dataUser'])) {
-            $data['user'] = $_SESSION['dataUser'];
-        } else {
-            $data['user'] = [];
+        $roomModel = $this->load->model('RoomModel');
+        if (isset($_POST['bookNow'])) {
+            $ngay_dat_phong = $_POST['ngay_dat_phong'];
+            $id_loaiphong = $_POST['id_loaiphong'];
+            $so_luong_order = $_POST['so_luong_order'];
+            $ngay_tra_phong = $_POST['ngay_tra_phong'];
+            $ngay_dat_timestamp = strtotime($ngay_dat_phong);
+            $ngay_tra_timestamp = strtotime($ngay_tra_phong);
+            $so_ngay_chenh_lech = ($ngay_tra_timestamp - $ngay_dat_timestamp) / (60 * 60 * 24);
+            $resutl = $roomModel->getRoomAll($id_loaiphong);
+            $data = [
+                'ngay_dat_phong' => $ngay_dat_phong,
+                'ngay_tra_phong' => $ngay_tra_phong,
+            ];
+            $resutl1 = $roomModel->searchRoom1($data, $id_loaiphong, $so_luong_order);
+            if (empty($resutl1)) {
+                header('Location: ' . BASE_URL . '/HomeController');
+            }
+            foreach ($resutl1 as $value) {
+                $id_phong[] = $value['id_phong'];
+            }
+            $id_phong = implode(',', $id_phong);
+            if (!isset($_SESSION['dataUser'])) {
+                header('Location: ' . BASE_URL . '/AccountController');
+            } else {
+                $data['user'] = $_SESSION['dataUser'];
+            }
+
+            $gia = $resutl[0]['gia'] * $so_ngay_chenh_lech;
+            $tong_tien = $gia * $so_luong_order;
+            $data['data_checkout'] = [
+                'ngay_dat_phong' => $ngay_dat_phong,
+                'ngay_tra_phong' => $ngay_tra_phong,
+                'so_luong_order' => $so_luong_order,
+                'so_ngay_chenh_lech' => $so_ngay_chenh_lech,
+                'ten' => $resutl[0]['ten'],
+                'gia' => $gia,
+                'tong_tien' => $tong_tien,
+                'id_loaiphong' => $id_loaiphong,
+                'noithat' => $resutl[0]['noithat'],
+                'images' => $resutl[0]['images'],
+                'id_phong' => $id_phong,
+            ];
+        }
+        else{
+            header("Location: " . BASE_URL . 'HomeController');
         }
         $this->load->view('', 'client/inc/header');
         $this->load->view($data, 'client/cart/checkout');
@@ -114,25 +72,78 @@ class CartController extends Controller
 
     public function thank()
     {
-        echo "Cảm ơn";
+        Session::init();
+        $cartModel = $this->load->model('CartModel');
+        if (isset($_GET['vnp_Amount'])) {
+            if (!isset($_GET['vnp_BankTranNo'])) {
+                echo "Thank toán không thành công";
+                die();
+            }
+            $data_vnpay = [
+                'vnp_Amount' => $_GET['vnp_Amount'],
+                'vnp_BankCode' => $_GET['vnp_BankCode'],
+                'vnp_BankTranNo' => $_GET['vnp_BankTranNo'],
+                'vnp_CardType' => $_GET['vnp_CardType'],
+                'vnp_OrderInfo' => $_GET['vnp_OrderInfo'],
+                'vnp_PayDate' => $_GET['vnp_PayDate'],
+                'vnp_ResponseCode' => $_GET['vnp_ResponseCode'],
+                'vnp_TmnCode' => $_GET['vnp_TmnCode'],
+                'vnp_TransactionNo' => $_GET['vnp_TransactionNo'],
+                'vnp_TransactionStatus' => $_GET['vnp_TransactionStatus'],
+                'vnp_TxnRef' => $_GET['vnp_TxnRef'],
+                'vnp_SecureHash' => $_GET['vnp_SecureHash']
+            ];
+            $result = $cartModel->insertVnpay($data_vnpay);
+            if ($result) {
+                echo "<script>alert('Cảm ơn bạn đã thanh toán thành công !');";
+                echo "window.location.href='" . BASE_URL . "cartController/historyBook';";
+                echo "</script>";
+            } else {
+                echo 'Error1';
+            }
+        } else {
+            header("Location: " . BASE_URL . 'CartController/historyBook');
+        }
     }
 
-    public function paymentVnPay()
-    {
-        echo "<pre>";
-        print_r($_POST);
-        echo "</pre>";
-        if (isset($_POST['payment'])) {
 
+    public function historyBook()
+    {
+        Session::init();
+        $cartModel = $this->load->model('CartModel');
+        $dataBook = $cartModel->getLoaiphongBook($_SESSION['dataUser']['id_khachhang']);
+        $this->load->view('', 'client/inc/header');
+        $this->load->view($dataBook, 'client/cart/lichsu');
+        $this->load->view('', 'client/inc/footer');
+    }
+
+
+    public function detailBook($id_datphong)
+    {
+        $cartModel = $this->load->model('CartModel');
+        $data = $cartModel->getAllBookById($id_datphong);
+        $this->load->view('', 'client/inc/header');
+        $this->load->view($data, 'client/cart/detail_book');
+        $this->load->view('', 'client/inc/footer');
+    }
+
+    public function thanhToan()
+    {
+        Session::init();
+        $cartModel = $this->load->model('CartModel');
+        extract($_SESSION['dateDefault']);
+        extract($_POST);
+        extract($_SESSION['dataUser']);
+        if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'vnpay') {
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
             $vnp_Returnurl = "http://localhost/duan1/CartController/thank";
             $vnp_TmnCode = "74YGUA4Z"; //Mã website tại VNPAY
             $vnp_HashSecret = "OUXZGKLBCBEYBWAOAPSISCJZSGUBJOLC"; //Chuỗi bí mật
 
             $vnp_TxnRef = 'MRD' . rand(00, 9999); //Mã đơn hàng
-            $vnp_OrderInfo = $_POST['ghi_chu'];
+            $vnp_OrderInfo = empty($_POST['ghi_chu']) ? '' : $_POST['ghi_chu'];
             $vnp_OrderType = "vnpay";
-            $vnp_Amount = $_POST['tong_tien'] * 100000;
+            $vnp_Amount = $_POST['tong_tien'] * 100;
             $vnp_Locale = 'vn';
             $vnp_BankCode = 'NCB';
             $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -219,7 +230,88 @@ class CartController extends Controller
             $returnData = array(
                 'code' => '00', 'message' => 'success', 'data' => $vnp_Url
             );
-            if (isset($_POST['payment'])) {
+            if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'vnpay') {
+                $dataInsertBook = [
+                    'id_khachhang' => $id_khachhang,
+                    'ngay_dat_phong' => $ngay_dat_phong,
+                    'ngay_tra_phong' => $ngay_tra_phong,
+                    'tong_tien' => $tong_tien,
+                    'trang_thai' => 'Đã thanh toán',
+                    'id_phong' => $id_phong,
+                    'hinhthucthanhtoan' => 'VN PAY'
+                ];
+                $cartModel->insertBook($dataInsertBook);
+                header('Location: ' . $vnp_Url);
+                die();
+            } else {
+                echo json_encode($returnData);
+            }
+        } else if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'tructiep') {
+            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+            $vnp_Returnurl = "http://localhost/duan1/CartController/thank";
+            $vnp_TmnCode = "74YGUA4Z"; //Mã website tại VNPAY
+            $vnp_HashSecret = "OUXZGKLBCBEYBWAOAPSISCJZSGUBJOLC"; //Chuỗi bí mật
+            $vnp_TxnRef = 'KHR' . rand(00, 9999); //Mã đơn hàng
+            $vnp_OrderInfo = empty($_POST['ghi_chu']) ? '' : $_POST['ghi_chu'];
+            $vnp_OrderType = "vnpay";
+            $tien_coc = $_POST['tong_tien'] * 100 * 0.05;
+            $tien_coc1 = $_POST['tong_tien'] * 0.05;
+            $vnp_Amount = $tien_coc;
+            $vnp_Locale = 'vn';
+            $vnp_BankCode = 'NCB';
+            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+            $inputData = array(
+                "vnp_Version" => "2.1.0",
+                "vnp_TmnCode" => $vnp_TmnCode,
+                "vnp_Amount" => $vnp_Amount,
+                "vnp_Command" => "pay",
+                "vnp_CreateDate" => date('YmdHis'),
+                "vnp_CurrCode" => "VND",
+                "vnp_IpAddr" => $vnp_IpAddr,
+                "vnp_Locale" => $vnp_Locale,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                "vnp_OrderType" => $vnp_OrderType,
+                "vnp_ReturnUrl" => $vnp_Returnurl,
+                "vnp_TxnRef" => $vnp_TxnRef,
+            );
+
+            if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+                $inputData['vnp_BankCode'] = $vnp_BankCode;
+            }
+            ksort($inputData);
+            $query = "";
+            $i = 0;
+            $hashdata = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+
+            $vnp_Url = $vnp_Url . "?" . $query;
+            if (isset($vnp_HashSecret)) {
+                $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); //
+                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+            }
+            $returnData = array(
+                'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+            );
+            if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'tructiep') {
+                $dataInsertBook = [
+                    'id_khachhang' => $id_khachhang,
+                    'ngay_dat_phong' => $ngay_dat_phong,
+                    'ngay_tra_phong' => $ngay_tra_phong,
+                    'tong_tien' => $tong_tien,
+                    'trang_thai' => 'Chưa thanh toán',
+                    'id_phong' => $id_phong,
+                    'so_tien_coc' => $tien_coc1,
+                    'hinhthucthanhtoan' => 'Thanh toán khi check in'
+                ];
+                $cartModel->insertBook($dataInsertBook);
                 header('Location: ' . $vnp_Url);
                 die();
             } else {
@@ -227,6 +319,26 @@ class CartController extends Controller
             }
         }
 
+    }
+
+    function text()
+    {
+//        array
+//        (
+//            [url] => CartController / thank,
+//            [vnp_Amount] => 150000000,
+//            [vnp_BankCode] => NCB,
+//            [vnp_BankTranNo] => VNP14197274,
+//            [vnp_CardType] => ATM,
+//            [vnp_OrderInfo] => ok,
+//            [vnp_PayDate] => 20231124141157,
+//            [vnp_ResponseCode] => 00,
+//            [vnp_TmnCode] => 74YGUA4Z,
+//            [vnp_TransactionNo] => 14197274,
+//            [vnp_TransactionStatus] => 00,
+//            [vnp_TxnRef] => MRD2841,
+//            [vnp_SecureHash] => 2bc4fc448cab9474969b34d0098a0f1749c4ecaf83cf426b15c67f56885f1177ecbd11de5be5865c3be61b38bd982005807fc158639f7c26ff92f38f4e83c7de,
+//            )
     }
 
 

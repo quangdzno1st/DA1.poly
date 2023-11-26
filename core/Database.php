@@ -26,9 +26,6 @@ class Database extends PDO
     {
         $statement = $this->prepare($sql);
         foreach ($data as $key => $value) {
-//            echo ":".$key;
-//            echo " =".$value;
-//            echo "<br/>";
             $statement->bindValue(":$key", $value);
         }
         $statement->execute();
@@ -43,7 +40,6 @@ class Database extends PDO
 
         $sql = "INSERT INTO $tableName ($keys) values ($value)";
         $stmt = $this->prepare($sql);
-
         foreach ($data as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }
