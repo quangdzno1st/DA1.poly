@@ -27,6 +27,20 @@ class RoomModel extends Model
         return $this->db->select($sql);
     }
 
+    public function getAllCmt($id_loaiphong)
+    {
+        $sql = "SELECT
+                    binhluan.*,
+                    khachhang.user
+                FROM
+                    binhluan
+                JOIN khachhang ON binhluan.id_khachhang = khachhang.id_khachhang
+                JOIN loaiphong ON binhluan.id_loaiphong = loaiphong.id_loaiphong
+                where binhluan.id_loaiphong = $id_loaiphong
+                ";
+        return $this->db->select($sql);
+    }
+
     public function getAllRoomImgById($id)
     {
         $sql = "SELECT
@@ -117,6 +131,11 @@ class RoomModel extends Model
         return $this->db->insert("phong", $data);
     }
 
+    public function insertCmt($data)
+    {
+        return $this->db->insert("binhluan", $data);
+    }
+
     public function selectLatest()
     {
         return $this->db->selectLatest("phong", "id_phong");
@@ -174,8 +193,7 @@ class RoomModel extends Model
     }
 
 
-
-    public function searchRoom1($data,$id_loaiphong,$limit)
+    public function searchRoom1($data, $id_loaiphong, $limit)
     {
         $sql = "SELECT phong.id_phong FROM phong
                 INNER JOIN loaiphong
