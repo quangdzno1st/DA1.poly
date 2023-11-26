@@ -28,6 +28,9 @@ class Database extends PDO
         foreach ($data as $key => $value) {
             $statement->bindValue(":$key", $value);
         }
+//        echo "<pre>";
+//        echo $sql;
+//        print_r($data);
         $statement->execute();
         return $statement->fetchAll();
     }
