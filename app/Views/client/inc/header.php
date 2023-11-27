@@ -64,6 +64,8 @@ if(!isset($_SESSION)){
                                 </li>
                                 <li class=""><a href="<?= BASE_URL . 'AccountController/changeInfo' ?>">Thay đổi thông tin</a>
                                 </li>
+                                <li class=""><a href="<?= BASE_URL . 'CartController/historyBook' ?>">Lịch sử book phòng của bạn</a>
+                                </li>
                                 <?php if ($_SESSION['dataUser']['role'] == 1): ?>
                                     <li class=""><a href="<?= BASE_URL . 'RoomController/homePage' ?>">Đến
                                             trang quản trị</a></li>
