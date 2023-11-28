@@ -59,8 +59,10 @@
                 <td><?= $item['ten'] ?></td>
                 <td><?= $item['ngay_dat_phong'] ?></td>
                 <td><?= $item['count_id_phong'] ?></td>
+
                 <td><?= $item['approve'] == 1 ? "Đặt thành công" : "Chờ xác nhận" ?></td>
                 <td><a href="<?= BASE_URL ?>/CartController/detailBook/<?= $item['id_datphong'] ?>">Xem chi tiết</a></td>
+
             </tr>
         <?php endforeach; ?>
         </tbody>

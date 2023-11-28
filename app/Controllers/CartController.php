@@ -110,13 +110,17 @@ class CartController extends Controller
     public function historyBook()
     {
         Session::init();
-        $cartModel = $this->load->model('CartModel');
-        $dataBook = $cartModel->getLoaiphongBook($_SESSION['dataUser']['id_khachhang']);
-        $this->load->view('', 'client/inc/header');
-        $this->load->view($dataBook, 'client/cart/lichsu');
-        $this->load->view('', 'client/inc/footer');
+        if(isset($_SESSION['dataUser'])){
+            $cartModel = $this->load->model('CartModel');
+            $dataBook = $cartModel->getLoaiphongBook($_SESSION['dataUser']['id_khachhang']);
+            $this->load->view('', 'client/inc/header');
+            $this->load->view($dataBook, 'client/cart/lichsu');
+            $this->load->view('', 'client/inc/footer');
+        }
+        else{
+            header("Location: " . BASE_URL . 'HomeController');
+        }
     }
-
 
     public function detailBook($id_datphong)
     {

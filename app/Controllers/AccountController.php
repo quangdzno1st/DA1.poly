@@ -105,15 +105,21 @@ class AccountController extends Controller
         ];
 
         $result = $accountModel->handleRequestLogin($data);
-
         if ($result) {
-            header("Location: " . BASE_URL . "HomeController/homePage");
+            if ($result[0]['ban'] == 0) {
+                header("Location: " . BASE_URL . "HomeController/homePage");
+                Session::set('login', true);
+                Session::set('dataUser', $result[0]);
 
-            Session::set('login', true);
-            Session::set('dataUser', $result[0]);
+            } else {
+                $data['message'] = "<strong style='color: black'>" . $result[0]['user'] . "</strong> account has been banned !";
+                $this->loginPage($data);
+            }
+        } else {
+            $data['message'] = "Information username or password incorrect!!";
+            $this->loginPage($data);
         }
-        $data['message'] = "Information username or password incorrect!!";
-        $this->loginPage($data);
+
 
     }
 

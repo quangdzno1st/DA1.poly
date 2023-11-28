@@ -3,7 +3,6 @@
     <div class="container">
         <div class="content">
             <h2 class="sky-h3">LOGIN ACCOUNT</h2>
-            <h5 class="p-v1">Lorem Ipsum is simply dummy text of the printing</h5>
             <?php if (isset($data['message'])) echo "<h3 style='color: #ffd500'>" . $data['message'] . "</h3>" ?>
             <form action="<?= BASE_URL . 'AccountController/handleLogin' ?>" method="post">
                 <div class="form-group">
