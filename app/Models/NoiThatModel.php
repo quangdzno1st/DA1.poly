@@ -8,22 +8,22 @@ class NoiThatModel extends Model
         parent::__construct();
     }
 
-    public function getAllNoiThatById($id)
+    public function getAllNoiThat()
     {
         $sql = "SELECT 
                      * 
                 FROM
                     noithat
-                INNER JOIN 
-                    noithat_loaiiphong on noithat_loaiiphong.id_noithat =noithat.id
-                WHERE
-                    noithat_loaiiphong.id_loaiphong = :id
+                WHERE 
+                    1 = 1 
                     ";
 
-        $data = [
-            'id' => $id,
-        ];
-        return $this->db->selectById($sql,$data);
+
+        return $this->db->select($sql);
+    }
+    public function insert($data)
+    {
+        return $this->db->insert("noithat_loaiiphong", $data);
     }
 
     public function getById($id){
@@ -35,10 +35,7 @@ class NoiThatModel extends Model
         return $this->db->selectById($sql,$data);
     }
 
-    public function insertImage($data)
-    {
-        return $this->db->insert("images", $data);
-    }
+
 
     public function delete($id)
     {
@@ -58,9 +55,9 @@ class NoiThatModel extends Model
        return $this->db->select($sql);
    }
 
-   public function deleteById($id1, $id2){
-       $idDelete = "id_noithat = $id1 and id_loaiphong = $id2 ";
-       return $this->db->delete("noithat_loaiiphong", $idDelete);
+   public function deleteByIdRoomType($id){
+       $idDelete = " id_loaiphong = $id ";
+       return $this->db->delete("noithat_loaiiphong", $idDelete, 999);
    }
 }
 

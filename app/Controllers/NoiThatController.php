@@ -8,6 +8,8 @@ class NoiThatController extends Controller
     {
         $data = [];
         parent::__construct();
+        $middleware = $this->load->model('middleware');
+        $middleware->checkRole();
     }
 
     public function index()

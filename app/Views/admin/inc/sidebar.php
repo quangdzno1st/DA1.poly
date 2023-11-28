@@ -7,7 +7,6 @@
                 <li class="sidebar-item">
                     <a
                             class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="index.html"
                             aria-expanded="false"
                     ><i class="mdi mdi-view-dashboard"></i
                         ><span class="hide-menu">Dashboard</span></a
@@ -16,7 +15,6 @@
                 <li class="sidebar-item">
                     <a
                             class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="charts.html"
                             aria-expanded="false"
                     ><i class="mdi mdi-chart-bar"></i
                         ><span class="hide-menu">Charts</span></a
@@ -24,40 +22,39 @@
                 </li>
                 <li class="sidebar-item">
                     <a
+                            href="<?= BASE_URL.'thongKeController' ?>"
                             class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="widgets.html"
                             aria-expanded="false"
                     ><i class="mdi mdi-chart-bubble"></i
-                        ><span class="hide-menu">Widgets</span></a
+                        ><span class="hide-menu">Thống kê</span></a
                     >
                 </li>
                 <li class="sidebar-item">
                     <a
                             class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="tables.html"
+                            href="<?= BASE_URL.'AccountController/accountManager'?>"
                             aria-expanded="false"
                     ><i class="mdi mdi-border-inside"></i
-                        ><span class="hide-menu">Tables</span></a
+                        ><span class="hide-menu">Khách hàng</span></a
                     >
                 </li>
                 <li class="sidebar-item">
                     <a
                             class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="grid.html"
+                            href="<?= BASE_URL.'OrderController/' ?>"
                             aria-expanded="false"
                     ><i class="mdi mdi-blur-linear"></i
-                        ><span class="hide-menu">Full Width</span></a
+                        ><span class="hide-menu">Danh sách đơn đặt</span></a
                     >
                 </li>
                 <li class="sidebar-item">
                     <a
-                            class="sidebar-link has-arrow waves-effect waves-dark"
+                            class="sidebar-link waves-effect waves-dark sidebar-link"
                             href="<?= BASE_URL.'RoomTypeController' ?>"
                             aria-expanded="false"
-                    ><i class="mdi mdi-receipt"></i
+                    ><i class="mdi mdi-relative-scale"></i
                         ><span class="hide-menu">RoomType</span></a
                     >
-
                 </li>
                 <li class="sidebar-item">
                     <a

@@ -31,14 +31,22 @@ class RoomTypeModel extends Model
         return $this->db->select($sql);
     }
 
+    public function selectLatest()
+    {
+        return $this->db->selectLatest("loaiphong", "id_loaiphong");
+    }
+
     public function getById($id){
         $sql = "SELECT 
                     loaiphong.id_loaiphong,
                     loaiphong.ten,
                     loaiphong.suc_chua,
-                    loaiphong.gia
+                    loaiphong.gia,
+                      GROUP_CONCAT(noithat_loaiiphong.id_noithat) as id_noithat  
                 FROM 
                     loaiphong 
+                INNER JOIN 
+                        noithat_loaiiphong on loaiphong.id_loaiphong = noithat_loaiiphong.id_loaiphong
                  WHERE 
                    loaiphong.id_loaiphong = :id_loaiphong
                     ";
@@ -57,7 +65,11 @@ class RoomTypeModel extends Model
     public function delete($id)
     {
         $idDelete = "id_loaiphong = " . $id;
-        return $this->db->delete("loaiphong", $idDelete);
+        $idDeleteRoom = "loai_phong_id = " . $id;
+        $this->db->delete('images', $idDelete,999);
+        $this->db->delete('phong',$idDeleteRoom,999);
+        $this->db->delete("noithat_loaiiphong",$idDelete,999);
+        return $this->db->delete("loaiphong", $idDelete,999);
     }
 
     public function insert($data)

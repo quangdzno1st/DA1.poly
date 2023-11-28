@@ -37,7 +37,7 @@ class ImagesModel extends Model
 
     public function deleteALL($id)
     {
-        $sql = "DELETE FROM images WHERE id_phong = $id";
+        $sql = "DELETE FROM images WHERE id_loaiphong = $id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
    }

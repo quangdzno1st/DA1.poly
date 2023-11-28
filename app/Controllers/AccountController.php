@@ -157,7 +157,7 @@ class AccountController extends Controller
             $errors['phoneNumberErr'] = 'Phone number is required!';
         }
 
-        if ($accountModel->getAllEmailsExceptId($id_khachhang,$email)) {
+        if ($accountModel->getAllEmailsExceptId($id_khachhang, $email)) {
             $errors['message1'] = "Email already exists. Update account failed";
         }
 
@@ -171,8 +171,7 @@ class AccountController extends Controller
 
             $accountModel->updateAccount($id_khachhang, $dataUser);
             $errors['message'] = "Update account successfully";
-        }
-        else{
+        } else {
             $errors['message'] = "Update error";
         }
         $this->changeInfo($errors);
@@ -349,6 +348,104 @@ class AccountController extends Controller
     public function isValidFieldRequired($value)
     {
         return empty(trim($value));
+    }
+
+    public function accountManager()
+    {
+        $accountModel = $this->load->model('AccountModel');
+        $data = $accountModel->getAllAccounts();
+
+        $this->load->view($data, 'admin/inc/header');
+        $this->load->view($data, 'admin/inc/sidebar');
+        $this->load->view($data, 'admin/account/list');
+        $this->load->view($data, 'admin/inc/footer');
+    }
+
+    public function deleteAccount($id)
+    {
+        $accountModel = $this->load->model('AccountModel');
+        $accountModel->deleteAccount($id);
+        header('Location: ' . BASE_URL . 'AccountController/accountManager');
+    }
+
+    public function banAccount($id)
+    {
+        $accountModel = $this->load->model('AccountModel');
+
+        $accountModel->banAccount($id);
+        header('Location: ' . BASE_URL . 'AccountController/accountManager');
+    }
+
+    public function viewUpdateAccount($id, $message = "")
+    {
+        $accountModel = $this->load->model('AccountModel');
+
+        $data = [
+            "accountData" => $accountModel->getById($id),
+            "message" => $message
+        ];
+
+
+        $this->load->view($data, 'admin/inc/header');
+        $this->load->view($data, 'admin/inc/sidebar');
+        $this->load->view($data, 'admin/account/accountUpdate');
+        $this->load->view($data, 'admin/inc/footer');
+
+    }
+
+    public function updateAccount($id)
+    {
+        $accountModel = $this->load->model('AccountModel');
+
+
+        $data = [
+            "user" => $_POST['username'],
+            'email' => $_POST['email'],
+            'sdt' => $_POST['phone'],
+            'dia_chi' => $_POST['address'],
+            'role' => $_POST['vaiTro'],
+        ];
+
+        $message = [];
+
+        if (!$this->isValidUsername($data['user'])) {
+            $message['nameErr'] = 'The name contains no special characters and no accents';
+        }
+
+        if ($this->isValidFieldRequired($data['user'])) {
+            $message['nameErr'] = 'Field required!';
+
+        }
+
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            $message['emailErr'] = 'Please enter email';
+        }
+        if ($this->isValidFieldRequired($data['email'])) {
+            $message['emailErr'] = 'Field required!';
+
+        }
+//
+        if (!$this->isValidPhoneNumber($data['sdt'])) {
+            $message ['phoneNumberErr'] = 'Phone number consists of 10 character';
+        }
+
+        if ($this->isValidFieldRequired($data['sdt'])) {
+            $message['phoneNumberErr'] = 'Field required!';
+        }
+
+        $getAccountByEmail = $accountModel->getAccountByEmailAndNotId($id, $data['email']);
+
+
+        if ($getAccountByEmail != null) {
+            $message['email'] = "Đổi thông tin không thành công, email đã tồn tại";
+        }
+
+        if (empty($message)){
+            $accountModel->updateAccount($id, $data);
+        }
+
+        $this->viewUpdateAccount($id, $message);
+
     }
 
     public function notFound()
