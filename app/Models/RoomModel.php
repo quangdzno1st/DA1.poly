@@ -265,6 +265,11 @@ class RoomModel extends Model
         return $this->db->select($sql);
     }
 
+   public function countRoom(){
+        $sql = "SELECT count(*) as countRoom FROM phong";
+        return $this->db->select($sql);
+   }
+
 }
 
 ?>

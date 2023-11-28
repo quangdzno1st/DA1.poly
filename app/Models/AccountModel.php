@@ -103,6 +103,18 @@ class AccountModel extends Model
 
         return $this->db->selectById($sql, $data);
     }
+
+    public function countAccount()
+    {
+        $sql = "SELECT count(*) as countAccount FROM khachhang";
+        return $this->db->select($sql);
+    }
+
+    public function countAccountBan()
+    {
+        $sql = "SELECT count(*) as countAccountBan FROM khachhang WHERE ban = 1";
+        return $this->db->select($sql);
+    }
 }
 
 ?>

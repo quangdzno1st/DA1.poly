@@ -454,6 +454,8 @@ class AccountController extends Controller
 
     }
 
+
+
     public function notFound()
     {
         $data = '';

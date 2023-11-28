@@ -142,7 +142,9 @@ class CartController extends Controller
         extract($_SESSION['dataUser']);
         if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'vnpay') {
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+
             $vnp_Returnurl = BASE_URL . "CartController/thank";
+
             $vnp_TmnCode = "74YGUA4Z"; //Mã website tại VNPAY
             $vnp_HashSecret = "OUXZGKLBCBEYBWAOAPSISCJZSGUBJOLC"; //Chuỗi bí mật
 
