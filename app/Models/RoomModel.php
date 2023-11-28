@@ -131,12 +131,30 @@ class RoomModel extends Model
         return $this->db->insert("phong", $data);
     }
 
+    public function selectAllCmt()
+    {
+        $sql = "SELECT
+                    binhluan.*,
+                    khachhang.user,
+                    loaiphong.ten
+                FROM
+                    binhluan
+                JOIN khachhang ON binhluan.id_khachhang = khachhang.id_khachhang
+                JOIN loaiphong ON binhluan.id_loaiphong = loaiphong.id_loaiphong
+                ";
+        return $this->db->select($sql);
+    }
     public function insertCmt($data)
     {
         return $this->db->insert("binhluan", $data);
     }
 
 
+    public function deleteCmt($id)
+    {
+        $idDelete = "id = " . $id;
+        return $this->db->delete("binhluan", $idDelete);
+    }
 
 
     public function searchRoom($data)

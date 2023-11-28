@@ -86,6 +86,7 @@ if (!empty($data)) {
                                         ?>
                                     </p>
                                     <p><span><?= $so_ngay_chenh_lech ?> ngày - <?= $so_luong_order ?> phòng</span>
+                                        <p>Từ  <?= $data['data_checkout']['ngay_dat_phong']  ?> đến <?= $data['data_checkout']['ngay_tra_phong']  ?></p>
                                         <b><?= number_format($gia) ?> VNĐ</b></p>
                                 </div>
                             </div>
