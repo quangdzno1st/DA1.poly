@@ -33,15 +33,7 @@
                     <td><?= ++$index ?></td>
                     <td><?= $ten_phong ?></td>
                     <td><?= $ten ?></td>
-                    <td style="display: flex;gap: 5px">
-                        <?php foreach ($data["images"] as $item): ?>
-                            <?php
-                            if ($item["id_phong"] == $id_phong):
-                                ?>
-                                <img src="<?=  BASE_URL  ?><?= $item["path"] ?>" width="40px" height="40px" style="object-fit: cover">
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </td>
+
                     <td>
                         <a onclick="return confirm('Are you sure?')"
                            href="<?= BASE_URL . 'RoomController/deleteRoom/' . $id_phong ?>"  type=" button" class="btn

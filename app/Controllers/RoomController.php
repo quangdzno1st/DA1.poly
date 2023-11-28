@@ -8,6 +8,8 @@ class RoomController extends Controller
     {
         $data = [];
         parent::__construct();
+        $middleware = $this->load->model('middleware');
+        $middleware->checkRole();
     }
 
     public function index()
@@ -20,10 +22,8 @@ class RoomController extends Controller
     {
 
         $modelRoom = $this->load->model("roomModel");
-        $imagesRoom = $this->load->model("imagesModel");
         $data = [
-            "room" => $modelRoom->getAllRoom(),
-            "images" => $imagesRoom->getAllImages()
+            "room" => $modelRoom->getAllRoom()
         ];
 
         $this->load->view($data, 'admin/inc/header');
@@ -49,29 +49,10 @@ class RoomController extends Controller
         $dataRoom = [
             "ten_phong" => $_POST["nameRoom"],
             "loai_phong_id" => $_POST["roomType"],
-            "mo_ta" => $_POST["desc"]
         ];
 
         $roomModel = $this->load->model("roomModel");
         $roomModel->insert($dataRoom);
-
-        $roomLatest = $roomModel->selectLatest();
-
-        $imagesModel = $this->load->model("imagesModel");
-
-        foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
-            $file_name = $_FILES["images"]["name"][$key];
-            $file_tmp = $_FILES["images"]["tmp_name"][$key];
-            $target_file = 'assets/upload/' . time() . $file_name;
-            move_uploaded_file($file_tmp, $target_file);
-
-            $dataImage = [
-                "path" => $target_file,
-                "id_phong" => $roomLatest['id_phong']
-            ];
-
-            $imagesModel->insertImage($dataImage);
-        }
 
         $this->homePage();
     }
@@ -117,32 +98,12 @@ class RoomController extends Controller
     {
         $data = [
             "ten_phong" => $_POST['nameRoom'],
-            'mo_ta' => $_POST['desc'],
             'loai_phong_id' => $_POST['roomType']
         ];
 
         $roomModel = $this->load->model("roomModel");
-        $imagesModel = $this->load->model("imagesModel");
 
         $roomModel->update($data, $id);
-
-        if ($_FILES["images"]["size"]["0"] > 0) {
-
-            foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
-                $file_name = $_FILES["images"]["name"][$key];
-                $file_tmp = $_FILES["images"]["tmp_name"][$key];
-                $target_file = 'assets/upload/' . time() . $file_name;
-                move_uploaded_file($file_tmp, $target_file);
-
-                $dataImage = [
-                    "path" => $target_file,
-                    "id_phong" => $id
-                ];
-
-                $imagesModel->insertImage($dataImage);
-            }
-        }
-
 
         $this->homePage();
     }

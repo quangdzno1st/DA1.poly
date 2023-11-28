@@ -45,33 +45,6 @@ class ClientController extends Controller
     {
         Session::init();
         $roomModel = $this->load->model("roomModel");
-
-
-        $nowDate = date('Y-m-d');
-        $date = new DateTime();
-        $date->modify("+1 day");
-
-        $data = [
-            'ngay_dat_phong' => $nowDate,
-            'ngay_tra_phong' => $date->format('Y-m-d'),
-            'suc_chua' => null,
-            'id_loaiphong' => $id,
-        ];
-
-        if(isset($_SESSION['dataSearch'])){
-            $data['ngay_dat_phong'] = $_SESSION['dataSearch']['ngay_dat_phong'];
-            $data['ngay_tra_phong'] = $_SESSION['dataSearch']['ngay_tra_phong'];
-        }
-
-//
-
-        $result = $roomModel->searchRoom($data);
-
-
-        $this->load->view('', 'client/inc/header');
-        $this->load->view($result, 'client/room/roomdetail');
-        $this->load->view('', 'client/inc/footer');
-
         $cartModel = $this->load->model("cartModel");
         if (isset($_POST['binhluan'])) {
             $id_loaiphong = $_POST['id_loaiphong'];
@@ -101,8 +74,16 @@ class ClientController extends Controller
                 'suc_chua' => null,
                 'id_loaiphong' => $id,
             ];
+
+
+            if(isset($_SESSION['dataSearch'])){
+                $data['ngay_dat_phong'] = $_SESSION['dataSearch']['ngay_dat_phong'];
+                $data['ngay_tra_phong'] = $_SESSION['dataSearch']['ngay_tra_phong'];
+            }
+
             $result['search'] = $roomModel->searchRoom($data);
             $result['cmt'] = $roomModel->getAllCmt($id);
+
             $id_checkKH = isset($_SESSION['dataUser']['id_khachhang']) ? $_SESSION['dataUser']['id_khachhang'] : '';
             if (!empty($id_checkKH)) {
                 $result['check_buy'] = $cartModel->checkIdKH($id_checkKH);

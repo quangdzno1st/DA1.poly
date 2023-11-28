@@ -140,7 +140,9 @@ class CartController extends Controller
         extract($_SESSION['dataUser']);
         if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'vnpay') {
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = "http://localhost/duan1/CartController/thank";
+            $vnp_Returnurl = BASE_URL."CartController/thank";
+            echo $vnp_Returnurl;
+            die();
             $vnp_TmnCode = "74YGUA4Z"; //Mã website tại VNPAY
             $vnp_HashSecret = "OUXZGKLBCBEYBWAOAPSISCJZSGUBJOLC"; //Chuỗi bí mật
 
@@ -252,7 +254,7 @@ class CartController extends Controller
             }
         } else if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'tructiep') {
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = "http://localhost/duan1/CartController/thank";
+            $vnp_Returnurl = BASE_URL."CartController/thank";
             $vnp_TmnCode = "74YGUA4Z"; //Mã website tại VNPAY
             $vnp_HashSecret = "OUXZGKLBCBEYBWAOAPSISCJZSGUBJOLC"; //Chuỗi bí mật
             $vnp_TxnRef = 'KHR' . rand(00, 9999); //Mã đơn hàng

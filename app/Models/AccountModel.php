@@ -23,7 +23,7 @@ class AccountModel extends Model
         $data = [
             'email' => $email
         ];
-        return $this->db->selectById($sql,$data);
+        return $this->db->selectById($sql, $data);
     }
 
     public function check_Mail($email)
@@ -67,6 +67,41 @@ class AccountModel extends Model
         $sql = "SELECT * FROM khachhang WHERE user = ? and pass = ? ";
 
         return $this->db->selectUser($sql, $data['user'], $data['pass']);
+    }
+
+    public function getAllAccounts()
+    {
+        $sql = "SELECT * FROM khachhang";
+        return $this->db->select($sql);
+    }
+
+    public function deleteAccount($id)
+    {
+        $id_delete = ' id_khachhang = ' . $id;
+        $this->db->delete('dathang', $id_delete);
+        return $this->db->delete("khachhang", $id_delete);
+    }
+
+    public function banAccount($id)
+    {
+        $account = $this->getById($id);
+        $data = [
+            'ban' => $account[0]['ban'] == 0 ? '1' : 0
+        ];
+
+        $id_update = ' id_khachhang = ' . $id;
+        return $this->db->update("khachhang", $data, $id_update);
+    }
+
+    public function getAccountByEmailAndNotId($id, $email)
+    {
+        $data = [
+            'email' => $email,
+            'id_khachhang' => $id
+        ];
+        $sql = "SELECT * FROM khachhang WHERE email like :email and id_khachhang <> :id_khachhang ";
+
+        return $this->db->selectById($sql, $data);
     }
 }
 

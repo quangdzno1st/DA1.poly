@@ -29,9 +29,6 @@
             </tr>
             </thead>
             <tbody class="customtable">
-            <!--            --><?php
-            //              var_dump($data);
-            //            ?>
             <?php foreach ($data as $index => $loaiphong): ?>
 
                 <?php extract($loaiphong) ;

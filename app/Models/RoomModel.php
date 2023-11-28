@@ -136,15 +136,11 @@ class RoomModel extends Model
         return $this->db->insert("binhluan", $data);
     }
 
-    public function selectLatest()
-    {
-        return $this->db->selectLatest("phong", "id_phong");
-    }
+
 
 
     public function searchRoom($data)
     {
-
         $sql1 = "  SELECT 
                  GROUP_CONCAT(datphong.id_phong) as id_phong   from datphong
                 WHERE

@@ -1,6 +1,7 @@
 <?php
 
 
+
 class HomeController extends Controller
 {
 
@@ -8,6 +9,7 @@ class HomeController extends Controller
     {
         $data = [];
         parent::__construct();
+
     }
 
     public function index()
