@@ -61,7 +61,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <link rel="stylesheet" href="<?= BASE_URL . 'assets/css/main.css' ?>">
     <link rel="stylesheet" href="<?= BASE_URL . 'assets/js/' ?>">
-    <![endif]-->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>

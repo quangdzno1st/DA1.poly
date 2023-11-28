@@ -56,7 +56,6 @@ class       RoomTypeController extends Controller
         $noithatModel = $this->load->model('NoiThatModel');
         $roomTypeModel = $this->load->model("roomTypeModel");
 
-        $roomTypeLatest = $roomTypeModel->selectLatest();
 
         $data = [
             "ten" => $_POST["roomType"],
@@ -64,11 +63,15 @@ class       RoomTypeController extends Controller
             "suc_chua" => $_POST["capacity"]
         ];
 
+        $roomTypeModel->insert($data);
+        $roomTypeLatest = $roomTypeModel->selectLatest();
+
         foreach ($_POST['noithat'] as $value) {
             $dataNoiThat = [
                 "id_noithat" => $value,
                 "id_loaiphong" => $roomTypeLatest['id_loaiphong']
             ];
+
             $noithatModel->insert($dataNoiThat);
         }
 
