@@ -64,7 +64,8 @@ class AccountModel extends Model
 
     public function handleRequestLogin($data)
     {
-        $sql = "SELECT * FROM khachhang WHERE user = ? and pass = ?";
+        $sql = "SELECT * FROM khachhang WHERE user = ? and pass = ? ";
+
         return $this->db->selectUser($sql, $data['user'], $data['pass']);
     }
 }
