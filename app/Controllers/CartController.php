@@ -246,6 +246,7 @@ class CartController extends Controller
                     'tong_tien' => $tong_tien,
                     'trang_thai' => 'Đã thanh toán',
                     'id_phong' => $id_phong,
+                    'id_loaiphong' => $id_loaiphong,
                     'hinhthucthanhtoan' => 'VN PAY'
                 ];
                 $_SESSION['dataInsertBook'] = $dataInsertBook;
@@ -319,6 +320,7 @@ class CartController extends Controller
                     'id_phong' => $id_phong,
                     'so_tien_coc' => $tien_coc1,
                     'thuc_tra' => $thuc_tra,
+                    'id_loaiphong' => $id_loaiphong,
                     'hinhthucthanhtoan' => 'Thanh toán khi check in'
                 ];
                 $_SESSION['dataInsertBook'] = $dataInsertBook;
