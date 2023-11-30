@@ -47,18 +47,20 @@ class OrderModel extends Model
 
     public function checkinOrder($id)
     {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $id_update = " id_datphong = " . $id;
         $data = [
-            'time_check_in' => date("Y-m-d ")
+            'time_check_in' => date('Y-m-d H:i:s')
         ];
         return $this->db->update("datphong", $data, $id_update);
     }
 
     public function checkoutOrder($id)
     {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $id_update = " id_datphong = " . $id;
         $data = [
-            'time_check_out' => date("Y-m-d ")
+            'time_check_out' => date('Y-m-d H:i:s')
         ];
         return $this->db->update("datphong", $data, $id_update);
     }

@@ -19,7 +19,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($data as $order): extract($order) ?>
+                <?php foreach ($data as $order): extract($order);
+                    date_default_timezone_set('Asia/Ho_Chi_Minh'); ?>
                     <tr>
                         <td style="padding-top: 50px"><?= $ten_phong ?></td>
                         <td style="padding-top: 50px"><?= $user ?></td>
@@ -27,8 +28,8 @@
                         <td style="padding-top: 50px"><?= date('d-m-y', strtotime($ngay_tra_phong)) ?></td>
                         <td style="padding-top: 50px"><?= $tong_tien ?></td>
                         <td><?= $trang_thai ?></td>
-                        <td style="padding-top: 50px"><?= isset($time_check_in) ? date('d-m-Y', strtotime($time_check_in)) : "" ?></td>
-                        <td style="padding-top: 50px"><?= isset($time_check_out) ? date('d-m-Y', strtotime($time_check_out)) : "" ?></td>
+                        <td style="padding-top: 50px"><?= isset($time_check_in) ? date('Y-m-d H:i:s', strtotime($time_check_in)) : "" ?></td>
+                        <td style="padding-top: 50px"><?= isset($time_check_out) ? date('Y-m-d H:i:s', strtotime($time_check_out)) : "" ?></td>
                         <td style="padding-top: 50px"><?= number_format($so_tien_coc) ?>đ</td>
                         <td style="padding-top: 50px"><?= $hinhthucthanhtoan ?></td>
                         <td>
@@ -49,8 +50,8 @@
                             <?php endif; ?>
                             <a onclick="return confirm('Are you sure ?')" class="btn btn-danger btn-sm"
                                href="<?= BASE_URL . 'OrderController/deleteOrder/' . $id_datphong ?>">Xóa</a>
-                            <a  class="btn btn-warning btn-sm"
-                                    href="<?= BASE_URL . 'OrderController/viewUpdateOrder/' . $id_datphong ?>">Sửa</a>
+                            <a class="btn btn-warning btn-sm"
+                               href="<?= BASE_URL . 'OrderController/viewUpdateOrder/' . $id_datphong ?>">Sửa</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
