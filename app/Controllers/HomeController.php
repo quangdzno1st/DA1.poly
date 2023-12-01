@@ -71,9 +71,8 @@ class HomeController extends Controller
 
     public function room($data = null)
     {
-
         $this->load->view('', 'client/inc/header');
-        $this->load->view($data, 'client/room/room');
+           $this->load->view($data, 'client/room/room');
         $this->load->view('', 'client/inc/footer');
     }
 
