@@ -1,3 +1,5 @@
+
+
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Order</h5>
@@ -14,7 +16,9 @@
                     <th>Checkin</th>
                     <th>Checkout</th>
                     <th>Tiền cọc</th>
+                    <th>Thực trả</th>
                     <th>Hình thức thanh toán</th>
+                    <th>Trạng thái hủy</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -31,7 +35,9 @@
                         <td style="padding-top: 50px"><?= isset($time_check_in) ? date('Y-m-d H:i:s', strtotime($time_check_in)) : "" ?></td>
                         <td style="padding-top: 50px"><?= isset($time_check_out) ? date('Y-m-d H:i:s', strtotime($time_check_out)) : "" ?></td>
                         <td style="padding-top: 50px"><?= number_format($so_tien_coc) ?>đ</td>
+                        <td style="padding-top: 50px"><?= number_format($thuc_tra) ?>đ</td>
                         <td style="padding-top: 50px"><?= $hinhthucthanhtoan ?></td>
+                        <td style="padding-top: 50px"><?= $trang_thai_huy ?></td>
                         <td>
                             <?php if ($approve == 0): ?>
                                 <a onclick="return confirm('Are you sure ?')" class="btn btn-primary btn-sm"
@@ -39,17 +45,18 @@
                                    href="<?= BASE_URL . 'OrderController/approve/' . $id_datphong ?>">Duyệt</a>
                             <?php else: ?>
                                 <?php if ($time_check_in == null): ?>
-                                    <a onclick="return confirm('Are you sure ?')" class="btn btn-primary btn-sm"
+                                    <a <?= $trang_thai_huy !== "Không" ? 'style="display:none;"' :'' ?> onclick="return confirm('Are you sure ?')" class="btn btn-primary btn-sm"
                                        href="<?= BASE_URL . 'OrderController/checkin/' . $id_datphong ?>">Checkin</a>
                                 <?php endif; ?>
                                 <?php if ($time_check_out == null): ?>
-                                    <a onclick="return confirm('Are you sure ?')" class="btn btn-success btn-sm "
-                                       style="margin: 5px 0"
-                                       href="<?= BASE_URL . 'OrderController/checkout/' . $id_datphong ?>">CheckOut</a>
+                                    <a <?= empty($time_check_in) ? 'style="display:none;"' :'' ?>  onclick="return confirm('Are you sure ?')"
+                                                     class="btn btn-success btn-sm "
+                                                     style="margin: 5px 0"
+                                                     href="<?= BASE_URL . 'OrderController/checkout/' . $id_datphong ?>">CheckOut</a>
                                 <?php endif; ?>
                             <?php endif; ?>
-                            <a onclick="return confirm('Are you sure ?')" class="btn btn-danger btn-sm"
-                               href="<?= BASE_URL . 'OrderController/deleteOrder/' . $id_datphong ?>">Xóa</a>
+                            <a <?= $trang_thai_huy !== "Không" ? 'style="display:none;"' :'' ?> onclick="return confirm('Are you sure ?')" class="btn btn-danger btn-sm"
+                               href="<?= BASE_URL . 'OrderController/huy/' . $id_datphong ?>">Hủy</a>
                             <a class="btn btn-warning btn-sm"
                                href="<?= BASE_URL . 'OrderController/viewUpdateOrder/' . $id_datphong ?>">Sửa</a>
                         </td>
@@ -67,7 +74,9 @@
                     <th>Checkin</th>
                     <th>Checkout</th>
                     <th>Tiền cọc</th>
+                    <th>Thực trả</th>
                     <th>Hình thức thanh toán</th>
+                    <th>Trạng thái hủy</th>
                     <th></th>
                 </tr>
                 </tfoot>

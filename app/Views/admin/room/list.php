@@ -46,8 +46,5 @@
             </tbody>
         </table>
         <a type="button" class="btn btn-info btn-sm ml-2" href="<?= BASE_URL. 'RoomController/createRoom/' ?>">Thêm mới</a>
-        <button type="button" class="btn btn-info btn-sm">Xóa</button>
-        <button type="button" class="btn btn-info btn-sm">Chọn tất cả</button>
-        <button type="button" class="btn btn-info btn-sm">Bỏ chọn tất cả</button>
     </div>
 </div>

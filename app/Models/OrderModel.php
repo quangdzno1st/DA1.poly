@@ -11,16 +11,7 @@ class OrderModel extends Model
     public function getAllOrder()
     {
         $sql = "SELECT
-                    datphong.id_datphong,
-                    datphong.ngay_dat_phong,
-                    datphong.ngay_tra_phong,
-                    datphong.tong_tien,
-                    datphong.trang_thai,
-                    datphong.time_check_in,
-                    datphong.time_check_out,
-                    datphong.so_tien_coc,
-                    datphong.hinhthucthanhtoan,
-                    datphong.approve,
+                    datphong.*,
                     khachhang.user,
                      GROUP_CONCAT(phong.ten_phong) as ten_phong
                 FROM 
@@ -41,6 +32,15 @@ class OrderModel extends Model
         $id_update = " id_datphong = " . $id;
         $data = [
             'approve' => 1
+        ];
+        return $this->db->update("datphong", $data, $id_update);
+    }
+
+    public function huyOder($id)
+    {
+        $id_update = " id_datphong = " . $id;
+        $data = [
+            'trang_thai_huy' => "Đã hủy"
         ];
         return $this->db->update("datphong", $data, $id_update);
     }
@@ -94,8 +94,6 @@ class OrderModel extends Model
                  GROUP BY 
                     datphong.id_datphong
                     ";
-
-
         $data = [
             'id_datphong' => $id
         ];

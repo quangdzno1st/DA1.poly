@@ -73,6 +73,7 @@ class CartController extends Controller
     {
         Session::init();
         $cartModel = $this->load->model('CartModel');
+
         if (isset($_GET['vnp_Amount'])) {
             if (!isset($_GET['vnp_BankTranNo'])) {
                 echo "Thank toán không thành công";
@@ -94,7 +95,7 @@ class CartController extends Controller
             ];
             $result = $cartModel->insertVnpay($data_vnpay);
             if ($result) {
-                echo "<script>alert('Cảm ơn bạn đã thanh toán thành công !');";
+                echo "<script>alert('Cảm ơn bạn đã thanh toán thành công. Chờ xác nhận từ chúng tôi !');";
                 echo "window.location.href='" . BASE_URL . "cartController/historyBook';";
                 echo "</script>";
             } else {
@@ -110,7 +111,7 @@ class CartController extends Controller
     {
         Session::init();
         $cartModel = $this->load->model('CartModel');
-        if(isset($_SESSION['dataInsertBook'])){
+        if (isset($_SESSION['dataInsertBook'])) {
             $cartModel->insertBook($_SESSION['dataInsertBook']);
             unset($_SESSION['dataInsertBook']);
         }
@@ -123,6 +124,7 @@ class CartController extends Controller
             header("Location: " . BASE_URL . 'HomeController');
         }
     }
+
 
     public function detailBook($id_datphong)
     {

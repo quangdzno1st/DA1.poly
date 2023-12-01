@@ -3,7 +3,6 @@
 
 class OrderController extends Controller
 {
-
     public function __construct()
     {
         $data = [];
@@ -32,7 +31,16 @@ class OrderController extends Controller
     public function approve($id)
     {
         $orderModel = $this->load->model('orderModel');
+        $accountModel = $this->load->model('AccountModel');
+        $cartModel = $this->load->model('CartModel');
+        $AccountController = $this->load->controller('AccountController');
         $orderModel->approveOrder($id);
+        $data1 = $cartModel->getAllBookById($id);
+        $emailData = $accountModel->check_Mail($_SESSION['dataUser']['email']);
+        if (!empty($emailData)) {
+            $data['title'] = "Xác nhận thông tin book phòng";
+            $AccountController->sendMailPass($emailData[0]['email'], $emailData[0]['user'], $emailData[0]['id_khachhang'], $data['title'], $data1[0]);
+        }
         header("Location: " . BASE_URL . 'OrderController');
     }
 
@@ -47,6 +55,13 @@ class OrderController extends Controller
     {
         $orderModel = $this->load->model('orderModel');
         $orderModel->checkoutOrder($id);
+        header("Location: " . BASE_URL . 'OrderController');
+    }
+
+    public function huy($id)
+    {
+        $orderModel = $this->load->model('orderModel');
+        $orderModel->huyOder($id);
         header("Location: " . BASE_URL . 'OrderController');
     }
 
@@ -78,7 +93,7 @@ class OrderController extends Controller
         ];
 
         $orderModel->updateOrder($id, $data);
-        header('Location: '.BASE_URL.'OrderController');
+        header('Location: ' . BASE_URL . 'OrderController');
     }
 }
 

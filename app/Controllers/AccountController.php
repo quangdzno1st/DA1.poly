@@ -206,7 +206,8 @@ class AccountController extends Controller
         $emailData = $accountModel->check_Mail($email);
 
         if (!empty($emailData)) {
-            $this->sendMailPass($email, $emailData[0]['user'], $emailData[0]['id_khachhang']);
+            $data['title'] = "Quên mật khẩu";
+            $this->sendMailPass($email, $emailData[0]['user'], $emailData[0]['id_khachhang'], $data['title']);
             $data['msg'] = "Send mail successfully!";
         } else {
             $data['msg'] = "The email you entered is not in the system !";
@@ -248,8 +249,9 @@ class AccountController extends Controller
     }
 
 
-    function sendMailPass($email, $username, $id)
+    function sendMailPass($email, $username, $id, $title, $data = '')
     {
+        if (!empty($data)) extract($data);
         require 'public/PHPMailer/src/Exception.php';
         require 'public/PHPMailer/src/PHPMailer.php';
         require 'public/PHPMailer/src/SMTP.php';
@@ -271,31 +273,33 @@ class AccountController extends Controller
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = 'Nguoi dung quen mat khau';
-            $mail->Body = '<html>
+            $mail->Subject = mb_encode_mimeheader($title, 'UTF-8');
+            $mail->Body = '';
+            if ($title == 'Quên mật khẩu') {
+                $mail->Body .= '<html>
                 <head>
                     <style>
-                        /* Định dạng CSS cho giao diện email */
-                        body {
-                            font-family: Arial, sans-serif;
+                /* Định dạng CSS cho giao diện email */
+                body {
+                    font-family: Arial, sans-serif;
                         }
                         .container {
-                            max-width: 600px;
+                    max-width: 600px;
                             margin: 0 auto;
                             padding: 20px;
                             background-color: #f4f4f4;
                         }
                         .header {
-                            background-color: #3498db;
+                    background-color: #3498db;
                             color: #fff;
                             text-align: center;
                             padding: 10px;
                         }
                         .content {
-                            padding: 20px;
+                    padding: 20px;
                         }
                         .reset-password-link {
-                            text-decoration: none;
+                    text-decoration: none;
                             background-color: #000;
                             color: #fff;
                             padding: 10px 20px;
@@ -309,13 +313,142 @@ class AccountController extends Controller
                             <h1>Quên mật khẩu</h1>
                         </div>
                         <div class="content">
-                   
+              
                             <p>Hãy nhấp vào liên kết sau để đặt lại mật khẩu:</p>
                             <a style="color: #FFFFFF" class="reset-password-link" href="' . BASE_URL . 'AccountController/viewResetPassword/' . $id . '">Đặt lại mật khẩu</a>
                         </div>
                     </div>
                 </body>
               </html>';
+            } else if ($title == 'Xác nhận thông tin book phòng' && !empty($data)) {
+                $mail->Body .= '
+              <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác Nhận Thông Tin Đặt Phòng</title>
+    <!-- Liên kết Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .booking-details {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .booking-details p {
+            margin: 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .room-details {
+            margin-bottom: 20px;
+        }
+
+        .room-details p {
+            margin: 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .payment-details {
+            margin-bottom: 20px;
+        }
+
+        .payment-details p {
+            margin: 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .status {
+            margin-top: 20px;
+            text-align: center;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Xác Nhận Thông Tin Đặt Phòng</h1>
+        </div>
+        <div class="content">
+            <div class="booking-details">
+                <p><strong>Người Dùng:</strong> '.$user.'</p>
+                <p><strong>Tên loại phòng:</strong> '.$ten.'</p>
+                <p><strong>Nội thất:</strong> '.$noithat.'</p>
+                <p><strong>Ngày Đặt Phòng:</strong> '.$ngay_dat_phong.'</p>
+                <p><strong>Ngày Trả Phòng:</strong> '.$ngay_tra_phong.'</p>
+                <p><strong>Đã cọc:</strong> '.$so_tien_coc.'</p>
+                <p><strong>Tổng Tiền:</strong> '.$tong_tien.'</p>
+
+                <p><strong>Trạng Thái:</strong> '.$trang_thai.'</p>
+            </div>
+            <div class="payment-details">
+                <p><strong>Hình Thức Thanh Toán:</strong> '.$hinhthucthanhtoan.'</p>
+            </div>
+
+            <div class="status">
+                <p>Đã xác nhận</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Cảm ơn bạn đã chọn dịch vụ của chúng tôi.</p>
+        </div>
+    </div>
+
+    <!-- Liên kết Bootstrap JS và Popper.js (nếu cần) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>';
+            }
+
 
             $mail->send();
         } catch (Exception $e) {
@@ -446,14 +579,13 @@ class AccountController extends Controller
             $message['email'] = "Đổi thông tin không thành công, email đã tồn tại";
         }
 
-        if (empty($message)){
+        if (empty($message)) {
             $accountModel->updateAccount($id, $data);
         }
 
         $this->viewUpdateAccount($id, $message);
 
     }
-
 
 
     public function notFound()
