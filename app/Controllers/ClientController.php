@@ -19,9 +19,10 @@ class ClientController extends Controller
     public function homePage()
     {
         $this->load->view('', 'client/inc/header');
-
+//        $this->load->view('', 'client/inc/sidebar');
         $this->load->view('', 'client/room/roomdetail');
-
+//        $this->load->view('', 'client/room/room');
+//        $this->load->view('', 'client/room/reservation');
         $this->load->view('', 'client/inc/footer');
     }
 
@@ -40,7 +41,7 @@ class ClientController extends Controller
         $this->load->view('', 'client/inc/footer');
     }
 
-    public function roomTypeDetail($id = '')
+    public function roomTypeDetail($id)
     {
         Session::init();
         $roomModel = $this->load->model("roomModel");
@@ -73,8 +74,16 @@ class ClientController extends Controller
                 'suc_chua' => null,
                 'id_loaiphong' => $id,
             ];
+
+
+            if(isset($_SESSION['dataSearch'])){
+                $data['ngay_dat_phong'] = $_SESSION['dataSearch']['ngay_dat_phong'];
+                $data['ngay_tra_phong'] = $_SESSION['dataSearch']['ngay_tra_phong'];
+            }
+
             $result['search'] = $roomModel->searchRoom($data);
             $result['cmt'] = $roomModel->getAllCmt($id);
+
             $id_checkKH = isset($_SESSION['dataUser']['id_khachhang']) ? $_SESSION['dataUser']['id_khachhang'] : '';
             if (!empty($id_checkKH)) {
                 $result['check_buy'] = $cartModel->checkIdKH($id_checkKH);
@@ -93,6 +102,7 @@ class ClientController extends Controller
             $this->load->view('', 'client/inc/404');
             $this->load->view('', 'client/inc/footer');
         }
+
 
 
     }

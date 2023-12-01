@@ -44,7 +44,7 @@ class Session
 
     public static function unset($key)
     {
-        session_unset($key);
+        unset($key);
     }
 }
 

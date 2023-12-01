@@ -61,8 +61,7 @@ class CartController extends Controller
                 'images' => $resutl[0]['images'],
                 'id_phong' => $id_phong,
             ];
-        }
-        else{
+        } else {
             header("Location: " . BASE_URL . 'HomeController');
         }
         $this->load->view('', 'client/inc/header');
@@ -74,6 +73,7 @@ class CartController extends Controller
     {
         Session::init();
         $cartModel = $this->load->model('CartModel');
+
         if (isset($_GET['vnp_Amount'])) {
             if (!isset($_GET['vnp_BankTranNo'])) {
                 echo "Thank toán không thành công";
@@ -95,7 +95,7 @@ class CartController extends Controller
             ];
             $result = $cartModel->insertVnpay($data_vnpay);
             if ($result) {
-                echo "<script>alert('Cảm ơn bạn đã thanh toán thành công !');";
+                echo "<script>alert('Cảm ơn bạn đã thanh toán thành công. Chờ xác nhận từ chúng tôi !');";
                 echo "window.location.href='" . BASE_URL . "cartController/historyBook';";
                 echo "</script>";
             } else {
@@ -110,17 +110,21 @@ class CartController extends Controller
     public function historyBook()
     {
         Session::init();
-        if(isset($_SESSION['dataUser'])){
-            $cartModel = $this->load->model('CartModel');
+        $cartModel = $this->load->model('CartModel');
+        if (isset($_SESSION['dataInsertBook'])) {
+            $cartModel->insertBook($_SESSION['dataInsertBook']);
+            unset($_SESSION['dataInsertBook']);
+        }
+        if (isset($_SESSION['dataUser'])) {
             $dataBook = $cartModel->getLoaiphongBook($_SESSION['dataUser']['id_khachhang']);
             $this->load->view('', 'client/inc/header');
             $this->load->view($dataBook, 'client/cart/lichsu');
             $this->load->view('', 'client/inc/footer');
-        }
-        else{
+        } else {
             header("Location: " . BASE_URL . 'HomeController');
         }
     }
+
 
     public function detailBook($id_datphong)
     {
@@ -140,7 +144,9 @@ class CartController extends Controller
         extract($_SESSION['dataUser']);
         if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'vnpay') {
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = "http://localhost/duan1/CartController/thank";
+
+            $vnp_Returnurl = BASE_URL . "CartController/thank";
+
             $vnp_TmnCode = "74YGUA4Z"; //Mã website tại VNPAY
             $vnp_HashSecret = "OUXZGKLBCBEYBWAOAPSISCJZSGUBJOLC"; //Chuỗi bí mật
 
@@ -242,9 +248,10 @@ class CartController extends Controller
                     'tong_tien' => $tong_tien,
                     'trang_thai' => 'Đã thanh toán',
                     'id_phong' => $id_phong,
+                    'id_loaiphong' => $id_loaiphong,
                     'hinhthucthanhtoan' => 'VN PAY'
                 ];
-                $cartModel->insertBook($dataInsertBook);
+                $_SESSION['dataInsertBook'] = $dataInsertBook;
                 header('Location: ' . $vnp_Url);
                 die();
             } else {
@@ -252,7 +259,7 @@ class CartController extends Controller
             }
         } else if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'tructiep') {
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = "http://localhost/duan1/CartController/thank";
+            $vnp_Returnurl = BASE_URL . "CartController/thank";
             $vnp_TmnCode = "74YGUA4Z"; //Mã website tại VNPAY
             $vnp_HashSecret = "OUXZGKLBCBEYBWAOAPSISCJZSGUBJOLC"; //Chuỗi bí mật
             $vnp_TxnRef = 'KHR' . rand(00, 9999); //Mã đơn hàng
@@ -260,6 +267,7 @@ class CartController extends Controller
             $vnp_OrderType = "vnpay";
             $tien_coc = $_POST['tong_tien'] * 100 * 0.05;
             $tien_coc1 = $_POST['tong_tien'] * 0.05;
+            $thuc_tra = $_POST['tong_tien'] - $tien_coc1;
             $vnp_Amount = $tien_coc;
             $vnp_Locale = 'vn';
             $vnp_BankCode = 'NCB';
@@ -313,9 +321,11 @@ class CartController extends Controller
                     'trang_thai' => 'Chưa thanh toán',
                     'id_phong' => $id_phong,
                     'so_tien_coc' => $tien_coc1,
+                    'thuc_tra' => $thuc_tra,
+                    'id_loaiphong' => $id_loaiphong,
                     'hinhthucthanhtoan' => 'Thanh toán khi check in'
                 ];
-                $cartModel->insertBook($dataInsertBook);
+                $_SESSION['dataInsertBook'] = $dataInsertBook;
                 header('Location: ' . $vnp_Url);
                 die();
             } else {
@@ -323,36 +333,6 @@ class CartController extends Controller
             }
         }
 
-    }
-
-    function text()
-    {
-//        array
-//        (
-//            [url] => CartController / thank,
-//            [vnp_Amount] => 150000000,
-//            [vnp_BankCode] => NCB,
-//            [vnp_BankTranNo] => VNP14197274,
-//            [vnp_CardType] => ATM,
-//            [vnp_OrderInfo] => ok,
-//            [vnp_PayDate] => 20231124141157,
-//            [vnp_ResponseCode] => 00,
-//            [vnp_TmnCode] => 74YGUA4Z,
-//            [vnp_TransactionNo] => 14197274,
-//            [vnp_TransactionStatus] => 00,
-//            [vnp_TxnRef] => MRD2841,
-//            [vnp_SecureHash] => 2bc4fc448cab9474969b34d0098a0f1749c4ecaf83cf426b15c67f56885f1177ecbd11de5be5865c3be61b38bd982005807fc158639f7c26ff92f38f4e83c7de,
-//            )
-    }
-
-
-    public function notFound()
-    {
-        $data = '';
-        $this->load->view($data, 'inc/header');
-        $this->load->view($data, 'inc/sidebar');
-        $this->load->view($data, '404');
-        $this->load->view($data, 'inc/footer');
     }
 }
 

@@ -1,6 +1,7 @@
 <?php
 
 
+
 class HomeController extends Controller
 {
 
@@ -8,6 +9,7 @@ class HomeController extends Controller
     {
         $data = [];
         parent::__construct();
+
     }
 
     public function index()
@@ -32,15 +34,18 @@ class HomeController extends Controller
         ];
 
         Session::set('dateDefault', $data);
+
         if (isset($_SESSION['dataSearch'])) {
             unset($_SESSION['dataSearch']);
         }
+
         $result = $roomModel->searchRoom($data);
 
 
         $this->load->view($data, 'client/inc/header');
         $this->load->view($result, 'client/home/home');
         $this->load->view('', 'client/inc/footer');
+
     }
 
     public function handleSearch()
@@ -60,14 +65,17 @@ class HomeController extends Controller
         if ($data['ngay_dat_phong'] < $dateNow or $data['ngay_tra_phong'] < $dateNow or $data['ngay_dat_phong'] > $data['ngay_tra_phong']) {
             $this->room(null);
 
-        } else {
-
-            $data['roomData'] = $roomModel->searchRoom($data);
-            Session::set('dataSearch', $data);
-            $this->room($data);
         }
 
+       else {
+           $data['roomData'] = $roomModel->searchRoom($data);
+           Session::set('dataSearch', $data);
+           $this->room($data);
+       }
+
     }
+
+
 
     public function room($data = null)
     {
@@ -76,31 +84,23 @@ class HomeController extends Controller
         $this->load->view('', 'client/inc/footer');
     }
 
-    public function commingSoon()
+
+    public function categoryProduct()
     {
-        $this->load->view('', 'client/inc/header');
-        $this->load->view('', 'client/inc/comming_soon');
-        $this->load->view('', 'client/inc/footer');
+        $data = '';
+        $this->load->view($data, 'header');
+//        $this->load->view($data,'slider');
+        $this->load->view($data, 'categoryproduct');
+        $this->load->view($data, 'footer');
     }
 
-    public function about()
+    public function detailProduct()
     {
-        $this->load->view('', 'client/inc/header');
-        $this->load->view('', 'client/inc/about');
-        $this->load->view('', 'client/inc/footer');
-    }
-
-    public function contact()
-    {
-        $this->load->view('', 'client/inc/header');
-        $this->load->view('', 'client/inc/contact');
-        $this->load->view('', 'client/inc/footer');
-    }
-    public function gallery()
-    {
-        $this->load->view('', 'client/inc/header');
-        $this->load->view('', 'client/inc/gallery');
-        $this->load->view('', 'client/inc/footer');
+        $data = '';
+        $this->load->view($data, 'header');
+//        $this->load->view($data,'slider');
+        $this->load->view($data, 'detailproduct');
+        $this->load->view($data, 'footer');
     }
 
     public function notFound()

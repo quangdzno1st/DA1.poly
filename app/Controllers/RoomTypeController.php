@@ -1,13 +1,15 @@
 <?php
 
 
-class RoomTypeController extends Controller
+class       RoomTypeController extends Controller
 {
 
     public function __construct()
     {
         $data = [];
         parent::__construct();
+        $middleware = $this->load->model('middleware');
+        $middleware->checkRole();
     }
 
     public function index()
@@ -30,15 +32,18 @@ class RoomTypeController extends Controller
 
     public function deleteRoomType($id)
     {
-        $modelCategory = $this->load->model("roomTypeModel");
-        $modelCategory->delete($id);
-        $data = $modelCategory->getAllLoai();
+
+        $roomTypeModel = $this->load->model("roomTypeModel");
+        $roomTypeModel->delete($id);
+        $data = $roomTypeModel->getAllLoai();
         $this->homePage($data);
     }
 
     public function addRoomType()
     {
-        $data = '';
+        $noiThatModel = $this->load->model("NoiThatModel");
+
+        $data = $noiThatModel->getAllNoiThat();
         $this->load->view($data, 'admin/inc/header');
         $this->load->view($data, 'admin/inc/sidebar');
         $this->load->view($data, 'admin/roomType/roomType');
@@ -47,16 +52,48 @@ class RoomTypeController extends Controller
 
     public function insertRoomType()
     {
+        $imagesModel = $this->load->model("imagesModel");
+        $noithatModel = $this->load->model('NoiThatModel');
+        $roomTypeModel = $this->load->model("roomTypeModel");
+
+
         $data = [
             "ten" => $_POST["roomType"],
             "gia" => $_POST["price"],
             "suc_chua" => $_POST["capacity"]
         ];
 
-        $model = $this->load->model("roomTypeModel");
-        $model->insert($data);
-        $data = $model->getAllLoai();
-        $this->homePage($data);
+        $roomTypeModel->insert($data);
+        $roomTypeLatest = $roomTypeModel->selectLatest();
+
+        foreach ($_POST['noithat'] as $value) {
+            $dataNoiThat = [
+                "id_noithat" => $value,
+                "id_loaiphong" => $roomTypeLatest['id_loaiphong']
+            ];
+
+            $noithatModel->insert($dataNoiThat);
+        }
+
+
+        if ($_FILES["images"]["size"]["0"] > 0) {
+
+            foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
+                $file_name = $_FILES["images"]["name"][$key];
+                $file_tmp = $_FILES["images"]["tmp_name"][$key];
+                $target_file = 'assets/upload/' . time() . $file_name;
+                move_uploaded_file($file_tmp, $target_file);
+
+                $dataImage = [
+                    "path" => $target_file,
+                    "id_loaiphong" => $roomTypeLatest['id_loaiphong']
+                ];
+
+                $imagesModel->insertImage($dataImage);
+            }
+        }
+
+        $this->homePage();
     }
 
     public function viewUpdateRoomType($id)
@@ -66,9 +103,9 @@ class RoomTypeController extends Controller
         $noiThatModel = $this->load->model("NoiThatModel");
         $imagesModel = $this->load->model("imagesModel");
         $data = [
-            'roomTypeData' =>  $roomTypeModel->getById($id),
-            'imagesData' =>  $imagesModel->getImageByRoomId($id),
-            'noiThatData' => $noiThatModel->getAllNoiThatById($id)
+            'roomTypeData' => $roomTypeModel->getById($id),
+            'imagesData' => $imagesModel->getImageByRoomId($id),
+            'noiThatData' => $noiThatModel->getAllNoiThat()
         ];
 
 
@@ -83,9 +120,40 @@ class RoomTypeController extends Controller
         $data = [
             "ten" => $_POST["roomType"],
             "gia" => $_POST["price"],
-            "suc_chua" => $_POST["capacity"]
+            "suc_chua" => $_POST["capacity"],
         ];
+
         $model = $this->load->model("roomTypeModel");
+        $noithatModel = $this->load->model('NoiThatModel');
+        $imagesModel = $this->load->model('imagesModel');
+
+        $noithatModel->deleteByIdRoomType($id);
+
+        foreach ($_POST['noithat'] as $value) {
+            $dataNoiThat = [
+                "id_noithat" => $value,
+                "id_loaiphong" => $id
+            ];
+            $noithatModel->insert($dataNoiThat);
+        }
+
+
+        if ($_FILES["images"]["size"]["0"] > 0) {
+
+            foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
+                $file_name = $_FILES["images"]["name"][$key];
+                $file_tmp = $_FILES["images"]["tmp_name"][$key];
+                $target_file = 'assets/upload/' . time() . $file_name;
+                move_uploaded_file($file_tmp, $target_file);
+
+                $dataImage = [
+                    "path" => $target_file,
+                    "id_loaiphong" => $id
+                ];
+
+                $imagesModel->insertImage($dataImage);
+            }
+        }
         $model->update($data, $id);
         $data = $model->getAllLoai();
         $this->homePage($data);

@@ -12,7 +12,7 @@ if(!isset($_SESSION)){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon"
-          href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRunx_0PnofhilPwBR1mv17XSFlPBsgumVHaQ&usqp=CAU"
+          href="<?= BASE_URL ?>public/client/images/favicon.png"
           type="image/x-icon">
 
     <!-- GOOGLE FONT -->
@@ -67,7 +67,7 @@ if(!isset($_SESSION)){
                                 <li class=""><a href="<?= BASE_URL . 'CartController/historyBook' ?>">Lịch sử book phòng của bạn</a>
                                 </li>
                                 <?php if ($_SESSION['dataUser']['role'] == 1): ?>
-                                    <li class=""><a href="<?= BASE_URL . 'RoomController/homePage' ?>">Đến
+                                    <li class=""><a href="<?= BASE_URL . 'ThongKeController/homePage' ?>">Đến
                                             trang quản trị</a></li>
                                 <?php endif; ?>
                             </ul>
@@ -98,7 +98,7 @@ if(!isset($_SESSION)){
                         <span class="icon-bar "></span>
                         <span class="icon-bar "></span>
                     </button>
-                    <a class="navbar-brand" href="index.html" title="Skyline"><img
+                    <a class="navbar-brand" href="<?= BASE_URL ?>HomeController" title="Skyline"><img
                                 src="<?= BASE_URL ?>public/client/images/Home-1/sky-logo-header.png" alt="#"></a>
                 </div>
                 <div class="collapse navbar-collapse">

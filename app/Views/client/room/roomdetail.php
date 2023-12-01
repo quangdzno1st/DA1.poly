@@ -1,11 +1,17 @@
 <?php
+
 foreach ($data['search'] as $item) {
     extract($item);
+//    echo "<pre>";
+//    print_r($data);
+//    die();
     $noithat_array = explode(",", $noithat);
     $images_array = explode(",", $images);
     $images = array_unique($images_array);
     $noithat = array_unique($noithat_array);
+
 }
+
 ?>
 
 <section class="banner-tems text-center">
@@ -45,7 +51,7 @@ foreach ($data['search'] as $item) {
                                 <span class="amout"><?= number_format($gia) ?></span> /days
                             </p>
                         </div>
-                        <form method="post" action="<?= BASE_URL ?>cartController/checkOut">
+                        <form method="post" action="<?= BASE_URL ?>CartController/checkOut">
                             <div class="product-detail_form">
 
                                 <div class="sidebar">
@@ -56,8 +62,10 @@ foreach ($data['search'] as $item) {
 
                                             <div class="check_availability-field">
                                                 <label>Số lượng phòng cần đặt : </label>
+
                                                 <input class="form-control" name="so_luong_order" type="number"
                                                        value="1" min="1" max="<?= $so_luong ?>">
+
 
                                                 <label>Arrive</label>
                                                 <div class="input-group date" data-date-format="dd-mm-yyyy"
@@ -75,8 +83,10 @@ foreach ($data['search'] as $item) {
                                                 <label>Depature</label>
                                                 <div id="datepicker2" class="input-group date"
                                                      data-date-format="dd-mm-yyyy">
+
                                                     <input type="hidden" name="id_loaiphong"
                                                            value="<?= $id_loaiphong ?>">
+
                                                     <input class="form-control wrap-box" type="text"
                                                            placeholder="Departure Date"
                                                            value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_tra_phong'] : $_SESSION['dateDefault']['ngay_tra_phong'] ?>">
@@ -87,13 +97,14 @@ foreach ($data['search'] as $item) {
 
                                                 </div>
                                             </div>
+
                                             <label class="check_availability" style="margin-top: 10px;">Số lượng còn lại
                                                 : <?= $so_luong ?></label>
                                         </div>
                                     </div>
                                     <!-- END / WIDGET CHECK AVAILABILITY -->
                                 </div>
-                                <button type="submit" class="btn btn-room btn-product" name="bookNow">Book Now</button>
+                                <button class="btn btn-room btn-product" name="bookNow">Book Now</button>
                             </div>
                         </form>
 
@@ -141,91 +152,92 @@ foreach ($data['search'] as $item) {
                                         <li>Truy cập Internet tốc độ cao</li>
                                     </ul>
                                 </div>
-                                    <style>
-                                        body {
-                                            font-family: Arial, sans-serif;
-                                            background-color: #f9f9f9;
-                                            margin: 0;
-                                            padding: 0;
-                                        }
+                                <style>
+                                    body {
+                                        font-family: Arial, sans-serif;
+                                        background-color: #f9f9f9;
+                                        margin: 0;
+                                        padding: 0;
+                                    }
 
-                                        .container2 {
-                                            max-width: 1200px; /* Tăng kích thước của container */
-                                            margin: 200px auto 0; /* Tăng khoảng cách từ trên xuống và từ trái qua phải */
-                                            padding: 30px; /* Tăng khoảng cách bên trong container */
-                                            background-color: #ffffff;
-                                            border-radius: 8px;
-                                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Tăng độ đậm của đổ bóng */
-                                        }
+                                    .container2 {
+                                        max-width: 1200px; /* Tăng kích thước của container */
+                                        margin: 200px auto 0; /* Tăng khoảng cách từ trên xuống và từ trái qua phải */
+                                        padding: 30px; /* Tăng khoảng cách bên trong container */
+                                        background-color: #ffffff;
+                                        border-radius: 8px;
+                                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Tăng độ đậm của đổ bóng */
+                                    }
 
-                                        h1 {
-                                            font-size: 28px; /* Tăng kích thước của tiêu đề */
-                                            color: #e74c3c;
-                                            margin-bottom: 30px; /* Tăng khoảng cách dưới tiêu đề */
-                                        }
-                                        .comment {
-                                            border: 1px solid #ddd;
-                                            border-radius: 8px;
-                                            padding: 15px;
-                                            margin-bottom: 20px;
-                                            background-color: #f9f9f9;
-                                        }
+                                    h1 {
+                                        font-size: 28px; /* Tăng kích thước của tiêu đề */
+                                        color: #e74c3c;
+                                        margin-bottom: 30px; /* Tăng khoảng cách dưới tiêu đề */
+                                    }
 
-                                        p {
-                                            margin: 2px 0;
-                                        }
+                                    .comment {
+                                        border: 1px solid #ddd;
+                                        border-radius: 8px;
+                                        padding: 15px;
+                                        margin-bottom: 20px;
+                                        background-color: #f9f9f9;
+                                    }
 
-                                        strong {
-                                            color: #3498db;
-                                        }
+                                    p {
+                                        margin: 2px 0;
+                                    }
 
-                                        .timestamp {
-                                            font-size: 0.8em;
-                                            color: #888;
-                                        }
+                                    strong {
+                                        color: #3498db;
+                                    }
+
+                                    .timestamp {
+                                        font-size: 0.8em;
+                                        color: #888;
+                                    }
 
 
-                                        .review {
-                                            margin-top: 30px; /* Tăng khoảng cách giữa phần đánh giá và bình luận */
-                                        }
+                                    .review {
+                                        margin-top: 30px; /* Tăng khoảng cách giữa phần đánh giá và bình luận */
+                                    }
 
-                                        .user-info input {
-                                            width: 100%; /* Chuyển input về chiều rộng đầy đủ */
-                                            margin-bottom: 15px; /* Tăng khoảng cách giữa các input */
-                                        }
+                                    .user-info input {
+                                        width: 100%; /* Chuyển input về chiều rộng đầy đủ */
+                                        margin-bottom: 15px; /* Tăng khoảng cách giữa các input */
+                                    }
 
-                                        textarea {
-                                            width: 100%;
-                                            padding: 15px; /* Tăng padding của textarea */
-                                            margin-bottom: 20px; /* Tăng khoảng cách giữa textarea và button */
-                                            border: 1px solid #ddd;
-                                            border-radius: 5px;
-                                        }
+                                    textarea {
+                                        width: 100%;
+                                        padding: 15px; /* Tăng padding của textarea */
+                                        margin-bottom: 20px; /* Tăng khoảng cách giữa textarea và button */
+                                        border: 1px solid #ddd;
+                                        border-radius: 5px;
+                                    }
 
-                                        input[type="submit"] {
-                                            background-color: #e74c3c;
-                                            color: #fff;
-                                            border: none;
-                                            padding: 15px 25px; /* Tăng padding của button */
-                                            border-radius: 5px;
-                                            cursor: pointer;
-                                        }
+                                    input[type="submit"] {
+                                        background-color: #e74c3c;
+                                        color: #fff;
+                                        border: none;
+                                        padding: 15px 25px; /* Tăng padding của button */
+                                        border-radius: 5px;
+                                        cursor: pointer;
+                                    }
 
-                                        /* Hiệu ứng hover cho button */
-                                        input[type="submit"]:hover {
-                                            background-color: #c0392b;
-                                        }
+                                    /* Hiệu ứng hover cho button */
+                                    input[type="submit"]:hover {
+                                        background-color: #c0392b;
+                                    }
 
-                                        /* Thêm box-sizing cho elements để tính cả padding và border vào kích thước */
-                                        * {
-                                            box-sizing: border-box;
-                                        }
+                                    /* Thêm box-sizing cho elements để tính cả padding và border vào kích thước */
+                                    * {
+                                        box-sizing: border-box;
+                                    }
 
-                                    </style>
+                                </style>
 
-                                    <div class="container2">
-                                        <h1>Nhận xét về phòng và các dịch vụ của khách sạn !</h1>
-                                        <?php foreach ($data['cmt'] as $value): extract($value) ?>
+                                <div class="container2">
+                                    <h1>Nhận xét về phòng và các dịch vụ của khách sạn !</h1>
+                                    <?php foreach ($data['cmt'] as $value): extract($value) ?>
                                         <div class="comment">
                                             <div style="display:flex; ">
                                                 <p><strong><?= $user ?></strong></p>
@@ -234,21 +246,24 @@ foreach ($data['search'] as $item) {
                                             <p> <?= $noi_dung ?></p>
                                             <p> <?= $thoi_gian ?></p>
                                         </div>
-                                        <?php endforeach; ?>
-                                        <?php if (!empty($data['check_buy'])): ?>
-                                        <form action="<?= BASE_URL ?>clientController/roomTypeDetail/<?= $id_loaiphong ?>" method="post">
-                                        <div class="review">
-                                            <label for="review">Nhận xét của bạn</label>
-                                            <input type="hidden" name="id_loaiphong" value="<?= $id_loaiphong  ?>">
-                                            <input type="hidden" name="id_khachhang" value="<?= $_SESSION['dataUser']['id_khachhang']  ?>">
-                                            <textarea id="review" name="review" rows="4"></textarea>
-                                        </div>
+                                    <?php endforeach; ?>
+                                    <?php if (!empty($data['check_buy'])): ?>
+                                        <form action="<?= BASE_URL ?>clientController/roomTypeDetail/<?= $id_loaiphong ?>"
+                                              method="post">
+                                            <div class="review">
+                                                <label for="review">Nhận xét của bạn</label>
+                                                <input type="hidden" name="id_loaiphong" value="<?= $id_loaiphong ?>">
+                                                <input type="hidden" name="id_khachhang"
+                                                       value="<?= $_SESSION['dataUser']['id_khachhang'] ?>">
+                                                <textarea id="review" name="review" rows="4"></textarea>
+                                            </div>
                                             <input type="submit" name="binhluan" value="BÌNH LUẬN">
                                         </form>
-                                        <?php else: ?>
-                                        <h5 style="color: red; text-align: center; margin-top: 50px">Chỉ đánh giá được khi bạn đã từng đặt phòng của khách sạn chúng tôi !</h5>
-                                        <?php endif; ?>
-                                    </div>
+                                    <?php else: ?>
+                                        <h5 style="color: red; text-align: center; margin-top: 50px">Chỉ đánh giá được
+                                            khi bạn đã từng đặt phòng của khách sạn chúng tôi !</h5>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
