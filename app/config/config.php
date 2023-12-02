@@ -1,5 +1,5 @@
 <?php
 
-define('BASE_URL','http://localhost/duan1/');
+define('BASE_URL','http://localhost/hihi/DA1.poly/');
 
 ?>

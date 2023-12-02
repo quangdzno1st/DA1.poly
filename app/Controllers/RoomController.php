@@ -33,10 +33,13 @@ class RoomController extends Controller
     }
 
 
-    public function createRoom()
+    public function createRoom($message = "")
     {
         $modelLoai = $this->load->model("roomTypeModel");
-        $data = $modelLoai->getAllLoai();
+        $data = [
+            "roomType" => $modelLoai->getAllLoai(),
+            "message" => $message
+        ];
         $this->load->view($data, 'admin/inc/header');
         $this->load->view($data, 'admin/inc/sidebar');
         $this->load->view($data, 'admin/room/room');
@@ -45,16 +48,40 @@ class RoomController extends Controller
 
     public function insertRoom()
     {
+        $roomModel = $this->load->model("roomModel");
 
         $dataRoom = [
             "ten_phong" => $_POST["nameRoom"],
             "loai_phong_id" => $_POST["roomType"],
         ];
 
-        $roomModel = $this->load->model("roomModel");
-        $roomModel->insert($dataRoom);
+        $message = $this->validateInputRoom($dataRoom);
 
-        $this->homePage();
+        if (empty($message['message'])) {
+            $roomModel->insert($dataRoom);
+            $message['status'] = "Room created successfully";
+        }
+
+        $this->createRoom($message);
+
+    }
+
+    public function validateInputRoom($dataRoom, $id = "")
+    {
+        $roomModel = $this->load->model("roomModel");
+        $message = [
+            'status' => '',
+            'message' => ""
+        ];
+        if (empty(trim($dataRoom["ten_phong"]))) {
+            $message['message'] = "Field required";
+        }
+        if (!empty(trim($dataRoom['ten_phong'])) && $roomModel->getRoomByName($dataRoom["ten_phong"], $id) != null) {
+            $message['message'] = "Room name already exists";
+        }
+
+        return $message;
+
     }
 
     public function deleteRoom($id)
@@ -68,7 +95,7 @@ class RoomController extends Controller
         $this->homePage();
     }
 
-    public function viewRoomUpdate($id)
+    public function viewRoomUpdate($id, $message = "")
     {
 
         $roomModel = $this->load->model("roomModel");
@@ -81,6 +108,7 @@ class RoomController extends Controller
             "roomType" => $roomTypeModel->getAllLoai(),
             "room" => $roomModel->getById($id),
             "images" => $imageModel->getImageByRoomId($id),
+            "message" => $message
         ];
 
 
@@ -96,16 +124,20 @@ class RoomController extends Controller
 
     public function updateRoom($id)
     {
-        $data = [
+        $roomModel = $this->load->model("roomModel");
+        $dataRoom = [
             "ten_phong" => $_POST['nameRoom'],
             'loai_phong_id' => $_POST['roomType']
         ];
 
-        $roomModel = $this->load->model("roomModel");
+        $message = $this->validateInputRoom($dataRoom, $id);
 
-        $roomModel->update($data, $id);
+        if (empty($message['message'])) {
+            $roomModel->update($dataRoom, $id);
+            $message['status'] = "Room update successfully";
+        }
 
-        $this->homePage();
+        $this->viewRoomUpdate($id, $message);
     }
 
     public function notFound()

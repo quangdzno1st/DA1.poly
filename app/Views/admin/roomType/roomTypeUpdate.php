@@ -5,7 +5,10 @@
 //print_r($data['roomTypeData']);
 $id_noithat = $data['roomTypeData'][0]['id_noithat'];
 $id_noithat_array = explode(',',$id_noithat);
+
 ?>
+
+
 <form action="<?= BASE_URL . 'RoomTypeController/updateRoomType/' . $data['roomTypeData'][0]['id_loaiphong'] ?>" method="POST"
       enctype="multipart/form-data">
     <div class="card">
@@ -15,18 +18,25 @@ $id_noithat_array = explode(',',$id_noithat);
             <div class="input-group">
                 <input type="text" class="form-control" name="roomType" placeholder="name"
                        value="<?= $data['roomTypeData'][0]['ten'] ?>">
+
             </div>
+            <p style="color: #d90e26;text-align: left; margin-top: 10px;margin-bottom: 10px"><?= $data['message']['message']['tenErr'] ?? "" ?></p>
+
             <label>Giá</label>
             <div class="input-group">
                 <input type="number" class="form-control" name="price" placeholder="price"
                        value="<?= $data['roomTypeData'][0]['gia'] ?>">
             </div>
+            <p style="color: #d90e26;text-align: left; margin-top: 10px;margin-bottom: 10px"><?= $data['message']['message']['giaErr'] ?? "" ?></p>
+
             <input type="hidden" name="id_update1" value="<?= $data['roomTypeData'][0]['id_loaiphong'] ?>">
             <label>Sức chứa</label>
             <div class="input-group">
                 <input type="number" class="form-control" name="capacity" placeholder="capacity"
                        value="<?= $data['roomTypeData'][0]['suc_chua'] ?>">
             </div>
+            <p style="color: #d90e26;text-align: left; margin-top: 10px;margin-bottom: 10px"><?= $data['message']['message']['suc_chua_err'] ?? "" ?></p>
+
             <label>File Upload</label>
 
             <div class="input-group">
@@ -73,6 +83,7 @@ $id_noithat_array = explode(',',$id_noithat);
                 <?php endforeach; ?>
             </select>
 
+            <p style="color: #d90e26;text-align: left; margin-top: 10px;margin-bottom: 10px"><?= $data['message']['message']['noiThat_err'] ?? "" ?></p>
         </div>
         <div class="border-top">
             <div class="card-body">

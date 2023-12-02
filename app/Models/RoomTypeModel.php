@@ -31,12 +31,22 @@ class RoomTypeModel extends Model
         return $this->db->select($sql);
     }
 
+    public function getRoomTypeByName($name, $id = "")
+    {
+        $sql = "SELECT * FROM loaiphong WHERE ten = '$name'";
+        if (!empty($id)) {
+            $sql .= " AND loaiphong.id_loaiphong <> '$id'";
+        }
+        return $this->db->select($sql);
+    }
+
     public function selectLatest()
     {
         return $this->db->selectLatest("loaiphong", "id_loaiphong");
     }
 
-    public function getById($id){
+    public function getById($id)
+    {
         $sql = "SELECT 
                     loaiphong.id_loaiphong,
                     loaiphong.ten,
@@ -66,10 +76,10 @@ class RoomTypeModel extends Model
     {
         $idDelete = "id_loaiphong = " . $id;
         $idDeleteRoom = "loai_phong_id = " . $id;
-        $this->db->delete('images', $idDelete,999);
-        $this->db->delete('phong',$idDeleteRoom,999);
-        $this->db->delete("noithat_loaiiphong",$idDelete,999);
-        return $this->db->delete("loaiphong", $idDelete,999);
+        $this->db->delete('images', $idDelete, 999);
+        $this->db->delete('phong', $idDeleteRoom, 999);
+        $this->db->delete("noithat_loaiiphong", $idDelete, 999);
+        return $this->db->delete("loaiphong", $idDelete, 999);
     }
 
     public function insert($data)
