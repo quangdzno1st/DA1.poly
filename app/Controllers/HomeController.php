@@ -1,7 +1,6 @@
 <?php
 
 
-
 class HomeController extends Controller
 {
 
@@ -65,43 +64,50 @@ class HomeController extends Controller
         if ($data['ngay_dat_phong'] < $dateNow or $data['ngay_tra_phong'] < $dateNow or $data['ngay_dat_phong'] > $data['ngay_tra_phong']) {
             $this->room(null);
 
+        } else {
+            $data['roomData'] = $roomModel->searchRoom($data);
+            Session::set('dataSearch', $data);
+            $this->room($data);
         }
 
-       else {
-           $data['roomData'] = $roomModel->searchRoom($data);
-           Session::set('dataSearch', $data);
-           $this->room($data);
-       }
-
     }
-
 
 
     public function room($data = null)
     {
         $this->load->view('', 'client/inc/header');
-           $this->load->view($data, 'client/room/room');
+        $this->load->view($data, 'client/room/room');
         $this->load->view('', 'client/inc/footer');
     }
 
-
-    public function categoryProduct()
+    public function about($data = null)
     {
-        $data = '';
-        $this->load->view($data, 'header');
-//        $this->load->view($data,'slider');
-        $this->load->view($data, 'categoryproduct');
-        $this->load->view($data, 'footer');
+        $this->load->view('', 'client/inc/header');
+        $this->load->view($data, 'client/inc/about');
+        $this->load->view('', 'client/inc/footer');
     }
 
-    public function detailProduct()
+    public function commingSoon($data = null)
     {
-        $data = '';
-        $this->load->view($data, 'header');
-//        $this->load->view($data,'slider');
-        $this->load->view($data, 'detailproduct');
-        $this->load->view($data, 'footer');
+        $this->load->view('', 'client/inc/header');
+        $this->load->view($data, 'client/inc/comming_soon');
+        $this->load->view('', 'client/inc/footer');
     }
+
+    public function contact($data = null)
+    {
+        $this->load->view('', 'client/inc/header');
+        $this->load->view($data, 'client/inc/contact');
+        $this->load->view('', 'client/inc/footer');
+    }
+
+    public function gallery($data = null)
+    {
+        $this->load->view('', 'client/inc/header');
+        $this->load->view($data, 'client/inc/gallery');
+        $this->load->view('', 'client/inc/footer');
+    }
+
 
     public function notFound()
     {
