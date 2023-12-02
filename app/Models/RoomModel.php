@@ -27,6 +27,15 @@ class RoomModel extends Model
         return $this->db->select($sql);
     }
 
+    public function getRoomByName($name, $id = "")
+    {
+        $sql = "SELECT * FROM phong WHERE ten_phong = '$name'";
+        if (!empty($id)) {
+            $sql .= " AND phong.id_phong <> '$id'";
+        }
+        return $this->db->select($sql);
+    }
+
     public function getAllCmt($id_loaiphong)
     {
         $sql = "SELECT
@@ -144,6 +153,7 @@ class RoomModel extends Model
                 ";
         return $this->db->select($sql);
     }
+
     public function insertCmt($data)
     {
         return $this->db->insert("binhluan", $data);
@@ -222,7 +232,6 @@ class RoomModel extends Model
     }
 
 
-
     public function searchRoom1($data, $id_loaiphong, $limit)
     {
         $sql = "SELECT phong.id_phong FROM phong
@@ -265,10 +274,11 @@ class RoomModel extends Model
         return $this->db->select($sql);
     }
 
-   public function countRoom(){
+    public function countRoom()
+    {
         $sql = "SELECT count(*) as countRoom FROM phong";
         return $this->db->select($sql);
-   }
+    }
 
 }
 

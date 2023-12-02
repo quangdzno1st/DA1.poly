@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 <head>
@@ -18,7 +16,7 @@
     />
     <title>Quản lí khách sạn - Admin</title>
     <!-- Thêm đường link tới CSS của thư viện Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Thêm đường link tới jQuery (Select2 yêu cầu jQuery) -->
@@ -40,7 +38,7 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>public/assets/css.css">
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>public/assets/extra-libs/multicheck/multicheck.css">
 
-    <link href="<?= BASE_URL ?>public/dist/css/style.min.css" rel="stylesheet" />
+    <link href="<?= BASE_URL ?>public/dist/css/style.min.css" rel="stylesheet"/>
     <link href="<?= BASE_URL ?>public/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -93,9 +91,9 @@
                 <!-- dark Logo text -->
                 <img style="margin-top:20px "
 
-                        src="<?= BASE_URL ?>public/client/images/Home-1/sky-logo-header.png"
-                        alt="homepage"
-                        class="light-logo"
+                     src="<?= BASE_URL ?>public/client/images/Home-1/sky-logo-header.png"
+                     alt="homepage"
+                     class="light-logo"
                 />
               </span>
                     <!-- Logo icon -->
@@ -132,6 +130,148 @@
                     id="navbarSupportedContent"
                     data-navbarbg="skin5"
             >
+                <ul class="navbar-nav float-right" style="margin-left: auto">
+                    <!-- ============================================================== -->
+                    <!-- Comment -->
+                    <!-- ============================================================== -->
+                    <li class="nav-item dropdown">
+                        <a
+                                class="nav-link dropdown-toggle waves-effect waves-dark"
+                                href=""
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                        >
+                            <i class="mdi mdi-bell font-24"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <!-- ============================================================== -->
+                    <!-- End Comment -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Messages -->
+                    <!-- ============================================================== -->
+                    <li class="nav-item dropdown">
+                        <a
+                                class="nav-link dropdown-toggle waves-effect waves-dark"
+                                href=""
+                                id="2"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                        >
+                            <i class="font-24 mdi mdi-comment-processing"></i>
+                        </a>
+                        <div
+                                class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown"
+                                aria-labelledby="2"
+                        >
+                            <ul class="list-style-none">
+                                <li>
+                                    <div class="">
+                                        <!-- Message -->
+                                        <a href="javascript:void(0)" class="link border-top">
+                                            <div class="d-flex no-block align-items-center p-10">
+                            <span class="btn btn-success btn-circle"
+                            ><i class="ti-calendar"></i
+                                ></span>
+                                                <div class="m-l-10">
+                                                    <h5 class="m-b-0">Event today</h5>
+                                                    <span class="mail-desc"
+                                                    >Just a reminder that event</span
+                                                    >
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="javascript:void(0)" class="link border-top">
+                                            <div class="d-flex no-block align-items-center p-10">
+                            <span class="btn btn-info btn-circle"
+                            ><i class="ti-settings"></i
+                                ></span>
+                                                <div class="m-l-10">
+                                                    <h5 class="m-b-0">Settings</h5>
+                                                    <span class="mail-desc"
+                                                    >You can customize this template</span
+                                                    >
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="javascript:void(0)" class="link border-top">
+                                            <div class="d-flex no-block align-items-center p-10">
+                            <span class="btn btn-primary btn-circle"
+                            ><i class="ti-user"></i
+                                ></span>
+                                                <div class="m-l-10">
+                                                    <h5 class="m-b-0">Pavan kumar</h5>
+                                                    <span class="mail-desc"
+                                                    >Just see the my admin!</span
+                                                    >
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="javascript:void(0)" class="link border-top">
+                                            <div class="d-flex no-block align-items-center p-10">
+                            <span class="btn btn-danger btn-circle"
+                            ><i class="fa fa-link"></i
+                                ></span>
+                                                <div class="m-l-10">
+                                                    <h5 class="m-b-0">Luanch Admin</h5>
+                                                    <span class="mail-desc"
+                                                    >Just see the my new admin!</span
+                                                    >
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- ============================================================== -->
+                    <!-- End Messages -->
+                    <!-- ============================================================== -->
+
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <li class="nav-item dropdown">
+                        <a
+                                class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic"
+                                href=""
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                        ><img
+                                    src="<?= BASE_URL ?>public/assets/images/users/1.jpg"
+                                    alt="user"
+                                    class="rounded-circle"
+                                    width="31"
+                            /></a>
+                        <div class="dropdown-menu dropdown-menu-right user-dd animated">
+                            <a class="dropdown-item" href="<?= BASE_URL . 'HomeController' ?>"
+                            ><i class="ti-wallet m-r-5 m-l-5"></i>Trở về trang người dùng</a
+                            >
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="<?= BASE_URL . 'AccountController/logout' ?>"
+                            ><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a
+                            >
+
+                        </div>
+                    </li>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                </ul>
                 <!-- ============================================================== -->
                 <!-- toggle and nav items -->
                 <!-- ============================================================== -->

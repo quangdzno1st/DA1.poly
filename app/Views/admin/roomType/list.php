@@ -3,7 +3,6 @@
 //print_r($data);
 //
 //?>
-<h1 class="test">Test</h1>
 <div class="card">
     <div class="card-body">
         <h5 class="card-title m-b-0">Static Table With Checkboxes</h5>

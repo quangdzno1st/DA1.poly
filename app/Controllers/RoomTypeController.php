@@ -39,11 +39,14 @@ class       RoomTypeController extends Controller
         $this->homePage($data);
     }
 
-    public function addRoomType()
+    public function addRoomType($messageResponse = "")
     {
         $noiThatModel = $this->load->model("NoiThatModel");
 
-        $data = $noiThatModel->getAllNoiThat();
+        $data = [
+            'noiThat' => $noiThatModel->getAllNoiThat(),
+            'messageResponse' => $messageResponse
+        ];
         $this->load->view($data, 'admin/inc/header');
         $this->load->view($data, 'admin/inc/sidebar');
         $this->load->view($data, 'admin/roomType/roomType');
@@ -63,40 +66,100 @@ class       RoomTypeController extends Controller
             "suc_chua" => $_POST["capacity"]
         ];
 
-        $roomTypeModel->insert($data);
-        $roomTypeLatest = $roomTypeModel->selectLatest();
+        $dataValidate = [
+            'roomType' => $data,
+            'noiThat' => $_POST["noithat"][0] ?? "",
+            'image' => $_FILES["images"]["size"]["0"]
+        ];
 
-        foreach ($_POST['noithat'] as $value) {
-            $dataNoiThat = [
-                "id_noithat" => $value,
-                "id_loaiphong" => $roomTypeLatest['id_loaiphong']
-            ];
+        $messageResponse = $this->validateRoomType($dataValidate);
 
-            $noithatModel->insert($dataNoiThat);
-        }
+        if (empty($messageResponse['message'])) {
+            $roomTypeModel->insert($data);
+            $roomTypeLatest = $roomTypeModel->selectLatest();
 
-
-        if ($_FILES["images"]["size"]["0"] > 0) {
-
-            foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
-                $file_name = $_FILES["images"]["name"][$key];
-                $file_tmp = $_FILES["images"]["tmp_name"][$key];
-                $target_file = 'assets/upload/' . time() . $file_name;
-                move_uploaded_file($file_tmp, $target_file);
-
-                $dataImage = [
-                    "path" => $target_file,
+            foreach ($_POST['noithat'] as $value) {
+                $dataNoiThat = [
+                    "id_noithat" => $value,
                     "id_loaiphong" => $roomTypeLatest['id_loaiphong']
                 ];
 
-                $imagesModel->insertImage($dataImage);
+                $noithatModel->insert($dataNoiThat);
             }
+
+
+            if ($_FILES["images"]["size"]["0"] > 0) {
+
+                foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
+                    $file_name = $_FILES["images"]["name"][$key];
+                    $file_tmp = $_FILES["images"]["tmp_name"][$key];
+                    $target_file = 'assets/upload/' . time() . $file_name;
+                    move_uploaded_file($file_tmp, $target_file);
+
+                    $dataImage = [
+                        "path" => $target_file,
+                        "id_loaiphong" => $roomTypeLatest['id_loaiphong']
+                    ];
+
+                    $imagesModel->insertImage($dataImage);
+                }
+            }
+            $this->homePage();
         }
 
-        $this->homePage();
+
+        $this->addRoomType($messageResponse);
     }
 
-    public function viewUpdateRoomType($id)
+
+    public function validateRoomType($data, $id = "")
+
+    {
+        $roomTypeModel = $this->load->model("roomTypeModel");
+
+
+        $messages = [];
+
+        if (empty($data['roomType']['ten'])) {
+            $messages['tenErr'] = "Field required";
+        }
+
+
+        if (!empty(trim($data['roomType']['ten'])) && $roomTypeModel->getRoomTypeByName(trim($data['roomType']['ten']), $id) != null) {
+            $messages['tenErr'] = "RoomType name already exists";
+        }
+
+        if (empty($data['roomType']['gia'])) {
+            $messages['giaErr'] = "Field required";
+        }
+
+        if ($data['roomType']['gia'] <= 0) {
+            $messages['giaErr'] = "price must be greater than 0";
+        }
+
+        if (empty($data['roomType']['suc_chua'])) {
+            $messages['suc_chua_err'] = "Field required";
+        }
+
+        if ($data['roomType']['suc_chua'] <= 0) {
+            $messages['suc_chua_err'] = "capacity must be greater than 0";
+        }
+
+        if (empty($data['noithat'])) {
+            $messages['noithat_err'] = "Field required";
+        }
+
+        if ($data['image'] <= 0) {
+            $messages['image_err'] = "Field required";
+        }
+
+        return [
+            'status' => '',
+            'message' => $messages
+        ];
+    }
+
+    public function viewUpdateRoomType($id, $messageResponse = "")
     {
 
         $roomTypeModel = $this->load->model("roomTypeModel");
@@ -105,7 +168,8 @@ class       RoomTypeController extends Controller
         $data = [
             'roomTypeData' => $roomTypeModel->getById($id),
             'imagesData' => $imagesModel->getImageByRoomId($id),
-            'noiThatData' => $noiThatModel->getAllNoiThat()
+            'noiThatData' => $noiThatModel->getAllNoiThat(),
+            'message' => $messageResponse
         ];
 
 
@@ -117,50 +181,64 @@ class       RoomTypeController extends Controller
 
     public function updateRoomType($id)
     {
+        $model = $this->load->model("roomTypeModel");
+        $noithatModel = $this->load->model('NoiThatModel');
+        $imagesModel = $this->load->model('imagesModel');
+
         $data = [
             "ten" => $_POST["roomType"],
             "gia" => $_POST["price"],
             "suc_chua" => $_POST["capacity"],
         ];
 
-        $model = $this->load->model("roomTypeModel");
-        $noithatModel = $this->load->model('NoiThatModel');
-        $imagesModel = $this->load->model('imagesModel');
+        $dataValidate = [
+            'roomType' => $data,
+            'noiThat' => $_POST["noithat"][0] ?? "",
+            'image' => $_FILES["images"]["size"]["0"]
+        ];
+        $messageResponse = $this->validateRoomType($dataValidate, $id);
 
-        $noithatModel->deleteByIdRoomType($id);
-
-        foreach ($_POST['noithat'] as $value) {
-            $dataNoiThat = [
-                "id_noithat" => $value,
-                "id_loaiphong" => $id
-            ];
-            $noithatModel->insert($dataNoiThat);
-        }
+        if (empty($messageResponse['message'])) {
 
 
-        if ($_FILES["images"]["size"]["0"] > 0) {
+            $noithatModel->deleteByIdRoomType($id);
 
-            foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
-                $file_name = $_FILES["images"]["name"][$key];
-                $file_tmp = $_FILES["images"]["tmp_name"][$key];
-                $target_file = 'assets/upload/' . time() . $file_name;
-                move_uploaded_file($file_tmp, $target_file);
-
-                $dataImage = [
-                    "path" => $target_file,
+            foreach ($_POST['noithat'] as $value) {
+                $dataNoiThat = [
+                    "id_noithat" => $value,
                     "id_loaiphong" => $id
                 ];
-
-                $imagesModel->insertImage($dataImage);
+                $noithatModel->insert($dataNoiThat);
             }
+
+
+            if ($_FILES["images"]["size"]["0"] > 0) {
+
+                foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
+                    $file_name = $_FILES["images"]["name"][$key];
+                    $file_tmp = $_FILES["images"]["tmp_name"][$key];
+                    $target_file = 'assets/upload/' . time() . $file_name;
+                    move_uploaded_file($file_tmp, $target_file);
+
+                    $dataImage = [
+                        "path" => $target_file,
+                        "id_loaiphong" => $id
+                    ];
+
+                    $imagesModel->insertImage($dataImage);
+                }
+            }
+            $model->update($data, $id);
+            $this->viewUpdateRoomType($id);
         }
-        $model->update($data, $id);
-        $data = $model->getAllLoai();
-        $this->homePage($data);
+        $this->viewUpdateRoomType($id, $messageResponse);
+
+
     }
 
 
-    public function notFound()
+    public
+    function notFound()
     {
         $data = '';
         $this->load->view($data, 'inc/header');

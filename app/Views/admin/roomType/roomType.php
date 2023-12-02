@@ -6,19 +6,25 @@
             <label>Tên loại phòng</label>
             <div class="input-group">
                 <input type="text" class="form-control" name="roomType" placeholder="name"
-                      >
+                >
             </div>
+            <p style="color: #d90e26;text-align: left; margin-top: 10px;margin-bottom: 10px"><?= $data['messageResponse']['message']['tenErr'] ?? "" ?></p>
+
             <label>Giá</label>
             <div class="input-group">
                 <input type="number" class="form-control" name="price" placeholder="price"
-                      >
+                >
             </div>
-            <input type="hidden" name="id_update1" >
+            <p style="color: #d90e26;text-align: left; margin-top: 10px;margin-bottom: 10px"><?= $data['messageResponse']['message']['giaErr'] ?? "" ?></p>
+
+            <input type="hidden" name="id_update1">
             <label>Sức chứa</label>
             <div class="input-group">
                 <input type="number" class="form-control" name="capacity" placeholder="capacity"
-                      >
+                >
             </div>
+            <p style="color: #d90e26;text-align: left; margin-top: 10px;margin-bottom: 10px"><?= $data['messageResponse']['message']['suc_chua_err'] ?? "" ?></p>
+
             <label>File Upload</label>
 
             <div class="input-group">
@@ -40,15 +46,17 @@
                     </div>
                 </div>
             </div>
+            <p style="color: #d90e26;text-align: left; margin-top: 10px;margin-bottom: 10px"><?= $data['messageResponse']['message']['image_err'] ?? "" ?></p>
 
 
             <label>Nội thất</label>
             <select name="noithat[]" class="js-example-basic-multiple select2 form-control m-t-15" multiple="multiple">
 
-                <?php foreach ($data as $noithat):  ?>
+                <?php foreach ($data['noiThat'] as $noithat): ?>
                     <option value="<?= $noithat['id'] ?>"><?= $noithat['ten_noithat'] ?></option>
                 <?php endforeach; ?>
             </select>
+            <p style="color: #d90e26;text-align: left; margin-top: 10px;margin-bottom: 10px"><?= $data['messageResponse']['message']['noithat_err'] ?? "" ?></p>
 
         </div>
         <div class="border-top">
