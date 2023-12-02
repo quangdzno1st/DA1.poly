@@ -27,6 +27,11 @@ class RoomModel extends Model
         return $this->db->select($sql);
     }
 
+    public function getRoomByName($name) {
+        $sql = "SELECT * FROM phong WHERE ten_phong = '$name'";
+        return $this->db->select($sql);
+    }
+
     public function getAllCmt($id_loaiphong)
     {
         $sql = "SELECT

@@ -91,7 +91,7 @@
                     <tr>
                         <th>Loại phòng</th>
                         <th>Số lượt đặt</th>
-                        <th>Số lượng đặt phòng</th>
+                        <th>Số lượng phòng đặt</th>
                         <th>Tổng tiền</th>
                     </tr>
                     </thead>

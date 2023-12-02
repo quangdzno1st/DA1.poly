@@ -58,10 +58,11 @@ class ClientController extends Controller
                 'noi_dung' => htmlspecialchars($review),
                 'thoi_gian' => $currentDateTime
             ];
-            $result = $roomModel->insertCmt($data);
-            if ($result) {
+            if (!empty($data['noi_dung'])) {
+                $result = $roomModel->insertCmt($data);
                 header("Location: " . BASE_URL . 'clientController/roomTypeDetail/' . $id_loaiphong);
             }
+
         }
 
         if (!empty($id)) {
@@ -76,7 +77,7 @@ class ClientController extends Controller
             ];
 
 
-            if(isset($_SESSION['dataSearch'])){
+            if (isset($_SESSION['dataSearch'])) {
                 $data['ngay_dat_phong'] = $_SESSION['dataSearch']['ngay_dat_phong'];
                 $data['ngay_tra_phong'] = $_SESSION['dataSearch']['ngay_tra_phong'];
             }
@@ -102,7 +103,6 @@ class ClientController extends Controller
             $this->load->view('', 'client/inc/404');
             $this->load->view('', 'client/inc/footer');
         }
-
 
 
     }
