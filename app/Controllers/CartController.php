@@ -104,6 +104,12 @@ class CartController extends Controller
         } else {
             header("Location: " . BASE_URL . 'CartController/historyBook');
         }
+
+        if(isset($_GET['partnerCode'])) {
+            echo "<script>alert('Cảm ơn bạn đã thanh toán thành công. Chờ xác nhận từ chúng tôi !');";
+            echo "window.location.href='" . BASE_URL . "cartController/historyBook';";
+            echo "</script>";
+        }
     }
 
 
@@ -258,60 +264,118 @@ class CartController extends Controller
                 echo json_encode($returnData);
             }
         } else if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'tructiep') {
-            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = BASE_URL . "CartController/thank";
-            $vnp_TmnCode = "74YGUA4Z"; //Mã website tại VNPAY
-            $vnp_HashSecret = "OUXZGKLBCBEYBWAOAPSISCJZSGUBJOLC"; //Chuỗi bí mật
-            $vnp_TxnRef = 'KHR' . rand(00, 9999); //Mã đơn hàng
-            $vnp_OrderInfo = empty($_POST['ghi_chu']) ? '' : $_POST['ghi_chu'];
-            $vnp_OrderType = "vnpay";
-            $tien_coc = $_POST['tong_tien'] * 100 * 0.05;
-            $tien_coc1 = $_POST['tong_tien'] * 0.05;
-            $thuc_tra = $_POST['tong_tien'] - $tien_coc1;
-            $vnp_Amount = $tien_coc;
-            $vnp_Locale = 'vn';
-            $vnp_BankCode = 'NCB';
-            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-            $inputData = array(
-                "vnp_Version" => "2.1.0",
-                "vnp_TmnCode" => $vnp_TmnCode,
-                "vnp_Amount" => $vnp_Amount,
-                "vnp_Command" => "pay",
-                "vnp_CreateDate" => date('YmdHis'),
-                "vnp_CurrCode" => "VND",
-                "vnp_IpAddr" => $vnp_IpAddr,
-                "vnp_Locale" => $vnp_Locale,
-                "vnp_OrderInfo" => $vnp_OrderInfo,
-                "vnp_OrderType" => $vnp_OrderType,
-                "vnp_ReturnUrl" => $vnp_Returnurl,
-                "vnp_TxnRef" => $vnp_TxnRef,
-            );
+//            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+//            $vnp_Returnurl = BASE_URL . "CartController/thank";
+//            $vnp_TmnCode = "74YGUA4Z"; //Mã website tại VNPAY
+//            $vnp_HashSecret = "OUXZGKLBCBEYBWAOAPSISCJZSGUBJOLC"; //Chuỗi bí mật
+//            $vnp_TxnRef = 'KHR' . rand(00, 9999); //Mã đơn hàng
+//            $vnp_OrderInfo = empty($_POST['ghi_chu']) ? '' : $_POST['ghi_chu'];
+//            $vnp_OrderType = "vnpay";
+//            $tien_coc = $_POST['tong_tien'] * 100 * 0.1;
+//            $tien_coc1 = $_POST['tong_tien'] * 0.1;
+//            $thuc_tra = $_POST['tong_tien'] - $tien_coc1;
+//            $vnp_Amount = $tien_coc;
+//            $vnp_Locale = 'vn';
+//            $vnp_BankCode = 'NCB';
+//            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+//            $inputData = array(
+//                "vnp_Version" => "2.1.0",
+//                "vnp_TmnCode" => $vnp_TmnCode,
+//                "vnp_Amount" => $vnp_Amount,
+//                "vnp_Command" => "pay",
+//                "vnp_CreateDate" => date('YmdHis'),
+//                "vnp_CurrCode" => "VND",
+//                "vnp_IpAddr" => $vnp_IpAddr,
+//                "vnp_Locale" => $vnp_Locale,
+//                "vnp_OrderInfo" => $vnp_OrderInfo,
+//                "vnp_OrderType" => $vnp_OrderType,
+//                "vnp_ReturnUrl" => $vnp_Returnurl,
+//                "vnp_TxnRef" => $vnp_TxnRef,
+//            );
+//
+//            if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+//                $inputData['vnp_BankCode'] = $vnp_BankCode;
+//            }
+//            ksort($inputData);
+//            $query = "";
+//            $i = 0;
+//            $hashdata = "";
+//            foreach ($inputData as $key => $value) {
+//                if ($i == 1) {
+//                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+//                } else {
+//                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+//                    $i = 1;
+//                }
+//                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+//            }
+//
+//            $vnp_Url = $vnp_Url . "?" . $query;
+//            if (isset($vnp_HashSecret)) {
+//                $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); //
+//                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+//            }
+//            $returnData = array(
+//                'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+//            );
+//            if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'tructiep') {
+//                $dataInsertBook = [
+//                    'id_khachhang' => $id_khachhang,
+//                    'ngay_dat_phong' => $ngay_dat_phong,
+//                    'ngay_tra_phong' => $ngay_tra_phong,
+//                    'tong_tien' => $tong_tien,
+//                    'trang_thai' => 'Chưa thanh toán',
+//                    'id_phong' => $id_phong,
+//                    'so_tien_coc' => $tien_coc1,
+//                    'thuc_tra' => $thuc_tra,
+//                    'id_loaiphong' => $id_loaiphong,
+//                    'hinhthucthanhtoan' => 'Thanh toán khi check in'
+//                ];
+//                $_SESSION['dataInsertBook'] = $dataInsertBook;
+//                header('Location: ' . $vnp_Url);
+//                die();
+//            } else {
+//                echo json_encode($returnData);
+//            }
 
-            if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-                $inputData['vnp_BankCode'] = $vnp_BankCode;
-            }
-            ksort($inputData);
-            $query = "";
-            $i = 0;
-            $hashdata = "";
-            foreach ($inputData as $key => $value) {
-                if ($i == 1) {
-                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-                } else {
-                    $hashdata .= urlencode($key) . "=" . urlencode($value);
-                    $i = 1;
-                }
-                $query .= urlencode($key) . "=" . urlencode($value) . '&';
-            }
 
-            $vnp_Url = $vnp_Url . "?" . $query;
-            if (isset($vnp_HashSecret)) {
-                $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); //
-                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-            }
-            $returnData = array(
-                'code' => '00', 'message' => 'success', 'data' => $vnp_Url
-            );
+            $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+            $partnerCode = 'MOMOBKUN20180529';
+            $accessKey = 'klm05TvNBzhg7h7j';
+            $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+
+            $tien_coc = $_POST['tong_tien']  * 0.1;
+            $thuc_tra = $_POST['tong_tien'] - $tien_coc;
+            $orderInfo = "Thanh toán qua MoMo";
+            $amount = $tien_coc;
+            $orderId = "MM" . rand(0000, 9999);
+            $redirectUrl = BASE_URL . "CartController/thank";
+            $ipnUrl = BASE_URL . "CartController/thank";
+            $extraData = "";
+            $serectkey = $secretKey;
+
+            $requestId = time() . "";
+            $requestType = "payWithATM";
+//            $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
+            //before sign HMAC SHA256 signature
+            $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
+            $signature = hash_hmac("sha256", $rawHash, $serectkey);
+            $data = array('partnerCode' => $partnerCode,
+                'partnerName' => "Test",
+                "storeId" => "MomoTestStore",
+                'requestId' => $requestId,
+                'amount' => $amount,
+                'orderId' => $orderId,
+                'orderInfo' => $orderInfo,
+                'redirectUrl' => $redirectUrl,
+                'ipnUrl' => $ipnUrl,
+                'lang' => 'vi',
+                'extraData' => $extraData,
+                'requestType' => $requestType,
+                'signature' => $signature);
+            $result = $this->execPostRequest($endpoint, json_encode($data));
+
+            $jsonResult = json_decode($result, true);  // decode json
             if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'tructiep') {
                 $dataInsertBook = [
                     'id_khachhang' => $id_khachhang,
@@ -320,19 +384,93 @@ class CartController extends Controller
                     'tong_tien' => $tong_tien,
                     'trang_thai' => 'Chưa thanh toán',
                     'id_phong' => $id_phong,
-                    'so_tien_coc' => $tien_coc1,
+                    'so_tien_coc' => $tien_coc,
                     'thuc_tra' => $thuc_tra,
                     'id_loaiphong' => $id_loaiphong,
-                    'hinhthucthanhtoan' => 'Thanh toán khi check in'
+                    'hinhthucthanhtoan' => 'Thanh toán khi checkin'
                 ];
                 $_SESSION['dataInsertBook'] = $dataInsertBook;
-                header('Location: ' . $vnp_Url);
+                header('Location: ' . $jsonResult['payUrl']);
                 die();
-            } else {
-                echo json_encode($returnData);
             }
-        }
+        } else if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'momo') {
 
+            $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+            $partnerCode = 'MOMOBKUN20180529';
+            $accessKey = 'klm05TvNBzhg7h7j';
+            $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+
+            $orderInfo = "Thanh toán qua MoMo";
+            $amount = $_POST['tong_tien'];
+            $orderId = "MM" . rand(0000, 9999);
+            $redirectUrl = BASE_URL . "CartController/thank";
+            $ipnUrl = BASE_URL . "CartController/thank";
+            $extraData = "";
+            $serectkey = $secretKey;
+
+            $requestId = time() . "";
+            $requestType = "payWithATM";
+//            $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
+            //before sign HMAC SHA256 signature
+            $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
+            $signature = hash_hmac("sha256", $rawHash, $serectkey);
+            $data = array('partnerCode' => $partnerCode,
+                'partnerName' => "Test",
+                "storeId" => "MomoTestStore",
+                'requestId' => $requestId,
+                'amount' => $amount,
+                'orderId' => $orderId,
+                'orderInfo' => $orderInfo,
+                'redirectUrl' => $redirectUrl,
+                'ipnUrl' => $ipnUrl,
+                'lang' => 'vi',
+                'extraData' => $extraData,
+                'requestType' => $requestType,
+                'signature' => $signature);
+            $result = $this->execPostRequest($endpoint, json_encode($data));
+
+            $jsonResult = json_decode($result, true);  // decode json
+            if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'momo') {
+                $dataInsertBook = [
+                    'id_khachhang' => $id_khachhang,
+                    'ngay_dat_phong' => $ngay_dat_phong,
+                    'ngay_tra_phong' => $ngay_tra_phong,
+                    'tong_tien' => $tong_tien,
+                    'trang_thai' => 'Đã thanh toán',
+                    'id_phong' => $id_phong,
+                    'id_loaiphong' => $id_loaiphong,
+                    'hinhthucthanhtoan' => 'Thanh toán MOMO'
+                ];
+                $_SESSION['dataInsertBook'] = $dataInsertBook;
+                header('Location: ' . $jsonResult['payUrl']);
+                die();
+            }
+
+//            Test momo
+//            NGUYEN VAN A
+//            9704000000000018
+//            0307
+//            OTP
+        }
+    }
+
+    function execPostRequest($url, $data)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data))
+        );
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        //execute post
+        $result = curl_exec($ch);
+        //close connection
+        curl_close($ch);
+        return $result;
     }
 }
 
