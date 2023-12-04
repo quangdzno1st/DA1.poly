@@ -70,12 +70,12 @@ foreach ($data['search'] as $item) {
                                                 <label>Arrive</label>
                                                 <div class="input-group date" data-date-format="dd-mm-yyyy"
                                                      id="datepicker1">
-                                                    <input class="form-control wrap-box" type="text"
+                                                    <input disabled class="form-control wrap-box" type="text"
                                                            placeholder="Arrival Date"
                                                            value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_dat_phong'] : $_SESSION['dateDefault']['ngay_dat_phong'] ?>">
                                                     <span class="input-group-addon"><i class="fa fa-calendar"
                                                                                        aria-hidden="true"></i></span>
-                                                    <input type="hidden" name="ngay_dat_phong"
+                                                    <input  type="hidden" name="ngay_dat_phong"
                                                            value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_dat_phong'] : $_SESSION['dateDefault']['ngay_dat_phong'] ?>">
                                                 </div>
                                             </div>
@@ -87,7 +87,7 @@ foreach ($data['search'] as $item) {
                                                     <input type="hidden" name="id_loaiphong"
                                                            value="<?= $id_loaiphong ?>">
 
-                                                    <input class="form-control wrap-box" type="text"
+                                                    <input disabled class="form-control wrap-box" type="text"
                                                            placeholder="Departure Date"
                                                            value="<?= isset($_SESSION['dataSearch']) ? $_SESSION['dataSearch']['ngay_tra_phong'] : $_SESSION['dateDefault']['ngay_tra_phong'] ?>">
                                                     <span class="input-group-addon"><i class="fa fa-calendar"

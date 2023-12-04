@@ -28,8 +28,8 @@
                     <tr>
                         <td style="padding-top: 50px"><?= $ten_phong ?></td>
                         <td style="padding-top: 50px"><?= $user ?></td>
+                        <td style="padding-top: 50px"><?= date('d-m-Y', strtotime($ngay_dat_phong)) ?></td>
                         <td style="padding-top: 50px"><?= date('d-m-Y', strtotime($ngay_tra_phong)) ?></td>
-                        <td style="padding-top: 50px"><?= date('d-m-y', strtotime($ngay_tra_phong)) ?></td>
                         <td style="padding-top: 50px"><?= $tong_tien ?></td>
                         <td><?= $trang_thai ?></td>
                         <td style="padding-top: 50px"><?= isset($time_check_in) ? date('Y-m-d H:i:s', strtotime($time_check_in)) : "" ?></td>

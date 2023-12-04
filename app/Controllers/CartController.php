@@ -105,7 +105,7 @@ class CartController extends Controller
             header("Location: " . BASE_URL . 'CartController/historyBook');
         }
 
-        if(isset($_GET['partnerCode'])) {
+        if (isset($_GET['partnerCode'])) {
             echo "<script>alert('Cảm ơn bạn đã thanh toán thành công. Chờ xác nhận từ chúng tôi !');";
             echo "window.location.href='" . BASE_URL . "cartController/historyBook';";
             echo "</script>";
@@ -145,7 +145,11 @@ class CartController extends Controller
     {
         Session::init();
         $cartModel = $this->load->model('CartModel');
-        extract($_SESSION['dateDefault']);
+        if (isset($_SESSION['dataSearch'])) {
+            extract($_SESSION['dataSearch']);
+        } else {
+            extract($_SESSION['dateDefault']);
+        }
         extract($_POST);
         extract($_SESSION['dataUser']);
         if (isset($_POST['thanhtoan']) && $_POST['thanhtoan'] == 'vnpay') {
@@ -344,7 +348,7 @@ class CartController extends Controller
             $accessKey = 'klm05TvNBzhg7h7j';
             $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
 
-            $tien_coc = $_POST['tong_tien']  * 0.1;
+            $tien_coc = $_POST['tong_tien'] * 0.1;
             $thuc_tra = $_POST['tong_tien'] - $tien_coc;
             $orderInfo = "Thanh toán qua MoMo";
             $amount = $tien_coc;

@@ -66,7 +66,6 @@ class HomeController extends Controller
 
         if ($data['ngay_dat_phong'] < $dateNow or $data['ngay_tra_phong'] < $dateNow or $data['ngay_dat_phong'] > $data['ngay_tra_phong']) {
             $this->room(null);
-
         } else {
             $data['roomData'] = $roomModel->searchRoom($data);
             Session::set('dataSearch', $data);
