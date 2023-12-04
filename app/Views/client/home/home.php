@@ -24,8 +24,9 @@
             <form class="container" method="post" action="<?= BASE_URL . 'HomeController/handleSearch' ?>">
                 <div class="arrival date-title ">
                     <label>Arrival Date </label>
-                    <div id="datepicker" class="input-group date" data-date-format="dd-mm-yyyy">
-                        <input class="form-control" type="text" name="arrivalDate">
+                    <div class="input-group date" data-date-format="dd-mm-yyyy">
+                        <input style="z-index: 0" id="side-datepicker" class="form-control" name="arrivalDate"
+                               type="text" value="<?= date('d-m-Y'); ?>">
                         <span class="input-group-addon"><img
                                     src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
                                     alt="#"></span>
@@ -33,8 +34,9 @@
                 </div>
                 <div class="departure date-title ">
                     <label>Departure Date </label>
-                    <div id="datepickeri" class="input-group date" data-date-format="dd-mm-yyyy">
-                        <input class="form-control" type="text" name="departureDate">
+                    <div class="input-group date" data-date-format="dd-mm-yyyy">
+                        <input style="z-index: 0" id="side-datepicker1" class="form-control" type="text"
+                               name="departureDate" value="<?= date('d-m-Y'); ?>">
                         <span class="input-group-addon"><img
                                     src="<?= BASE_URL ?>public/client/images/Home-1/date-icon.png"
                                     alt="#"></span>
@@ -96,7 +98,8 @@
                                         <h4 class="sky-h4"><?= $ten ?></h4>
                                         <p class="price">$<?= number_format($gia) ?> / Một đêm</p>
                                         <ul>
-                                            <li style="font-size: 18px;text-align: left">Số Người Tối Đa: <?= $suc_chua ?> </li>
+                                            <li style="font-size: 18px;text-align: left">Số Người Tối
+                                                Đa: <?= $suc_chua ?> </li>
                                             <?php foreach ($noithat as $item): ?>
                                                 <li style="font-size: 18px;text-align: left"><?= $item ?></li>
                                             <?php endforeach; ?>
@@ -779,6 +782,7 @@
                     </div>
                 </div>
             </div>
+            <!--            711.525px-->
             <!-- end-tab-content -->
             <div class="text-center">
                 <button type="button" class="btn btn-default btn-our">VIEW MORE</button>
@@ -790,3 +794,50 @@
 </section>
 <!-- END / OUR GALLERY -->
 <!--FOOTER-->
+<script>
+
+    let selectedTime;
+    $('#side-datepicker').datepicker({
+        format: 'd-m-y', // Định dạng ngày hiển thị
+        autoclose: true,
+        dateFormat: 'dd-mm-yy', // Định dạng lưu trữ
+        onSelect: function (dateText, inst) {
+            selectedTime = $('#side-datepicker').val();
+            console.log('Thời gian đã chọn:', selectedTime);
+        },
+        beforeShowDay: function (date) {
+            let today = new Date();
+            today.setDate(today.getDate() - 1);
+            if (date >= today) {
+                return [true, ''];
+            }
+            return [false, ''];
+        }
+    });
+    let selectedTime1;
+    $('#side-datepicker1').datepicker({
+
+        format: 'd-m-y',
+        autoclose: true,
+        dateFormat: 'dd-mm-yy',
+        onSelect: function (dateText, inst) {
+            selectedTime1 = $('#side-datepicker1').val();
+            console.log('Thời gian đã chọn:', selectedTime1);
+        },
+        beforeShowDay: function (date) {
+            let today = new Date();
+            today.setDate(today.getDate() );
+            if (date >= today) {
+                return [true, ''];
+            }
+            return [false, ''];
+        }
+    });
+
+</script>
+<style>
+    .ui-state-disabled {
+        cursor: not-allowed !important;
+        pointer-events: auto;
+    }
+</style>

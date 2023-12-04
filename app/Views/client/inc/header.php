@@ -20,6 +20,10 @@ if(!isset($_SESSION)){
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
           rel="stylesheet">
+    <link href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <!-- CSS LIBRARY -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>public/client/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>public/client/css/ionicons.min.css">

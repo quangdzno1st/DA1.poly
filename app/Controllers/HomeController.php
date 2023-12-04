@@ -51,14 +51,17 @@ class HomeController extends Controller
     {
         Session::init();
         $roomModel = $this->load->model("roomModel");
-
+        $ngay_dat_timestamp = strtotime($_POST['arrivalDate']);
+        $ngay_tra_timestamp = strtotime($_POST['departureDate']);
+        if ($ngay_dat_timestamp > $ngay_tra_timestamp) {
+            list($ngay_tra_timestamp,$ngay_dat_timestamp ) = array($ngay_dat_timestamp, $ngay_tra_timestamp);
+        }
         $data = [
-            'ngay_dat_phong' => date('Y-m-d', strtotime($_POST['arrivalDate'])),
-            'ngay_tra_phong' => date('Y-m-d', strtotime($_POST['departureDate'])),
+            'ngay_dat_phong' => date('Y-m-d', $ngay_dat_timestamp),
+            'ngay_tra_phong' => date('Y-m-d', $ngay_tra_timestamp),
             'suc_chua' => $_POST['suc_chua'],
             'id_loaiphong' => null
         ];
-
         $dateNow = date('Y-m-d');
 
         if ($data['ngay_dat_phong'] < $dateNow or $data['ngay_tra_phong'] < $dateNow or $data['ngay_dat_phong'] > $data['ngay_tra_phong']) {
