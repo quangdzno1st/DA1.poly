@@ -28,14 +28,14 @@ if (!empty($data)) {
                         <h2 class="mb-2">VUI LÒNG ĐIỀN THÔNG TIN CỦA BẠN</h2>
                         <div class="form-group">
                             <label>Họ và tên<span>*</span></label>
-                            <input name="user" type="text" required class="form-control"
+                            <input disabled name="user" type="text" required class="form-control"
                                    value="<?= empty($user) ? '' : $user ?>"
                                    placeholder='Họ và tên ..'>
                         </div>
 
                         <div class="form-group">
                             <label>Địa chỉ <span>*</span></label>
-                            <input type="text" name="Address" class="form-control"
+                            <input disabled type="text" name="Address" class="form-control"
                                    value="<?= empty($dia_chi) ? '' : $dia_chi ?>"
                                    title="" placeholder="Địa chỉ của bạn">
                         </div>
@@ -43,7 +43,7 @@ if (!empty($data)) {
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <label>Địa chỉ Email &nbsp; <span>*</span></label>
-                                    <input type="email" name="Email" class="form-control"
+                                    <input disabled type="email" name="Email" class="form-control"
                                            value="<?= empty($email) ? '' : $email ?>" required="required"
                                            title="" placeholder="Địa chỉ">
                                 </div>
@@ -51,7 +51,7 @@ if (!empty($data)) {
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <label>Điện thoại &nbsp;<span>*</span></label>
-                                    <input type="text" name="sdt" class="form-control" required
+                                    <input  disabled type="text" name="sdt" class="form-control" required
                                            placeholder="Số điện thoại"
                                            value="<?= empty($sdt) ? '' : $sdt ?>">
                                 </div>

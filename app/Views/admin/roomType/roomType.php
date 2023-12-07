@@ -2,7 +2,7 @@
       enctype="multipart/form-data">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Cập nhật loại phòng</h4>
+            <h4 class="card-title">Thêm loại phòng</h4>
             <label>Tên loại phòng</label>
             <div class="input-group">
                 <input type="text" class="form-control" name="roomType" placeholder="name"

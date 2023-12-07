@@ -23,7 +23,6 @@ class       RoomTypeController extends Controller
 
         $roomTypeModel = $this->load->model("roomTypeModel");
         $data = $roomTypeModel->getAllLoai();
-
         $this->load->view($data, 'admin/inc/header');
         $this->load->view($data, 'admin/inc/sidebar');
         $this->load->view($data, 'admin/roomType/list');
@@ -69,7 +68,8 @@ class       RoomTypeController extends Controller
         $dataValidate = [
             'roomType' => $data,
             'noiThat' => $_POST["noithat"][0] ?? "",
-            'image' => $_FILES["images"]["size"]["0"]
+            'image' => $_FILES["images"]["size"]["0"] ,
+            "status" => 0
         ];
 
         $messageResponse = $this->validateRoomType($dataValidate);
@@ -104,7 +104,7 @@ class       RoomTypeController extends Controller
                     $imagesModel->insertImage($dataImage);
                 }
             }
-            $this->homePage();
+            header("Location: " . BASE_URL . '/RoomTypeController');
         }
 
 
@@ -116,7 +116,6 @@ class       RoomTypeController extends Controller
 
     {
         $roomTypeModel = $this->load->model("roomTypeModel");
-
 
         $messages = [];
 
@@ -145,13 +144,14 @@ class       RoomTypeController extends Controller
             $messages['suc_chua_err'] = "capacity must be greater than 0";
         }
 
-        if (empty($data['noithat'])) {
+        if (empty($data['noiThat'])) {
             $messages['noithat_err'] = "Field required";
         }
 
-        if ($data['image'] <= 0) {
+        if ($data['status'] == 0 && $data['image'] <= 0) {
             $messages['image_err'] = "Field required";
         }
+
 
         return [
             'status' => '',
@@ -185,6 +185,7 @@ class       RoomTypeController extends Controller
         $noithatModel = $this->load->model('NoiThatModel');
         $imagesModel = $this->load->model('imagesModel');
 
+
         $data = [
             "ten" => $_POST["roomType"],
             "gia" => $_POST["price"],
@@ -193,16 +194,14 @@ class       RoomTypeController extends Controller
 
         $dataValidate = [
             'roomType' => $data,
-            'noiThat' => $_POST["noithat"][0] ?? "",
-            'image' => $_FILES["images"]["size"]["0"]
+            'noiThat' => $_POST["noithat"] ?? "",
+            'image' => $_FILES["images"]["size"]["0"] ,
+            'status' => 1
         ];
         $messageResponse = $this->validateRoomType($dataValidate, $id);
-
         if (empty($messageResponse['message'])) {
 
-
             $noithatModel->deleteByIdRoomType($id);
-
             foreach ($_POST['noithat'] as $value) {
                 $dataNoiThat = [
                     "id_noithat" => $value,

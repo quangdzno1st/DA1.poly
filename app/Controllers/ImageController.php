@@ -37,9 +37,11 @@ class ImageController extends Controller
 
         $imageData = $imagesModel->getById($id);
 
+
+
         $imagesModel->deleteById($id);
 
-        header("Location: ".BASE_URL.'RoomTypeController/viewRoomUpdate/'.$imageData["id_phong"]);
+        header("Location: ".BASE_URL.'RoomTypeController/viewUpdateRoomType/'.$imageData[0]['id_loaiphong']);
     }
 }
 
