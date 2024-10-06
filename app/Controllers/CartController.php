@@ -12,7 +12,9 @@ class CartController extends Controller
 
     public function index()
     {
-        $this->checkOut();
+        $this->checkOut()
+
+
     }
 
     public function checkOut()
